@@ -1,0 +1,22 @@
+import HeroCommon from "../components/common/heroCommon";
+import Layout from "../components/common/layout";
+import GetInTouch from "../components/home/getInTouch";
+import Explore from "../components/project/explore";
+const Project = () => {
+  return (
+    <Layout>
+      <HeroCommon
+        heading="Our"
+        span="projects"
+        description="A comprehensive list of completed process engineering projects"
+        bgUrl="bg-[url(/assets/home/hero-bg.png)]"
+        btnText="Contact us"
+        btnLink="/"
+      />
+      <Explore />
+      <GetInTouch />
+    </Layout>
+  );
+};
+
+export default Project;
