@@ -14,7 +14,7 @@ const Header = () => {
     {
       id: 2,
       name: "About Us",
-      link: "/about",
+      link: "/about-us",
     },
     {
       id: 3,
@@ -63,7 +63,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-[#FBFAF9] sticky z-[1000] top-0 py-6">
+    <header className="bg-[#FBFAF9] sticky z-[1000] top-0 py-6 shadow-xl">
       <div className="transition-all duration-500 max-w-[1300px] mx-auto px-8 flex justify-between items-center">
         <Link href="/">
           <Image

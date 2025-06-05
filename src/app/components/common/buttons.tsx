@@ -38,7 +38,7 @@ const Button: React.FC<buttonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`py-4 px-8 text-base rounded-2xl cursor-pointer ${buttonColor[variant]} ${className}`}
+      className={`py-4 px-8 text-base font-semibold rounded-2xl cursor-pointer ${buttonColor[variant]} ${className}`}
       disabled={disabled}
     >
       {children}

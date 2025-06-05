@@ -48,42 +48,6 @@ const OurCourses = () => {
 
         <div className="grid md:grid-cols-3 gap-8 mt-15">
           {courses.map((course, index) => (
-            // <div key={index}>
-            //   <Image
-            //     width={378}
-            //     height={170}
-            //     src={course?.image}
-            //     alt="course"
-            //   />
-            //   <p className="mt-[-3rem] text-lg font-semibold">
-            //     Aspen HYSYS Basic course webinar
-            //   </p>
-            //   <p className="mt-2 text-2xl font-semibold text-[#120A02]">
-            //     $50.00
-            //   </p>
-            //   <p className="mt-2 text-base text-[#413B35] flex items-center gap-2">
-            //     <span>
-            //       <FaRegCalendar size={24} color="#413B35" />
-            //     </span>
-            //     Time: <span className="font-medium">3 hours a day</span>
-            //   </p>
-            //   <p className="mt-2 text-base text-[#413B35] flex items-center gap-2">
-            //     <span>
-            //       <IoMdTime size={24} color="#413B35" />
-            //     </span>
-            //     Course Duration: <span className="font-medium">5 days</span>
-            //   </p>
-
-            //   <div className="mt-8 flex gap-3 items-center">
-            //     <Button variant="primary" className="w-full">
-            //       Enroll Now
-            //     </Button>
-            //     <Button variant="secondary" className="w-full">
-            //       View Details
-            //     </Button>
-            //   </div>
-            // </div>
-
             <CourseCard
               key={index}
               image={course?.image}
