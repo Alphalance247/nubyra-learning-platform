@@ -126,8 +126,9 @@ const ContactForm: React.FC = () => {
                     required= {true}
                     options={[
                     { label: 'Select', value: '' },
-                    { label: 'Academic', value: 'academic' },
-                    { label: 'Industrial', value: 'industrial' },
+                    { label: 'Power Plant', value: 'power' },
+                    { label: 'Manufacturing', value: 'Manufacturing' },
+                    { label: 'Industrial Design', value: 'industrial' },
                     ]}
                 />
                 <SelectField
@@ -138,8 +139,8 @@ const ContactForm: React.FC = () => {
                     required= {true}
                     options={[
                     { label: 'Select', value: '' },
-                    { label: 'Simulation', value: 'simulation' },
-                    { label: 'Design', value: 'design' },
+                    { label: 'Full Excution', value: 'full' },
+                    { label: 'Project Assistance', value: 'assistance' },
                     ]}
                 />
                 </div>
