@@ -14,12 +14,14 @@ const HeadingSubhead = ({
   return (
     <div className="text-center">
       <h3
-        className={`text-[44px] font-bold leading-14 text-[#120A02] mb-6 ${headingClassName}`}
+        className={`text-[44px] font-bold leading-14 text-[#120A02] mb-6 font-montserrat ${headingClassName}`}
       >
         {heading}
       </h3>
       {withSubhead && (
-        <p className={`text-lg w-[50%] mx-auto ${subheadingClassName}`}>
+        <p
+          className={`text-lg w-[50%] font-inter mx-auto ${subheadingClassName}`}
+        >
           {subheading}
         </p>
       )}

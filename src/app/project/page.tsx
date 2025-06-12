@@ -9,7 +9,7 @@ const Project = () => {
         heading="Our"
         span="projects"
         description="A comprehensive list of completed process engineering projects"
-        bgUrl="bg-[url(/assets/home/hero-bg.png)]"
+        bgUrl="bg-[url(/assets/projects/hero.png)]"
         btnText="Contact us"
         btnLink="/"
       />

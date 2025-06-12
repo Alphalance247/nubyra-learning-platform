@@ -6,7 +6,7 @@ import Button from "./buttons";
 import { GoChevronRight } from "react-icons/go";
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  // const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const navs = [
     { id: 1, name: "Home", link: "/" },
@@ -14,7 +14,7 @@ const Header = () => {
     {
       id: 2,
       name: "About Us",
-      link: "/about",
+      link: "/about-us",
     },
     {
       id: 3,
@@ -33,37 +33,37 @@ const Header = () => {
     },
   ];
 
-  const navsMobile = [
-    { id: 1, name: "Home", link: "/" },
-    {
-      id: 2,
-      name: "About Us",
-      link: "/about-us",
-    },
-    {
-      id: 3,
-      name: "Meet our team",
-      link: "/meet-team",
-    },
-    {
-      id: 4,
-      name: "How It Works",
-      link: "/how-it-works",
-    },
-    {
-      id: 5,
-      name: "MarketPlace",
-      link: "/farm-marketplace",
-    },
-    {
-      id: 6,
-      name: "Contact Us",
-      link: "/contact-us",
-    },
-  ];
+  // const navsMobile = [
+  //   { id: 1, name: "Home", link: "/" },
+  //   {
+  //     id: 2,
+  //     name: "About Us",
+  //     link: "/about-us",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Meet our team",
+  //     link: "/meet-team",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "How It Works",
+  //     link: "/how-it-works",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "MarketPlace",
+  //     link: "/farm-marketplace",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Contact Us",
+  //     link: "/contact-us",
+  //   },
+  // ];
 
   return (
-    <header className="bg-[#FBFAF9] sticky z-[1000] top-0 py-6">
+    <header className="bg-[#FBFAF9] sticky z-[1000] top-0 py-6 shadow-xl">
       <div className="transition-all duration-500 max-w-[1300px] mx-auto px-8 flex justify-between items-center">
         <Link href="/">
           <Image

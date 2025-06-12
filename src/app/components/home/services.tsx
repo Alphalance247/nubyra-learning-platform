@@ -39,8 +39,8 @@ const Services = () => {
       <Container>
         <div className="mb-10">
           <HeadingSubhead
-            heading="Our Services"
-            subheading="We offer a wide range of services to meet your needs. From web design to web development, we have you covered."
+            heading="Services we provide"
+            subheading="Engineering innovation, learning, and hands-on reseach support. all in one place."
             headingClassName="text-[#120A02]"
             subheadingClassName="text-[#413B35]"
           />
@@ -60,11 +60,13 @@ const Services = () => {
                     width={40}
                     height={40}
                   />
-                  <h3 className="text-[#70451C] text-2xl font-semibold">
+                  <h3 className="text-[#70451C] text-2xl font-semibold font-montserrat">
                     {service?.title}
                   </h3>
                 </div>
-                <p className="text-[#5E5A64] text-lg">{service.description}</p>
+                <p className="text-[#5E5A64] text-lg font-inter">
+                  {service.description}
+                </p>
               </div>
             ))}
           </div>

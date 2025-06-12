@@ -4,7 +4,7 @@ import HeadingSubhead from "../common/headingSubhead";
 
 const GetInTouch = () => {
   return (
-    <section className="bg-[#FEFEFD]">
+    <section className="bg-[#FBFAF9]">
       <Container>
         <div className="bg-[url('/assets/home/getInTouch.png')] bg-cover bg-center bg-no-repeat rounded-2xl">
           <div className="py-30">

@@ -9,7 +9,7 @@ const AboutUs = () => {
       <Container>
         <div className="grid gap-y-6 items-center justify-between md:grid-cols-2 md:gap-x-10">
           <div>
-            <h3 className="text-[44px] font-bold leading-14 text-[#120A02] mb-6">
+            <h3 className="text-[44px] font-montserrat font-bold leading-14 text-[#120A02] mb-6">
               🌟 About Nubyira
             </h3>
             <p className="text-lg text-[#413B35] mb-10">
