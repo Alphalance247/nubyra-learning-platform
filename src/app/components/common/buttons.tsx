@@ -7,6 +7,7 @@ type buttonVariant = "primary" | "secondary" | "tertiary";
 interface buttonProps {
   children?: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  type?: 'button' | 'submit' | 'reset';
   variant?: buttonVariant;
   className?: string;
   disabled?: boolean;
@@ -16,6 +17,7 @@ const Button: React.FC<buttonProps> = ({
   children,
   onClick,
   variant = "primary",
+  type = 'button',
   className,
   disabled,
 }) => {
@@ -37,6 +39,7 @@ const Button: React.FC<buttonProps> = ({
 
   return (
     <button
+    type={type}
       onClick={onClick}
       className={`py-4 px-8 text-base font-semibold rounded-2xl cursor-pointer ${buttonColor[variant]} ${className}`}
       disabled={disabled}

@@ -3,7 +3,7 @@ import DashHeader from "./dashHeader";
 
 const DashLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <DashHeader />
       {children}
       <Footer />

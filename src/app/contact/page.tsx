@@ -46,6 +46,7 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowOverlay(true)
     console.log(formData);
 
   };
@@ -73,35 +74,40 @@ const ContactForm: React.FC = () => {
             <div className='w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col'>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                 <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px] h-[82px]">
-                <InputField
+                  <InputField
                     label="First Name"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    required= {true}
+                    required
                     placeholder="Enter first name"
-                />
-                <InputField
+                    className="w-full"
+                  />
+                  <InputField
                     label="Last Name"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    required= {true}
+                    required
                     placeholder="Enter last name"
-                />
+                    className="w-full"
+                  />
                 </div>
-                <div className="w-[648px] h-[82px] flex gap-3">
-                <InputField
+
+                <div className="w-full max-w-[648px] h-[82px] flex gap-3">
+                  <InputField
                     label="Email"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required= {true}
+                    required
                     placeholder="Enter email"
-                />
-                <PhoneInput value={phone} onChange={setPhone} />
+                    className="w-full"
+                  />
+                  <PhoneInput value={phone} onChange={setPhone} className="w-full" />
                 </div>
+
 
                 <div className="w-[648px] h-[82px] flex gap-2">
                 <InputField
@@ -129,18 +135,6 @@ const ContactForm: React.FC = () => {
 
                 <div className="w-[648px] h-[82px] flex gap-3">
                 <SelectField
-                    label="State"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    required= {true}
-                    options={[
-                    { label: 'Select', value: '' },
-                    { label: 'Osun', value: 'OS' },
-                    { label: 'Texas', value: 'TX' },
-                    ]}
-                />
-                <SelectField
                     label="Country"
                     name="country"
                     value={formData.country}
@@ -150,6 +144,18 @@ const ContactForm: React.FC = () => {
                     { label: 'Select', value: '' },
                     { label: 'Nigeria', value: 'NG' },
                     { label: 'Canada', value: 'CA' },
+                    ]}
+                />
+                <SelectField
+                    label="State"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required= {true}
+                    options={[
+                    { label: 'Select', value: '' },
+                    { label: 'Osun', value: 'OS' },
+                    { label: 'Texas', value: 'TX' },
                     ]}
                 />
                 </div>
@@ -169,16 +175,20 @@ const ContactForm: React.FC = () => {
                     value={formData.messageDetail}
                     onChange={handleChange}
                     placeholder="Describe your project"
-                    className='w-[646px] h-[148px]'
+                    className='w-[646px] '
                   />
                 </div>
 
-            </form>
-                <Button onClick={() => setShowOverlay(true)}
+                {/* <Button onClick={() => setShowOverlay(true)}
+                type="submit"
                 variant="primary"
                 className='w-full mt-4 h-[56px] flex items-center justify-center gap-1.5 rounded-[16px] border border-[#A78769] pt-4 pr-8 pb-4 pl-8 bg-[#95704C] transition-opacity duration-300 ease-out'>
                     Submit Project
+                </Button> */}
+                <Button type="submit" variant="primary" className="w-full mt-4">
+                  Submit Project
                 </Button>
+            </form>
                 {showOverlay && (
                     <SuccessOverlay
                     onClose={() => setShowOverlay(false)}

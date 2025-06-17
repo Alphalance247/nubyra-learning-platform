@@ -164,6 +164,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             id={name}
             name={name}
             accept={accept}
+            required={required}
             onChange={handleFileChange}
             ref={inputRef}
             className="hidden"
