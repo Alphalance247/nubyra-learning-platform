@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "country-telephone-data": "^0.6.3",
     "framer-motion": "^12.12.1",
+    "lucide-react": "^0.511.0",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "react-phone-input-2": "^2.15.1",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1"
   },
