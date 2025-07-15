@@ -1,5 +1,5 @@
-import InputField from '../project/InputField';
-import PhoneInput from '../project/phoneNumber';
+import InputField from "../project/InputField";
+import PhoneInput from "../project/phoneNumber";
 
 type Props = {
   formData: {
@@ -13,12 +13,17 @@ type Props = {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function ProfileForm({ formData, setFormData, phone, setPhone }: Props) {
+export default function ProfileForm({
+  formData,
+  setFormData,
+  phone,
+  setPhone,
+}: Props) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -62,11 +67,7 @@ export default function ProfileForm({ formData, setFormData, phone, setPhone }: 
         className="w-full"
       />
 
-      <PhoneInput
-        value={phone}
-        onChange={setPhone}
-        className="w-full"
-      />
+      <PhoneInput value={phone} onChange={setPhone} className="w-full" />
     </div>
   );
 }

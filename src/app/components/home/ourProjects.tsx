@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Button from "../common/buttons";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
@@ -9,13 +9,12 @@ import Spinner from "../common/spinner/spinner";
 import Link from "next/link";
 
 const OurProjects = () => {
-  const { data, loading , error, fetchProjectList} = getProjectListStore();
+  const { data, loading, error, fetchProjectList } = getProjectListStore();
 
   useEffect(() => {
     fetchProjectList();
-  }, []);
+  }, [fetchProjectList]);
 
-  
   // const projects = [
   //   {
   //     image: "/assets/home/proj1.png",
@@ -56,47 +55,48 @@ const OurProjects = () => {
           subheadingClassName="text-[#413B35]"
         />
 
-{
-  loading ? (
-    <div className="mt-4">
-      <Spinner />
-      <p className="text-lg font-medium mt-4">Loading projects...</p>
-    </div>
-  ) : error ? (
-    <div className="mt-15 flex flex-col justify-center items-center">
-      <p className="text-red-500">Error fetching projects</p>
-      <Button variant="secondary" className="w-[289px]" onClick={() => fetchProjectList()}>
-        Try Again
-      </Button>
-    </div>
-  ) : (
-    <>
-      <div className="grid md:grid-cols-3 gap-8 mt-15">
-          {data?.response?.slice(0, 3).map((project, index) => (
-            <ProjectCard
-              key={index}
-              image={project?.image}
-              title={project?.project_title}
-              type={project?.project_type}
-              clientLocation={project?.country}
-              projectScope={project?.project_scope}
-              projectDuration={project?.project_duration}
-              buttonText="View Full Details"
-            />
-          ))}
-        </div>
-        </>
-      )
-    }
-     
-       <div className="mt-15 flex flex-col items-center justify-center">
-        <Link href="/project">
-            <Button variant="primary" className="w-[289px]" >
+        {loading ? (
+          <div className="mt-4">
+            <Spinner />
+            <p className="text-lg font-medium mt-4">Loading projects...</p>
+          </div>
+        ) : error ? (
+          <div className="mt-15 flex flex-col justify-center items-center">
+            <p className="text-red-500">Error fetching projects</p>
+            <Button
+              variant="secondary"
+              className="w-[289px]"
+              onClick={() => fetchProjectList()}
+            >
+              Try Again
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div className="grid md:grid-cols-3 gap-8 mt-15">
+              {data?.response?.slice(0, 3).map((project, index) => (
+                <ProjectCard
+                  key={index}
+                  image={project?.image}
+                  title={project?.project_title}
+                  type={project?.project_type}
+                  clientLocation={project?.country}
+                  projectScope={project?.project_scope}
+                  projectDuration={project?.project_duration}
+                  buttonText="View Full Details"
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="mt-15 flex flex-col items-center justify-center">
+          <Link href="/project">
+            <Button variant="primary" className="w-[289px]">
               Explore More Projects
             </Button>
           </Link>
-          </div>
-
+        </div>
       </Container>
     </section>
   );

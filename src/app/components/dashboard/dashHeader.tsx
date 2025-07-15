@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowBigDown, Edit, Pen, PenIcon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import Button from "../common/buttons";
 import { GoChevronRight } from "react-icons/go";
@@ -11,7 +11,6 @@ import { FaEdit, FaSignOutAlt } from "react-icons/fa";
 
 const DashHeader = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
 
@@ -37,35 +36,6 @@ const DashHeader = () => {
       id: 5,
       name: "Blogs",
       link: "/blogs",
-    },
-  ];
-
-  const navsMobile = [
-    { id: 1, name: "Home", link: "/" },
-    {
-      id: 2,
-      name: "About Us",
-      link: "/about-us",
-    },
-    {
-      id: 3,
-      name: "Meet our team",
-      link: "/meet-team",
-    },
-    {
-      id: 4,
-      name: "How It Works",
-      link: "/how-it-works",
-    },
-    {
-      id: 5,
-      name: "MarketPlace",
-      link: "/farm-marketplace",
-    },
-    {
-      id: 6,
-      name: "Contact Us",
-      link: "/contact-us",
     },
   ];
 

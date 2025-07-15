@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface Country {
   name: string;
@@ -34,7 +34,9 @@ interface PhoneInputProps {
 
 const fetchCountries = async (): Promise<Country[]> => {
   try {
-    const res = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2,idd');
+    const res = await fetch(
+      "https://restcountries.com/v3.1/all?fields=name,cca2,idd"
+    );
     const data: CountryAPI[] = await res.json();
 
     return data
@@ -51,10 +53,10 @@ const fetchCountries = async (): Promise<Country[]> => {
       })
       .filter((c): c is Country => c !== null);
   } catch (error) {
-    console.error('Failed to fetch countries:', error);
+    console.error("Failed to fetch countries:", error);
     return [
-      { name: 'Nigeria', code: '+234', shortCode: 'NG' },
-      { name: 'United States', code: '+1', shortCode: 'US' },
+      { name: "Nigeria", code: "+234", shortCode: "NG" },
+      { name: "United States", code: "+1", shortCode: "US" },
     ]; // fallback list
   }
 };
@@ -62,17 +64,17 @@ const fetchCountries = async (): Promise<Country[]> => {
 export default function PhoneInput({
   value,
   onChange,
-  label = 'Phone Number',
-  placeholder = '9012345678',
-  className = '',
-  inputClassName = '',
-  selectClassName = '',
-  labelClassName = '',
+  label = "Phone Number",
+  placeholder = "9012345678",
+  className = "",
+  inputClassName = "",
+  selectClassName = "",
+  labelClassName = "",
   required = false,
 }: PhoneInputProps) {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCode, setSelectedCode] = useState('+234'); // Default to Nigeria
-  const [number, setNumber] = useState(value.replace(/^\+\d+/, ''));
+  const [selectedCode, setSelectedCode] = useState("+234"); // Default to Nigeria
+  const [number, setNumber] = useState(value.replace(/^\+\d+/, ""));
 
   useEffect(() => {
     fetchCountries().then(setCountries);

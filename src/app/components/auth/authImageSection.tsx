@@ -47,7 +47,6 @@
 
 // // export default HeroImageSection;
 
-
 // import Image from 'next/image';
 // import React from 'react';
 
@@ -99,20 +98,17 @@
 
 // export default HeroImageSection;
 
-
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import React from "react";
 
 type HeroImageSectionProps = {
   imageSrc: string;
-  altText: string;
   title: string;
   description: string;
 };
 
 const HeroImageSection: React.FC<HeroImageSectionProps> = ({
   imageSrc,
-  altText,
   title,
   description,
 }) => {
@@ -123,7 +119,7 @@ const HeroImageSection: React.FC<HeroImageSectionProps> = ({
         className="absolute inset-0 scale-x-[-1] brightness-[0.75] bg-cover bg-center"
         style={{
           backgroundImage: `url(${imageSrc})`,
-          backgroundRepeat: 'no-repeat',
+          backgroundRepeat: "no-repeat",
         }}
       />
 
@@ -144,14 +140,15 @@ const HeroImageSection: React.FC<HeroImageSectionProps> = ({
       {/* Text content */}
       <div className="absolute bottom-0 z-20 text-white px-10 py-6 mb-10 w-full bg-gradient-to-t from-[#291A0B] via-[#291A0Bcc] to-transparent">
         <div className="max-w-[600px] h-[194px] flex flex-col gap-6">
-        <h2 className="w-[600px] h-[114px] font-[700] text-[30px] leading-[38px] tracking-[0%] capitalize text-[#FEFEFE] font-[Montserrat] mb-2">{title}</h2>
-        <p className="w-[600px] h-[56px] font-[400] text-[20px] leading-[28px] tracking-normal capitalize text-[#FEFEFE] font-['Inter']">
-          {description}
-        </p>
+          <h2 className="w-[600px] h-[114px] font-[700] text-[30px] leading-[38px] tracking-[0%] capitalize text-[#FEFEFE] font-[Montserrat] mb-2">
+            {title}
+          </h2>
+          <p className="w-[600px] h-[56px] font-[400] text-[20px] leading-[28px] tracking-normal capitalize text-[#FEFEFE] font-['Inter']">
+            {description}
+          </p>
         </div>
       </div>
     </div>
-
   );
 };
 
