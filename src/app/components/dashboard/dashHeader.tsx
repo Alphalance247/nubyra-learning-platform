@@ -12,8 +12,8 @@ import { FaEdit, FaSignOutAlt } from "react-icons/fa";
 const DashHeader = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false)
-  const router = useRouter()
+  const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   const navs = [
     { id: 1, name: "Home", link: "/" },
@@ -110,49 +110,62 @@ const DashHeader = () => {
 
           <div className="flex items-center gap-x-3">
             <div className="w-full h-[40px] rounded-full bg-[#F2EDE9] flex items-center px-3">
-                <Search size={20} color="#0000008A" />
+              <Search size={20} color="#0000008A" />
             </div>
             <div className="w-full h-[50px] rounded-[16px] px-3 py-4 flex items-center gap-3 bg-[#F2EDE9]">
-                <div className="w-10 h-10 rounded-full border bg-[#FFE7CC] border-white overflow-hidden" style={{ borderWidth: '1.5px' }}>
-                    <Image
-                        src="/assets/dashboard/userprofile.png"
-                        alt="Avatar"
-                        width={40}
-                        height={40}
-                        className="object-cover w-full h-full"
-                    />
-                </div>
-                <p className="w-[67px] h-[22px] text-[14px] leading-[22px] font-semibold text-center capitalize text-[#5F5F5F] font-poppins"> John Doe</p>
-                <div onClick={() => setShowDropdown(prev => !prev)} className="cursor-pointer">
-                   <FaAngleDown size={16} color="#7C7C7C" />
-                </div>
-                {showDropdown && (
-                    <div className="absolute  right-0 top-12 mt-10 w-64 bg-white rounded-lg shadow-[0px_4px_14px_rgba(0,0,0,0.1)] p-4 z-10">
-                    {/* <div className="w-64 absolute top-13 mt-10 border-l p-4 pb-4 gap-8 rounded-lg bg-white shadow-[0px_4px_14px_rgba(0,0,0,0.1)]"> */}
-                    {/* Edit Profile */}
-                    <div className="w-full h-[56px] py-3 px-4 flex items-center gap-[10px] space-x-2 cursor-pointer hover:opacity-80"
-                    onClick={() => router.push('/dashboard/edit-profile/')}
-                    >
-                        <FaEdit size={16} color="##0000008A"/>
-                        <span className="text-[#413B35] text-[14px] font-inter text-sm">Edit Profile</span>
-                    </div>
+              <div
+                className="w-10 h-10 rounded-full border bg-[#FFE7CC] border-white overflow-hidden"
+                style={{ borderWidth: "1.5px" }}
+              >
+                <Image
+                  src="/assets/dashboard/userprofile.png"
+                  alt="Avatar"
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <p className="w-[67px] h-[22px] text-[14px] leading-[22px] font-semibold text-center capitalize text-[#5F5F5F] font-poppins">
+                {" "}
+                John Doe
+              </p>
+              <div
+                onClick={() => setShowDropdown((prev) => !prev)}
+                className="cursor-pointer"
+              >
+                <FaAngleDown size={16} color="#7C7C7C" />
+              </div>
+              {showDropdown && (
+                <div className="absolute  right-0 top-12 mt-10 w-64 bg-white rounded-lg shadow-[0px_4px_14px_rgba(0,0,0,0.1)] p-4 z-10">
+                  {/* <div className="w-64 absolute top-13 mt-10 border-l p-4 pb-4 gap-8 rounded-lg bg-white shadow-[0px_4px_14px_rgba(0,0,0,0.1)]"> */}
+                  {/* Edit Profile */}
+                  <div
+                    className="w-full h-[56px] py-3 px-4 flex items-center gap-[10px] space-x-2 cursor-pointer hover:opacity-80"
+                    onClick={() => router.push("/dashboard/edit-profile/")}
+                  >
+                    <FaEdit size={16} color="##0000008A" />
+                    <span className="text-[#413B35] text-[14px] font-inter text-sm">
+                      Edit Profile
+                    </span>
+                  </div>
 
-                    {/* Logout */}
-                    <div className="w-full h-[56px] py-3 px-4 flex items-center gap-[10px] space-x-2 cursor-pointer hover:opacity-80">
-                        <FaSignOutAlt size={16} color="red" />
-                        <span className="text-red-600 text-[14px] font-inter text-sm">Logout</span>
-                    </div>
+                  {/* Logout */}
+                  <div className="w-full h-[56px] py-3 px-4 flex items-center gap-[10px] space-x-2 cursor-pointer hover:opacity-80">
+                    <FaSignOutAlt size={16} color="red" />
+                    <span className="text-red-600 text-[14px] font-inter text-sm">
+                      Logout
+                    </span>
+                  </div>
 
-                    {/* Go To Homepage Button */}
-                    <Button className="w-fit flex items-center gap-x-3 justify-center py-4 px-6">
-                        Go To Homepage
-                        <span>
-                            <GoChevronRight />
-                        </span>
-                        
-                    </Button>
-                    </div>
-                )}           
+                  {/* Go To Homepage Button */}
+                  <Button className="w-fit flex items-center gap-x-3 justify-center py-4 px-6">
+                    Go To Homepage
+                    <span>
+                      <GoChevronRight />
+                    </span>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

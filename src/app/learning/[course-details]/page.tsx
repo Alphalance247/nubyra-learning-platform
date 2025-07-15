@@ -40,7 +40,7 @@ const CourseDetails = () => {
   return (
     <Layout>
       <Container>
-        <h3 className="text-[44px] font-bold text-[#120A02] mb-8">
+        <h3 className="text-[44px] font-bold text-[#120A02] mb-8 ">
           Apen Plus Basic Course Webinar
         </h3>
 

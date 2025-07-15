@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import Notification from "./components/common/notification";
+import { AuthProvider } from "./context/authContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,7 +32,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${montserrat.variable} antialiased`}>
-        <div className="bg-[#FBFAF9]">{children}</div>
+        <AuthProvider >
+          <Notification />
+          <div className="bg-[#FBFAF9]">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   );

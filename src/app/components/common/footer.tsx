@@ -37,9 +37,11 @@ const Footer = () => {
               </Button>
             </div>
 
-            <div className="flex-1 grid grid-cols-3 gap-x-10">
+            <div className="flex-1 grid md:grid-cols-2 xl:grid-cols-3 gap-x-10">
               <div>
-                <h4 className="text-[#FDFDFE] text-3xl mb-5">Support</h4>
+                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
+                  Support
+                </h4>
 
                 <ul className="text-[#ECE8F1] text-lg py-1.5 flex flex-col gap-y-6">
                   <li>
@@ -52,7 +54,7 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="text-[#FDFDFE] font-bold text-3xl mb-5">
+                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
                   Quick Menu
                 </h4>
                 <ul className="flex flex-col gap-y-4">
@@ -70,7 +72,7 @@ const Footer = () => {
               </div>
 
               <div>
-                <h4 className="text-[#FDFDFE] font-bold text-3xl mb-5">
+                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
                   Social Links
                 </h4>
 
