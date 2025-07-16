@@ -37,8 +37,9 @@ const Hero = () => {
           ))}
         </Slider>
       </div>
+
       <div className="max-w-[1300px] mx-auto px-8 pt-[7rem] pb-[8rem] relative top-0 left-0 z-50">
-        <div className="w-[55%]">
+        <div className=" w-[90%] xl:w-[55%]">
           <h1 className="text-white text-6xl font-bold mb-6 font-montserrat leading-18">
             Hire Top Process Design{" "}
             <span className="text-[#442A11] bg-white">Talent </span>{" "}
