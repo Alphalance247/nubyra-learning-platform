@@ -58,7 +58,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         <h1 className="text-3xl font-bold text-gray-900">NUBYIRA</h1>
         <p className="text-gray-600 mt-1">Projects Designers</p>
         
-        <h2 className="text-2xl font-semibold mt-6">Let's Get Started!</h2>
+        <h2 className="text-2xl font-semibold mt-6">Let&apos;s Get Started!</h2>
         <p className="text-gray-600 mt-2">Create an account to get started</p>
       </div>
 

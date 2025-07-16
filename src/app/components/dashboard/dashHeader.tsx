@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowBigDown, Edit, Pen, PenIcon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import Button from "../common/buttons";
 import { GoChevronRight } from "react-icons/go";

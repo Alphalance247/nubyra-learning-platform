@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { PictureInPictureIcon } from 'lucide-react';
+import Image from 'next/image';
 
 type Props = {
   image: string | null;
@@ -31,8 +32,16 @@ export default function ProfilePhotoCard({ image, setImage }: Props) {
       </div>
 
       <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shadow">
-        {image ? (
-          <img src={image} alt="Profile" className="w-full h-full object-cover" />
+      {image ? (
+          <div className="w-full h-full relative">
+            <Image
+              src={image}
+              alt="Profile"
+              layout="fill"
+              objectFit="cover"
+              className="rounded"
+            />
+          </div>
         ) : (
           <div className="text-3xl text-gray-400">
             <PictureInPictureIcon />

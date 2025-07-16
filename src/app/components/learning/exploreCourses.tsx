@@ -8,6 +8,15 @@ import { FaChevronDown } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
 import CourseCard from "../common/coursesCard";
 
+
+// export interface Course {
+//   id: number;
+//   title: string;
+//   image: string; // backend full URL
+//   price: string;
+//   time: string;
+//   duration: string;
+// }
 const ExploreCourses = () => {
   const courses = [
     {
@@ -54,13 +63,29 @@ const ExploreCourses = () => {
     },
   ];
 
+
   const [activeBtn, setActiveBtn] = useState<string>("All");
   const tabs: { id: number; name: string }[] = [
     { id: 1, name: "All" },
     { id: 2, name: "Webinars" },
     { id: 3, name: "Premium Couses" },
     { id: 4, name: "Free Courses" },
-  ];
+  ]
+  // const [courses, setCourses] = useState<Course[]>([]);
+  // const [error, setError] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   apiRequest<{ pid: string; courses: Course[] }>('courses/')
+  //     .then((data) => {
+  //       console.log('Fetched courses:', data.courses);
+  //       setCourses(data.courses); 
+  //     })
+  //     .catch((err) => {
+  //       console.error('Error fetching courses:', err);
+  //       setError(err.message);
+  //     });
+  // }, []);
+  ;
   return (
     <section className="bg-[#FBFAF9] relative">
       <div className="absolute top-0 left-0 z-20">
@@ -122,6 +147,7 @@ const ExploreCourses = () => {
             <CourseCard
               key={index}
               image={course?.image}
+              // image={`http://127.0.0.1:8000${course.image}`}
               title={course?.title}
               price={course?.price}
               time={course?.time}

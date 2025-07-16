@@ -1,4 +1,4 @@
-import PrevArrow from '../components/common/prevBtn';
+// import PrevArrow from '../components/common/prevBtn';
 import NavigateArrow from '../components/common/navigate';
 import Breadcrumb from '../components/checkout/Breadcrumb';
 import CoursePreview from '../components/checkout/CoursePreview';

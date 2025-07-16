@@ -7,7 +7,7 @@ import Container from '../components/common/container'
 import NavigateArrow from '../components/common/navigate'
 import { CourseCard, Course } from "../components/dashboard/courseCard";
 import { Tabs } from "../components/dashboard/secondaryTab";
-import { ArrowLeft, GraduationCap } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import Breadcrumb from '../components/checkout/Breadcrumb'
 import ProfileBanner from '../components/dashboard/profileBanner'
 import TabNavigation from '../components/common/tab';
@@ -17,36 +17,25 @@ import SectionHeader from '../components/dashboard/sectionHeader';
 import EmptyPlaceholder from '../components/dashboard/NoCoursesPlaceholder';
 import PrimaryButton from '../components/dashboard/dashButton';
 
-// const mockCourses: Course[] = [
-//     { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-//     { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-//     { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-//     { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-//     { title: "Rankine Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 60, status: "Registered Course" },
-//     { title: "Otto Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 100, status: "Completed Course" },
-//     { title: "Brayton Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
-//     { title: "Carnot Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
-//   ];
+const mockCourses: Course[] = [
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Rankine Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 60, status: "Registered Course" },
+    { title: "Otto Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 100, status: "Completed Course" },
+    { title: "Brayton Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
+    { title: "Carnot Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
+  ];
 
 // Temporary fallback to prevent errors
-const mockCourses: Course[] = [];
+// const mockCourses: Course[] = [];
 
 export default function Dashboard() {
 
     const [activeTab, setActiveTab] = useState("learning");
     const [selectedTab, setSelectedTab] = useState("Registered Course");
 
-    // const handleEdit = () => {
-    //     console.log('Edit Profile clicked');
-    //   };
-    
-    //   const handleChangePassword = () => {
-    //     console.log('Change Password clicked');
-    //   };
-
-    //   const handleTabChange = (key: string) => {
-    //     console.log('Active tab:', key);
-    //   };
       const handleSectionChange = (key: string) => {
         console.log('Active tab:', key);
         setActiveTab(key);
@@ -97,48 +86,19 @@ export default function Dashboard() {
                     <div className="p-2">
                         <TabNavigation
                             tabs={[
-                            { label: 'Nubyira Learning', key: 'learning' },
-                            { label: 'Projects', key: 'projects' },
+                            { label: 'Learning', key: 'learning' },
+                            { label: 'Subscription', key: 'subscription' },
                             { label: 'Saved Blog Posts', key: 'saved' },
                             ]}
                             onTabChange={handleSectionChange}
                         />
                     </div>
-                    {/* <div className="p-6 mb-4">
-                        <SectionHeader
-                            icon={<FaGraduationCap size={45} color="#0000008A" />}
-                            title="Nubyira Learning"
-                        />
-                        <Tabs
-                            selected={selectedTab}
-                            onSelect={setSelectedTab}
-                            tabs={[
-                                { label: "Registered Course", count: registeredCount },
-                                { label: "Completed Course", count: completedCount },
-                                { label: "Postponed Course", count: postponedCount },
-                            ]}
-                        />
-                        <div className="w-full p-[24px] bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto">
-                                {filteredCourses.length > 0 ? (
-                                    <div className="grid grid-cols-2 gap-[8px]">
-                                    {filteredCourses.map((course, idx) => (
-                                        <CourseCard key={idx} course={course} />
-                                    ))}
-                                    </div>
-                                ) : (
-                                    <NoCoursesPlaceholder
-                                    title={`No ${selectedTab}s`}
-                                    description="Browse courses to get started"
-                                    />
-                                )}
-                        </div>
-                    </div> */}
                     <div className="p-6 mb-4">
                         {activeTab === 'learning' && (
                             <>
                             <SectionHeader
                                 icon={<FaGraduationCap size={45} color="#0000008A" />}
-                                title="Nubyira Learning"
+                                title="Learning"
                             />
                             <Tabs
                                 selected={selectedTab}
@@ -170,11 +130,11 @@ export default function Dashboard() {
                             </>
                         )}
 
-                        {activeTab === 'projects' && (
+                        {activeTab === 'subscription' && (
                             <>
                             <SectionHeader
                                 icon={<MdOutlineAssignment size={45} color="black" />}
-                                title="Premium Subscription"
+                                title="Subscription"
                                 className='mb-12'
                             />
                             <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">

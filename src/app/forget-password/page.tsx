@@ -82,6 +82,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Overlay from '@/app/components/common/overlay';
 import Button from '@/app/components/common/buttons';
+import Image from 'next/image';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -99,7 +100,13 @@ export default function ForgotPasswordPage() {
       <div className="mb-6">
         <div className="flex mb-4">
           <div className="bg-orange-100 rounded-full">
-            <img src="/assets/general/lock.png" alt="lock" className="w-18 h-18" />
+          <Image
+            src="/assets/general/lock.png"
+            alt="lock"
+            width={72}
+            height={72} 
+            className="w-18 h-18"
+          />
           </div>
         </div>
         <h2 className="text-[30px] font-[600] font-[Montserrat] capitalize text-[#0B222A]">Forgot Password?</h2>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import SuccessOverlay from './SuccessOverlay';
 import Button from '../common/buttons';
+import Image from 'next/image';
 
 
 
@@ -55,10 +56,18 @@ const PaymentMethodSelector = () => {
                 ${selected === method ? 'border-blue-500' : 'border-[#E7E7E6]'}
             `}
             >
-            <img
+            {/* <img
                 src={logos[method]}
                 alt={`${method} logo`}
                 className="w-[16px] h-[16px]"
+            /> */}
+            <Image
+              src={logos[method]}
+              alt={`${method} logo`}
+              width={16}
+              height={16}
+              className="w-[16px] h-[16px]"
+              unoptimized
             />
             {/* Text */}
             <span className="font-semibold text-[14px] leading-[22px] capitalize text-[#413B35] font-inter">

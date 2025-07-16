@@ -4,8 +4,8 @@ import React from 'react';
 import Overlay from '@/app/components/common/overlay';
 import { useRouter } from 'next/navigation';
 import Button from '../common/buttons';
-import { BsChevronBarRight } from 'react-icons/bs';
 import { GoChevronRight } from 'react-icons/go';
+import Image from 'next/image';
 
 export default function ResetLinkSent() {
   const router = useRouter();
@@ -24,7 +24,13 @@ export default function ResetLinkSent() {
       <div className="max-w-[594px] gap-4">
         <div className="flex justify-center mb-5">
           <div className="bg-orange-100 p-4 rounded-full">
-            <img src="/assets/general/mail.png" alt="Mail Icon" className="w-20 h-20" />
+            <Image
+              src="/assets/general/mail.png"
+              alt="Mail Icon"
+              width={80}
+              height={80}
+              className="w-20 h-20"
+            />
           </div>
         </div>
         <div className='flex flex-col gap-4'>

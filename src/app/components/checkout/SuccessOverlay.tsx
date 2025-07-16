@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Button from "../common/buttons";
-import { useRouter } from 'next/navigation';
 
 interface SuccessOverlayProps {
   onClose: () => void;
@@ -34,11 +34,13 @@ export default function SuccessOverlay({
       >
         <div className="flex justify-center items-center mb-6">
           <div className="w-[149.03px] h-[144.33px] rounded-[40px] p-[7.52px] bg-[#F3F0EC] flex items-center justify-center">
-            <img
-              src="/assets/general/check.png"
-              alt="Check"
-              className="w-[134px] h-[129px] object-contain"
-            />
+          <Image
+            src="/assets/general/check.png"
+            alt="Check"
+            width={134}
+            height={129}
+            className="object-contain"
+          />
           </div>
         </div>
 

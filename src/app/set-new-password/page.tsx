@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Overlay from '@/app/components/common/overlay';
-import { Check, X } from 'lucide-react';
 import InputField from '@/app/components/project/InputField';
 import Button from '@/app/components/common/buttons';
 import Alert from '@/app/components/common/alert';
+import Image from 'next/image';
 
 export default function SetNewPasswordPage() {
   const [formData, setFormData] = useState({
@@ -100,12 +100,12 @@ export default function SetNewPasswordPage() {
     route.push('reset-successful')
   };
 
-  const RuleItem = ({ isValid, label }: { isValid: boolean; label: string }) => (
-    <li className={`flex items-center text-sm ${isValid ? 'text-green-600' : 'text-red-500'}`}>
-      {isValid ? <Check size={16} className="mr-2" /> : <X size={16} className="mr-2" />}
-      {label}
-    </li>
-  );
+  // const RuleItem = ({ isValid, label }: { isValid: boolean; label: string }) => (
+  //   <li className={`flex items-center text-sm ${isValid ? 'text-green-600' : 'text-red-500'}`}>
+  //     {isValid ? <Check size={16} className="mr-2" /> : <X size={16} className="mr-2" />}
+  //     {label}
+  //   </li>
+  // );
 
   return (
     <Overlay>
@@ -120,7 +120,15 @@ export default function SetNewPasswordPage() {
       <div className=" mb-6">
         <div className="flex gap-4 mb-4">
           <div className="bg-orange-100 p-3 rounded-full">
-            <img src="/assets/general/lock.png" alt="lock" className="w-10 h-10" />
+          <div className="w-10 h-10 relative">
+            <Image
+              src="/assets/general/lock.png"
+              alt="lock"
+              fill
+              className="object-contain rounded-full"
+              priority
+            />
+          </div>
           </div>
         </div>
         <h2 className="text-[30px] font-[Montserrat] font-[600] capitalize text-[#0B222A]">Set New Password</h2>

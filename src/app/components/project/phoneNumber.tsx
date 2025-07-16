@@ -80,7 +80,7 @@ export default function PhoneInput({
 
   useEffect(() => {
     onChange(`${selectedCode}${number}`);
-  }, [selectedCode, number]);
+  }, [selectedCode, number, onChange]);
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>

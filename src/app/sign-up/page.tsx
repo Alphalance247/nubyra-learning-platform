@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from '@react-oauth/google';
+import type { CredentialResponse } from '@react-oauth/google';
 import PhoneInput from '@/app/components/project/phoneNumber';
 import InputField from '@/app/components/project/InputField';
 import HeroImageSection from "@/app/components/auth/authImageSection";
 import Button from "@/app/components/common/buttons";
-import Image from "next/image";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
     middleName: "",
     lastName: "",
     email: "",
@@ -50,6 +51,39 @@ const SignUpPage = () => {
 
   };
   
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    const idToken = credentialResponse.credential;
+
+    try {
+      const res = await fetch(
+        "http://127.0.0.1:8000/api/v1/auth/social/google/",
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            access_token: idToken,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Backend error: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      // Store your custom DRF token
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Google login failed:', error);
+      alert('Something went wrong logging in with Google.');
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
@@ -71,10 +105,27 @@ const SignUpPage = () => {
           </div>
 
           {/* Google Sign Up */}
-          <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
+          {/* <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
             <Image src="/assets/general/google-logo.svg" alt="Google" width={18} height={18} />
             Sign Up with Google
-          </button>
+          </button> */}
+
+          {/* <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log('Sign-up Failed')}
+            useOneTap
+          /> */}
+
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log('Login Failed')}
+            type="standard"
+            theme="outline"
+            size="large"
+            shape="rectangular"
+            text="signin_with"
+            logo_alignment="left"
+          />
 
           {/* Divider */}
           <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
@@ -94,8 +145,8 @@ const SignUpPage = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <InputField
                 label="Full Name"
-                name="fullName"
-                value={formData.fullName}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
                 placeholder="Enter full name"
                 className="w-full sm:w-1/2"
