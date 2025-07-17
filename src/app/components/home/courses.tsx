@@ -1,32 +1,20 @@
+"use client";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
 import Image from "next/image";
 import Button from "../common/buttons";
 import CourseCard from "../common/coursesCard";
+import { getCourseListStore } from "@/stores/courses/getCourseList";
+import Spinner from "../common/spinner/spinner";
+import { useEffect } from "react";
+import Link from "next/link";
+
 const OurCourses = () => {
-  const courses = [
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid2.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-  ];
+  const { data, loading, error, fetchCourseList } = getCourseListStore();
+
+  useEffect(() => {
+    fetchCourseList();
+  }, [fetchCourseList]);
 
   return (
     <section className="bg-[#FEFEFD] relative">
@@ -46,23 +34,43 @@ const OurCourses = () => {
           subheadingClassName="text-[#413B35]"
         />
 
-        <div className="grid md:grid-cols-3 gap-8 mt-15">
-          {courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              image={course?.image}
-              title={course?.title}
-              price={course?.price}
-              time={course?.time}
-              duration={course?.duration}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex flex-col justify-center items-center">
+            <Spinner />
+            <p className="text-lg font-medium mt-4">Loading courses...</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col justify-center items-center">
+            <p className="text-red-500">Error fetching courses</p>
+            <Button
+              variant="secondary"
+              className="w-[289px]"
+              onClick={() => fetchCourseList()}
+            >
+              Try Again
+            </Button>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8 mt-15">
+            {data?.courses?.slice(0, 3).map((course, index) => (
+              <CourseCard
+                key={index}
+                image={course?.image}
+                title={course?.title}
+                price={course?.price.toString()}
+                time={course?.number_of_days}
+                duration={course?.duration.toString()}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="mt-15 flex flex-col items-center justify-center">
-          <Button variant="secondary" className="w-[289px]">
-            View All Courses
-          </Button>
+          <Link href="/learning">
+            <Button variant="secondary" className="w-[289px]">
+              View All Courses
+            </Button>
+          </Link>
         </div>
       </Container>
     </section>

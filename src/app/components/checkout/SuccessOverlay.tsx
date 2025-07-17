@@ -20,9 +20,8 @@ export default function SuccessOverlay({
   primaryButtonText,
   secondaryButtonText,
   onPrimaryClick,
-  onSecondaryClick
+  onSecondaryClick,
 }: SuccessOverlayProps) {
-
   return (
     <div
       className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 animate-fadeIn"
@@ -34,13 +33,13 @@ export default function SuccessOverlay({
       >
         <div className="flex justify-center items-center mb-6">
           <div className="w-[149.03px] h-[144.33px] rounded-[40px] p-[7.52px] bg-[#F3F0EC] flex items-center justify-center">
-          <Image
-            src="/assets/general/check.png"
-            alt="Check"
-            width={134}
-            height={129}
-            className="object-contain"
-          />
+            <Image
+              src="/assets/general/check.png"
+              alt="Check"
+              className="w-[134px] h-[129px] object-contain"
+              width={134}
+              height={134}
+            />
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import Footer from "../common/footer";
-import DashHeader from "./dashHeader";
+// import DashHeader from "./dashHeader";
 import Header from "../common/header";
 
 const DashLayout = ({ children }: { children: React.ReactNode }) => {

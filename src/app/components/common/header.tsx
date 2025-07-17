@@ -6,13 +6,22 @@ import Link from "next/link";
 import Button from "./buttons";
 import { GoChevronRight } from 'react-icons/go';
 import { FaAngleDown, FaEdit, FaSignOutAlt } from 'react-icons/fa';
+  // const [showMobileMenu, setShowMobileMenu] = useState(false);
+import { IoClose } from "react-icons/io5";
+import { FiMenu } from "react-icons/fi";
+import { useAuth } from "@/app/context/authContext";
 import { Search } from 'lucide-react';
+
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
-  // const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { isAuthenticated, user  } = useAuth();  // isLoggingOut logout,
+
+  console.log("🔑 isAuthenticated:", isAuthenticated);
+  console.log("🔑 user:", user);
 
   const navs = [
     { id: 1, name: "Home", link: "/" },
@@ -68,6 +77,10 @@ const Header = () => {
   //   },
   // ];
 
+  // const handleLogout = () => {
+  //   logout();
+  // };
+
   return (
     <header className="bg-[#FBFAF9] sticky z-[1000] top-0 py-6 shadow-xl">
       <div className="transition-all duration-500 max-w-[1300px] mx-auto px-8 flex justify-between items-center">
@@ -80,7 +93,7 @@ const Header = () => {
           />
         </Link>
 
-        <div className="flex items-center gap-x-3">
+        <div className=" hidden lg:flex items-center gap-x-3">
           <nav className="transition-all duration-500 ">
             <div>
               {navs.map((items) => {
@@ -121,6 +134,41 @@ const Header = () => {
                 </span>
               </Button>
             </Link>
+          <div className="flex items-center gap-x-3">
+            {isAuthenticated ? (
+              <>
+                <Link href={"/dashboard"}>
+                  <Button variant="secondary" className="w-fit">
+                    Dashboard
+                  </Button>
+                </Link>
+
+                <Button
+                  variant="secondary"
+                  className="w-fit"
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                >
+                  {isLoggingOut ? "Logging out..." : "Logout"}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href={"/sign-in"}>
+                  <Button variant="secondary" className="w-fit">
+                    Login
+                  </Button>
+                </Link>
+                <Link href={"/sign-up"}>
+                  <Button className="w-fit flex items-center gap-x-2 justify-center">
+                    Enrol for free
+                    <span>
+                      <GoChevronRight />
+                    </span>
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div> */}
         {isLoggedIn ? (
@@ -198,14 +246,14 @@ const Header = () => {
           )}
        
 
-        {/* <div className="hidden transition-all duration-500">
+        <div className="block transition-all duration-500 lg:hidden">
           <button
             className="transition-all duration-500 text-black p-1 text-4xl hover:p-2"
             onClick={() => setShowMobileMenu((prev) => !prev)}
           >
             {showMobileMenu ? <IoClose /> : <FiMenu />}
           </button>
-        </div> */}
+        </div> 
         </div>
       </div>
       {/* <nav className="hidden xl:justify-start xl:items-left gap-4 xl:flex xl:flex-col xl:py-8 xl:px-3">

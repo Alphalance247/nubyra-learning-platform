@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import PhoneInput from '@/app/components/project/phoneNumber';
-import InputField from '@/app/components/project/InputField';
+import React from "react";
+import { FcGoogle } from "react-icons/fc";
+import PhoneInput from "@/app/components/project/phoneNumber";
+import InputField from "@/app/components/project/InputField";
 
 interface SignUpFormProps {
   onSubmit: (data: SignUpFormData) => void;
@@ -21,29 +21,28 @@ interface SignUpFormData {
   confirmPassword: string;
 }
 
-
 const SignUpForm: React.FC<SignUpFormProps> = ({
   onSubmit,
   onGoogleSignUp,
   onLoginClick,
 }) => {
   const [formData, setFormData] = React.useState<SignUpFormData>({
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePhoneChange = (phone: string) => {
-    setFormData(prev => ({ ...prev, phone }));
+    setFormData((prev) => ({ ...prev, phone }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,8 +56,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900">NUBYIRA</h1>
         <p className="text-gray-600 mt-1">Projects Designers</p>
-        
-        <h2 className="text-2xl font-semibold mt-6">Let&apos;s Get Started!</h2>
+
+        <h2 className="text-2xl font-semibold mt-6">{`Let's Get Started!`}</h2>
         <p className="text-gray-600 mt-2">Create an account to get started</p>
       </div>
 
@@ -72,7 +71,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
             <FcGoogle className="text-xl" />
             <span>Sign Up with Google</span>
           </button>
-          
+
           <div className="flex items-center my-6">
             <div className="flex-grow border-t border-gray-300"></div>
             <span className="mx-4 text-gray-500">Or</span>
@@ -132,9 +131,9 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Phone Number*
           </label>
-          <PhoneInput 
-            value={formData.phone} 
-            onChange={handlePhoneChange} 
+          <PhoneInput
+            value={formData.phone}
+            onChange={handlePhoneChange}
             className="w-full"
           />
         </div>
@@ -165,12 +164,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
         {/* Promo Section */}
         <div className="bg-blue-50 p-4 rounded-lg mt-6">
-          <h3 className="text-lg font-semibold text-blue-800">Discover Process Engineering!</h3>
+          <h3 className="text-lg font-semibold text-blue-800">
+            Discover Process Engineering!
+          </h3>
           <p className="text-blue-700 mt-2">
             Create The Innovations Of Tomorrow Together
           </p>
           <p className="text-blue-600 mt-2 text-sm">
-            Dive Into Real-World Projects And Collaborate On Innovative Solutions That Will Shape The Future Of Our Industry
+            Dive Into Real-World Projects And Collaborate On Innovative
+            Solutions That Will Shape The Future Of Our Industry
           </p>
         </div>
 
@@ -185,7 +187,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         {/* Login Link */}
         <div className="text-center mt-4">
           <p className="text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               type="button"
               onClick={onLoginClick}
@@ -198,7 +200,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
         {/* Terms */}
         <p className="text-xs text-gray-500 mt-4 text-center">
-          By clicking Submit, you agree to the Nubyira Terms And Conditions, Privacy Policy, and Cookie Policy.
+          By clicking Submit, you agree to the Nubyira Terms And Conditions,
+          Privacy Policy, and Cookie Policy.
         </p>
       </form>
     </div>

@@ -2,11 +2,14 @@
 import Image from "next/image";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../common/buttons";
 import { FaChevronDown } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
 import CourseCard from "../common/coursesCard";
+import { getCourseListStore } from "@/stores/courses/getCourseList";
+import { getAllCourses } from "@/stores/courses/getAllCourses";
+import PremiumCourseCard from "../common/premiumCourseCard";
 
 
 // export interface Course {
@@ -18,77 +21,26 @@ import CourseCard from "../common/coursesCard";
 //   duration: string;
 // }
 const ExploreCourses = () => {
-  const courses = [
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid2.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-  ];
+  const { data, fetchCourseList } = getCourseListStore();
+  const { data: fetchAllCoursedata, fetchAllCourses } = getAllCourses();
+
+  useEffect(() => {
+    fetchCourseList();
+    fetchAllCourses();
+  }, [fetchCourseList, fetchAllCourses]);
 
 
   const [activeBtn, setActiveBtn] = useState<string>("All");
   const tabs: { id: number; name: string }[] = [
     { id: 1, name: "All" },
     { id: 2, name: "Webinars" },
-    { id: 3, name: "Premium Couses" },
+    { id: 3, name: "Premium Courses" },
     { id: 4, name: "Free Courses" },
-  ]
-  // const [courses, setCourses] = useState<Course[]>([]);
-  // const [error, setError] = useState<string | null>(null);
+  ];
 
-  // useEffect(() => {
-  //   apiRequest<{ pid: string; courses: Course[] }>('courses/')
-  //     .then((data) => {
-  //       console.log('Fetched courses:', data.courses);
-  //       setCourses(data.courses); 
-  //     })
-  //     .catch((err) => {
-  //       console.error('Error fetching courses:', err);
-  //       setError(err.message);
-  //     });
-  // }, []);
-  ;
   return (
     <section className="bg-[#FBFAF9] relative">
-      <div className="absolute top-0 left-0 z-20">
+      <div className="absolute top-0 left-0 z-10">
         <Image
           src="/assets/home/img.png"
           alt="courses-bg"
@@ -100,7 +52,7 @@ const ExploreCourses = () => {
       <Container>
         <HeadingSubhead withSubhead={false} heading="Explore Our Courses" />
 
-        <div className="flex gap-x-3 items-center justify-center px-3 py-2 border bg-[#FEFEFD] border-[#F2EDE9] rounded-2xl w-[750px] mx-auto">
+        <div className="flex gap-x-3 items-center justify-center px-3 py-2 border bg-[#FEFEFD] border-[#F2EDE9] rounded-2xl w-[750px] mx-auto relative z-30">
           {tabs.map((el, i) => (
             <button
               className={`${
@@ -118,7 +70,7 @@ const ExploreCourses = () => {
 
         <div className="flex items-center justify-between mt-14">
           <h4 className="text-2xl font-semibold text-[#120A02]">
-            All Courses (32)
+            All Courses ({data?.courses?.length})
           </h4>
           <div className=" flex gap-x-2">
             <Button variant="secondary" className="flex items-center gap-x-2">
@@ -142,19 +94,60 @@ const ExploreCourses = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-6">
-          {courses.map((course, index) => (
-            <CourseCard
-              key={index}
-              image={course?.image}
-              // image={`http://127.0.0.1:8000${course.image}`}
-              title={course?.title}
-              price={course?.price}
-              time={course?.time}
-              duration={course?.duration}
-            />
-          ))}
-        </div>
+        <h1></h1>
+
+        {activeBtn === "All" && (
+          <div className="grid md:grid-cols-3 gap-8 mt-6">
+            {data?.courses.map((course, index) => (
+              <CourseCard
+                key={index}
+                image={course?.image}
+                title={course?.title}
+                price={course?.price?.toString()}
+                time={course?.number_of_days}
+                duration={course?.duration?.toString()}
+              />
+            ))}
+          </div>
+        )}
+        {activeBtn === "Webinars" && (
+          <div className="grid md:grid-cols-3 gap-8 mt-6">
+            {data?.courses.map((course, index) => (
+              <CourseCard
+                key={index}
+                image={course?.image}
+                title={course?.title}
+                price={course?.price?.toString()}
+                time={course?.number_of_days}
+                duration={course?.duration?.toString()}
+              />
+            ))}
+          </div>
+        )}
+
+        {activeBtn === "Premium Courses" && (
+          <div className="grid md:grid-cols-3 gap-8 mt-6">
+            {fetchAllCoursedata?.Premium?.courses?.map((el, i) => (
+              <PremiumCourseCard
+                key={i}
+                title={el?.title}
+                type={el?.course_tab}
+              />
+            ))}
+          </div>
+        )}
+
+        {activeBtn === "Free Courses" && (
+          <div className="grid md:grid-cols-3 gap-8 mt-6">
+            {fetchAllCoursedata?.Free?.courses?.map((el, i) => (
+              <PremiumCourseCard
+                key={i}
+                title={el?.title}
+                type={el?.course_tab}
+              />
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );

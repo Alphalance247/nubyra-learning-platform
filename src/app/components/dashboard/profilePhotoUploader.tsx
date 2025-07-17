@@ -1,7 +1,7 @@
-import { useRouter } from 'next/navigation';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { PictureInPictureIcon } from 'lucide-react';
-import Image from 'next/image';
+import { useRouter } from "next/navigation";
+import { FaSignOutAlt } from "react-icons/fa";
+import { PictureInPictureIcon } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   image: string | null;
@@ -20,28 +20,30 @@ export default function ProfilePhotoCard({ image, setImage }: Props) {
   };
 
   const handleLogout = () => {
-    console.log('Logging out...');
-    router.push('/auth/sign-in');
+    console.log("Logging out...");
+    router.push("/auth/sign-in");
   };
 
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="text-center">
-        <h2 className="font-semibold text-gray-700 text-lg mb-1">Your Profile Photo</h2>
-        <p className="text-sm text-gray-500">This will be displayed on your profile</p>
+        <h2 className="font-semibold text-gray-700 text-lg mb-1">
+          Your Profile Photo
+        </h2>
+        <p className="text-sm text-gray-500">
+          This will be displayed on your profile
+        </p>
       </div>
 
       <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shadow">
-      {image ? (
-          <div className="w-full h-full relative">
-            <Image
-              src={image}
-              alt="Profile"
-              layout="fill"
-              objectFit="cover"
-              className="rounded"
-            />
-          </div>
+        {image ? (
+          <Image
+            src={image}
+            alt="Profile"
+            width={24}
+            height={24}
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="text-3xl text-gray-400">
             <PictureInPictureIcon />
