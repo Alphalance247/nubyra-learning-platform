@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from '@react-oauth/google';
+import type { CredentialResponse } from '@react-oauth/google';
 import InputField from "@/app/components/project/InputField";
 import Button from "@/app/components/common/buttons";
-import Image from "next/image";
 import HeroImageSection from "@/app/components/auth/authImageSection";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -58,12 +59,45 @@ const LoginPage = () => {
       });
   };
 
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    const idToken = credentialResponse.credential;
+
+    try {
+      const res = await fetch(
+        "https://api.nubyira.com/api/v1/auth/social/google/",
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            access_token: idToken,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Backend error: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      // Store your custom DRF token
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Google login failed:', error);
+      // alert('Something went wrong logging in with Google.');
+    }
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
       {/* Left Side: Image + Welcome */}
       <HeroImageSection
         imageSrc="/assets/general/sign-up.png"
-        altText="Process Engineer"
         title="👋 Hey There! We're So Glad To See You Again!"
         description="Log in to continue learning, building, and transforming your ideas into real-world impact."
       />
@@ -77,20 +111,20 @@ const LoginPage = () => {
               🚀
             </span>
           </h2>
-          <p className="text-center text-gray-500 mb-6">
-            We&apos;re so glad to see you again <span>😊</span>
-          </p>
+          <p className="text-center text-gray-500 mb-6">We&apos;re so glad to see you again <span>😊</span></p>
 
-          <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
-            <Image
-              src="/assets/general/google-logo.svg"
-              alt="Google"
-              width={18}
-              height={18}
-            />
-            Continue with Google
-          </button>
-
+          
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log('Login Failed')}
+            type="standard"
+            theme="outline"
+            size="large"
+            shape="rectangular"
+            text="signin_with"
+            logo_alignment="left"
+          />
+          
           {/* Divider */}
           <div className="flex items-center gap-4 mb-4">
             <hr className="flex-grow border-gray-300" />
@@ -150,7 +184,7 @@ const LoginPage = () => {
 
           <div>
             <p className="text-center text-sm text-gray-600 mt-6">
-              Don’t have an account?{" "}
+                Don&apos;t have an account?{" "}
               <span
                 onClick={() => router.push("sign-up")}
                 className="font-[inter] font-semibold text-[14px] leading-[22px] tracking-normal text-center capitalize text-[#7B4C1F] hover:underline transition-none cursor-pointer"

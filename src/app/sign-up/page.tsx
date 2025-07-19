@@ -9,6 +9,7 @@ import Image from "next/image";
 import { environment } from "../env/env.local";
 import { toast } from "react-hot-toast";
 import axios, { AxiosError } from "axios";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -84,30 +85,94 @@ const SignUpPage = () => {
         toast.error(errorMessage);
       });
   };
+  
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    const idToken = credentialResponse.credential;
+
+    try {
+      const res = await fetch(
+        "https://api.nubyira.com/api/v1/auth/social/google/",
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            access_token: idToken,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text(); // log actual body of the error
+        console.error('Non-OK response:', res.status, errorText);
+        throw new Error(`Backend error: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      // Store your custom DRF token
+      localStorage.setItem('authToken', data.token);
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Google login failed:', error);
+      alert('Something went wrong logging in with Google.');
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
       <HeroImageSection
         imageSrc="/assets/general/sign-up.png"
-        altText="Process Engineer"
         title="🌟 Discover Process Engineering! Create the Innovations of Tomorrow Together"
         description="Dive into real-world projects and collaborate on innovative solutions that will shape the future of our industry."
       />
 
-      {/* Form Section */}
-      <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
-        {/* Heading */}
-        <div className="w-full max-w-[450px]">
-          <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
-            Let’s Get Started!{" "}
-            <span role="img" aria-label="rocket">
-              🚀
-            </span>
-          </h2>
-          <p className="text-center text-gray-500 mb-6">
-            Create an account to get started
-          </p>
-        </div>
+        {/* Form Section */}
+        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
+          {/* Heading */}
+          <div className="w-full max-w-[450px]">
+            <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
+            Let’s Get Started! <span role="img" aria-label="rocket">🚀</span>
+            </h2>
+            <p className="text-center text-gray-500 mb-6">Create an account to get started</p>
+          </div>
+
+          {/* Google Sign Up */}
+          {/* <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
+            <Image src="/assets/general/google-logo.svg" alt="Google" width={18} height={18} />
+            Sign Up with Google
+          </button> */}
+
+          {/* <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log('Sign-up Failed')}
+            useOneTap
+          /> */}
+
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log('Login Failed')}
+            type="standard"
+            theme="outline"
+            size="large"
+            shape="rectangular"
+            text="signin_with"
+            logo_alignment="left"
+          />
+
+          {/* Divider */}
+          <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
+            <div className="w-full h-px bg-gradient-to-r from-[#F2F2F3] to-[#B3BABF]" />
+              <span className="min-w-[57px] h-[36px] px-[10px] py-[5px] text-[#34474E] text-sm flex items-center justify-center">
+                Or
+              </span>
+              <p className="text-center text-gray-500 mb-6">
+                Create an account to get started
+              </p>
+          </div>
 
         {/* Google Sign Up */}
         <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">

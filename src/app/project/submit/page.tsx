@@ -15,41 +15,64 @@ import Breadcrumb from '@/app/components/checkout/Breadcrumb';
 import SectionHeader from '@/app/components/common/sectionHeader';
 import SuccessOverlay from '@/app/components/checkout/SuccessOverlay';
 import PhoneInput from '@/app/components/project/phoneNumber';
+import CountryStateSelect from '@/app/components/project/countryState';
+
+
 
 const ContactForm: React.FC = () => {
+  const [location, setLocation] = useState({ country: '', state: '' });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
     company: '',
     projectType: '',
     projectNature: '',
     address: '',
-    state: '',
-    country: '',
+    // country: location.country,
+    // state: location.state,
     projectTitle: '',
     academicField: '',
     projectDescription: '',
     file: null as File | null,
   });
   const [showOverlay, setShowOverlay] = useState(false);
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState("");
   const router = useRouter();
 
 
-  const handleChange = (e: React.ChangeEvent<any>) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+  // const handleChange = (e: React.ChangeEvent<any>) => {
+  //   const { name, value, files } = e.target;
+  //   if (files) {
+  //     setFormData({ ...formData, [name]: files[0] });
+  //   } else {
+  //     setFormData({ ...formData, [name]: value });
+  //   }
+  // };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const target = e.target;
+  
+    // Handle file input specifically
+    if (target instanceof HTMLInputElement && target.type === 'file' && target.files) {
+      setFormData({ ...formData, [target.name]: target.files[0] });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [target.name]: target.value });
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    const submissionData = {
+      ...formData,
+      phone,
+      country: location.country,
+      state: location.state,
+    };
+  
+    console.log(submissionData);
 
   };
 
@@ -161,38 +184,13 @@ const ContactForm: React.FC = () => {
                 />
                 </div>
 
-                <div className="w-[648px] h-[82px] flex gap-3">
-                <SelectField
-                    label="State"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    required= {true}
-                    options={[
-                    { label: 'Select', value: '' },
-                    { label: 'Osun', value: 'OS' },
-                    { label: 'Texas', value: 'TX' },
-                    ]}
-                />
-                <SelectField
-                    label="Country"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    required= {true}
-                    options={[
-                    { label: 'Select', value: '' },
-                    { label: 'Nigeria', value: 'NG' },
-                    { label: 'Canada', value: 'CA' },
-                    ]}
-                />
-                </div>
+                <CountryStateSelect value={location} onChange={setLocation} />
 
                 <div className="w-[648px] h-[82px] flex gap-2">
                 <InputField
                 label="Academic Field"
                 name="academicField"
-                value={formData.projectTitle}
+                value={formData.academicField}
                 onChange={handleChange}
                 required= {true}
                 placeholder="Enter project title"

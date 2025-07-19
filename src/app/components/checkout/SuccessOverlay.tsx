@@ -1,5 +1,5 @@
-import Button from "../common/buttons";
 import Image from "next/image";
+import Button from "../common/buttons";
 
 interface SuccessOverlayProps {
   onClose: () => void;

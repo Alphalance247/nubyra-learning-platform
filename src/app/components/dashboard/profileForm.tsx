@@ -1,14 +1,16 @@
 import InputField from "../project/InputField";
 import PhoneInput from "../project/phoneNumber";
 
+type FormDataType = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  email: string;
+};
+
 type Props = {
-  formData: {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    email: string;
-  };
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: FormDataType;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
 };

@@ -11,6 +11,15 @@ import { getCourseListStore } from "@/stores/courses/getCourseList";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
 import PremiumCourseCard from "../common/premiumCourseCard";
 
+
+// export interface Course {
+//   id: number;
+//   title: string;
+//   image: string; // backend full URL
+//   price: string;
+//   time: string;
+//   duration: string;
+// }
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
   const { data: fetchAllCoursedata, fetchAllCourses } = getAllCourses();
@@ -19,6 +28,7 @@ const ExploreCourses = () => {
     fetchCourseList();
     fetchAllCourses();
   }, [fetchCourseList, fetchAllCourses]);
+
 
   const [activeBtn, setActiveBtn] = useState<string>("All");
   const tabs: { id: number; name: string }[] = [

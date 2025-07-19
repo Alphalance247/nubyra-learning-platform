@@ -11,6 +11,34 @@ interface FileUploadProps {
   required?: boolean;
 }
 
+const getFileIcon = (file: File): string => {
+  const type = file.type;
+  const extension = file.name.split('.').pop()?.toLowerCase();
+
+  if (type.startsWith('image/')) {
+    return URL.createObjectURL(file); 
+  }
+
+  if (extension === 'pdf') {
+    return 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg';
+  }
+
+  if (['doc', 'docx'].includes(extension!)) {
+    return 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Microsoft_Word_2013_logo.svg';
+  }
+
+  if (['xls', 'xlsx'].includes(extension!)) {
+    return 'https://upload.wikimedia.org/wikipedia/commons/7/73/Microsoft_Excel_2013_logo.svg';
+  }
+
+  if (['zip', 'rar'].includes(extension!)) {
+    return 'https://upload.wikimedia.org/wikipedia/commons/8/87/Archive-format-icon.svg';
+  }
+
+  return 'https://upload.wikimedia.org/wikipedia/commons/8/87/File_icon.svg';
+};
+
+
 const MAX_FILE_SIZE_MB = 10;
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -99,7 +127,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             <Image
               width={24}
               height={24}
-              src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+              src={getFileIcon(file)}
               alt="File icon"
               className="w-6 h-6"
             />

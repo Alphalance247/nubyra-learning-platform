@@ -34,14 +34,19 @@ const ContactForm: React.FC = () => {
   const [phone, setPhone] = useState("");
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<any>) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const target = e.target;
+  
+    if (target instanceof HTMLInputElement && target.type === 'file' && target.files) {
+      setFormData({ ...formData, [target.name]: target.files[0] });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [target.name]: target.value });
     }
   };
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,7 +200,7 @@ const ContactForm: React.FC = () => {
                       variant="primary"
                       className="w-full mt-4"
                     >
-                      Submit Project
+                      Submit
                     </Button>
                   </form>
                   {showOverlay && (

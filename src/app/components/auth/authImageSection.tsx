@@ -99,6 +99,7 @@
 // export default HeroImageSection;
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type HeroImageSectionProps = {
@@ -127,7 +128,7 @@ const HeroImageSection: React.FC<HeroImageSectionProps> = ({
       <div className="absolute inset-0 bg-gradient-to-t from-[#291A0B] to-[#A7876908] z-10" />
 
       {/* Logo */}
-      <div className="absolute top-6 left-6 z-20 w-[130px] h-[121px]">
+      <Link href="/" className="absolute top-6 left-6 z-20 w-[130px] h-[121px]">
         <Image
           src="/assets/general/logo.png"
           alt="logo"
@@ -135,7 +136,7 @@ const HeroImageSection: React.FC<HeroImageSectionProps> = ({
           className="object-contain"
           priority
         />
-      </div>
+      </Link>
 
       {/* Text content */}
       <div className="absolute bottom-0 z-20 text-white px-10 py-6 mb-10 w-full bg-gradient-to-t from-[#291A0B] via-[#291A0Bcc] to-transparent">
