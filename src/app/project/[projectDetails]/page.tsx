@@ -5,10 +5,6 @@ import Image from "next/image";
 import ProjectCard from "@/app/components/common/projectCard";
 import Button from "@/app/components/common/buttons";
 
-interface ProjectDetailsPageProps {
-  params: { projectDetails: string };
-}
-
 const projects = [
   {
     image: "/assets/home/proj1.png",
@@ -36,7 +32,7 @@ const projects = [
   },
 ];
 
-const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({}) => {
+const ProjectDetailsPage = ({}) => {
   return (
     <section className="bg-[#FEFEFD]">
       <Layout>
