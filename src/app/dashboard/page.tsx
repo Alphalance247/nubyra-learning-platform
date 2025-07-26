@@ -19,15 +19,55 @@ import ProtectedRoute from "../components/common/protectedRoute";
 import { BsArrowLeft } from "react-icons/bs";
 
 const mockCourses: Course[] = [
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Rankine Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 60, status: "Registered Course" },
-    { title: "Otto Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 100, status: "Completed Course" },
-    { title: "Brayton Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
-    { title: "Carnot Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
-  ];
+  {
+    title: "Aspen Basic Plus Webinar Course",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 70,
+    status: "Ongoing Course",
+  },
+  {
+    title: "Aspen Basic Plus Webinar Course",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 70,
+    status: "Ongoing Course",
+  },
+  {
+    title: "Aspen Basic Plus Webinar Course",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 70,
+    status: "Ongoing Course",
+  },
+  {
+    title: "Aspen Basic Plus Webinar Course",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 70,
+    status: "Ongoing Course",
+  },
+  {
+    title: "Rankine Cycle",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 60,
+    status: "Registered Course",
+  },
+  {
+    title: "Otto Cycle",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 100,
+    status: "Completed Course",
+  },
+  {
+    title: "Brayton Cycle",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 10,
+    status: "Postponed Course",
+  },
+  {
+    title: "Carnot Cycle",
+    imageUrl: "/assets/dashboard/courseimage.png",
+    progress: 10,
+    status: "Postponed Course",
+  },
+];
 
 // Temporary fallback to prevent errors
 // const mockCourses: Course[] = [];
@@ -40,10 +80,10 @@ export default function Dashboard() {
   //     console.log('Edit Profile clicked');
   //   };
 
-      const handleSectionChange = (key: string) => {
-        console.log('Active tab:', key);
-        setActiveTab(key);
-      };
+  const handleSectionChange = (key: string) => {
+    console.log("Active tab:", key);
+    setActiveTab(key);
+  };
 
   const registeredCount = mockCourses.filter(
     (c) => c.status === "Registered Course" || c.status === "Ongoing Course"
@@ -95,17 +135,17 @@ export default function Dashboard() {
               <div className="p-2">
                 <TabNavigation
                   tabs={[
-                    { label: 'Learning', key: 'learning' },
-                    { label: 'Subscription', key: 'subscription' },
-                    { label: 'Saved Blog Posts', key: 'saved' },
-                    { label: 'Projects', key: 'projects' },
+                    { label: "Learning", key: "learning" },
+                    { label: "Subscription", key: "subscription" },
+                    { label: "Saved Blog Posts", key: "saved" },
+                    { label: "Projects", key: "projects" },
                   ]}
                   onTabChange={handleSectionChange}
                 />
               </div>
 
               <div className="p-6 mb-4">
-                {activeTab === 'learning' && (
+                {activeTab === "learning" && (
                   <>
                     <SectionHeader
                       icon={<FaGraduationCap size={45} color="#0000008A" />}
@@ -133,14 +173,17 @@ export default function Dashboard() {
                             title={`No ${selectedTab}s`}
                             description="Browse courses to get started"
                           />
-                          <PrimaryButton text="Browse Course" href="/learning" />
+                          <PrimaryButton
+                            text="Browse Course"
+                            href="/learning"
+                          />
                         </div>
                       )}
                     </div>
                   </>
                 )}
 
-                {activeTab === 'subscription' && (
+                {activeTab === "subscription" && (
                   <>
                     <SectionHeader
                       icon={<MdOutlineAssignment size={45} color="black" />}
@@ -162,12 +205,9 @@ export default function Dashboard() {
                   </>
                 )}
 
-                {activeTab === 'saved' && (
+                {activeTab === "saved" && (
                   <>
-                    <SectionHeader
-                      title="Saved Blog Posts"
-                      className="mb-12"
-                    />
+                    <SectionHeader title="Saved Blog Posts" className="mb-12" />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
                       <EmptyPlaceholder
                         title="No Saved blog posts yet"
@@ -178,7 +218,7 @@ export default function Dashboard() {
                   </>
                 )}
 
-                {activeTab === 'projects' && (
+                {activeTab === "projects" && (
                   <>
                     <SectionHeader
                       icon={<MdOutlineAssignment size={45} color="black" />}
@@ -205,6 +245,5 @@ export default function Dashboard() {
         </div>
       </DashLayout>
     </ProtectedRoute>
-
   );
 }

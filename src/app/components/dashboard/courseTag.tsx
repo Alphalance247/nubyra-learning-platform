@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 type CourseTagProps = {
   status: string;
   imageUrl: string;
@@ -23,7 +24,7 @@ export const CourseTag: React.FC<CourseTagProps> = ({ status, imageUrl }) => {
   return (
     <div className="flex items-center gap-[10px] px-[10px] py-[5px] rounded-[12px] w-fit h-fit">
       <Image
-        src={imageUrl}
+        src={imageUrl || ""}
         width={59}
         height={59}
         alt="Course Icon"
