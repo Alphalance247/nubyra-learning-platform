@@ -17,6 +17,7 @@ interface Project {
   country: string;
   project_scope: string;
   project_duration: string;
+  prid: string;
 }
 
 const Explore = () => {
@@ -31,7 +32,7 @@ const Explore = () => {
     setLoading(true);
     try {
       const res = await axiosInstance.post(`/project-list/`, {
-        page: 2,
+        page: 1,
       });
       if (res.status === 200 && Array.isArray(res.data.projects)) {
         setProjects(res.data.projects);
@@ -105,7 +106,7 @@ const Explore = () => {
             <div className="grid grid-cols-3 gap-y-4 gap-x-4 mt-10">
               {projects.map((project, i) => (
                 <ProjectCard
-                  image={project.image}
+                  image={project?.image}
                   title={project.project_title}
                   type={project.project_type}
                   clientLocation={project.country}
@@ -113,6 +114,7 @@ const Explore = () => {
                   projectDuration={project.project_duration}
                   buttonText="View Project"
                   key={i}
+                  url={`/project/${project?.prid}`}
                 />
               ))}
             </div>

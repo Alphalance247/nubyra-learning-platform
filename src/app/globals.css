@@ -28,3 +28,15 @@ body {
   color: var(--foreground);
   font-family: var(--inter), Arial, Helvetica, sans-serif;
 }
+
+.blog-content {
+  @apply bg-[#FBFAF9] p-4 rounded-xl;
+}
+
+.blog-content h3 {
+  @apply text-4xl font-bold mb-4 text-[#120A02];
+}
+
+.blog-content p {
+  @apply text-xl mb-8 text-[#754C28];
+}

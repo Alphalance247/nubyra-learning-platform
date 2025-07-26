@@ -15,36 +15,6 @@ const OurProjects = () => {
     fetchProjectList();
   }, [fetchProjectList]);
 
-  // const projects = [
-  //   {
-  //     image: "/assets/home/proj1.png",
-  //     title: "Combined Cycle Power Plant P&ID Development",
-  //     projectType:
-  //       "AutoCAD Plant 3D, P&ID development, P&ID modification, Line",
-  //     clientLocation: "Spain",
-  //     projectScope: "Detailed Design",
-  //     projectDuration: "3 weeks",
-  //   },
-  //   {
-  //     image: "/assets/home/proj2.png",
-  //     title: "Combined Cycle Power Plant P&ID Development",
-  //     projectType:
-  //       "AutoCAD Plant 3D, P&ID development, P&ID modification, Line",
-  //     clientLocation: "Spain",
-  //     projectScope: "Detailed Design",
-  //     projectDuration: "3 weeks",
-  //   },
-  //   {
-  //     image: "/assets/home/proj3.png",
-  //     title: "Combined Cycle Power Plant P&ID Development",
-  //     projectType:
-  //       "AutoCAD Plant 3D, P&ID development, P&ID modification, Line",
-  //     clientLocation: "Spain",
-  //     projectScope: "Detailed Design",
-  //     projectDuration: "3 weeks",
-  //   },
-  // ];
-
   return (
     <section className="bg-[#FBFAF9]">
       <Container>
@@ -84,6 +54,7 @@ const OurProjects = () => {
                   projectScope={project?.project_scope}
                   projectDuration={project?.project_duration}
                   buttonText="View Full Details"
+                  url={`/project/${project?.prid}`}
                 />
               ))}
             </div>
