@@ -19,16 +19,16 @@ import ProtectedRoute from "../components/common/protectedRoute";
 import { BsArrowLeft } from "react-icons/bs";
 
 const mockCourses: Course[] = [
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Aspen Basic Plus Webinar Course", imageUrl:"assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
-    { title: "Rankine Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 60, status: "Registered Course" },
-    { title: "Otto Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 100, status: "Completed Course" },
-    { title: "Brayton Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
-    { title: "Carnot Cycle", imageUrl:"assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"/assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"/assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"/assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Aspen Basic Plus Webinar Course", imageUrl:"/assets/dashboard/courseimage.png", progress: 70, status: "Ongoing Course" },
+    { title: "Rankine Cycle", imageUrl:"/assets/dashboard/courseimage.png", progress: 60, status: "Registered Course" },
+    { title: "Otto Cycle", imageUrl:"/assets/dashboard/courseimage.png", progress: 100, status: "Completed Course" },
+    { title: "Brayton Cycle", imageUrl:"/assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
+    { title: "Carnot Cycle", imageUrl:"/assets/dashboard/courseimage.png", progress: 10, status: "Postponed Course" },
   ];
-
+ 
 // Temporary fallback to prevent errors
 // const mockCourses: Course[] = [];
 
@@ -53,9 +53,9 @@ export default function Dashboard() {
     (c) => c.status === "Completed Course"
   ).length;
 
-  const postponedCount = mockCourses.filter(
-    (c) => c.status === "Postponed Course"
-  ).length;
+  // const postponedCount = mockCourses.filter(
+  //   (c) => c.status === "Postponed Course"
+  // ).length;
 
   const filteredCourses = mockCourses.filter((course) => {
     if (selectedTab === "Registered Course") {
@@ -117,7 +117,7 @@ export default function Dashboard() {
                       tabs={[
                         { label: "Registered Course", count: registeredCount },
                         { label: "Completed Course", count: completedCount },
-                        { label: "Postponed Course", count: postponedCount },
+                        // { label: "Postponed Course", count: postponedCount },
                       ]}
                     />
                     <div className="w-full p-[24px] bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto">
