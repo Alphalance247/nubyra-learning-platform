@@ -20,44 +20,6 @@ type CourseCardProps = {
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   const isCompleted = course.status === "Completed Course";
 
-  // const handleDownload = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/certificates/download/${course.id}/`,
-  //       { responseType: "blob" }
-  //     );
-
-  //     if (!response.data || response.data.size === 0) {
-  //       toast.error("Certificate Not Available. Please try again later.");
-  //       return;
-  //     }
-
-  //     const blob = new Blob([response.data], {
-  //       type: response.headers["content-type"],
-  //     });
-  //     const url = window.URL.createObjectURL(blob);
-
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.setAttribute(
-  //       "download",
-  //       `certificate-${course.title}.pdf`
-  //     );
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     link.remove();
-  //     window.URL.revokeObjectURL(url);
-
-  //     toast.success("Certificate downloaded successfully!");
-  //   } catch (error: any) {
-  //     if (error.response?.status === 404) {
-  //       toast.error("Certificate not available for this course.");
-  //     } else {
-  //       toast.error("Certificate not available for this course.");
-  //     }
-  //   }
-  // };
-
     const handleDownload = async () => {
       try {
         const response = await axiosInstance.get(
