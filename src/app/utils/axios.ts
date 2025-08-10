@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
         ?.split("=")[1];
 
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Token ${token}`;
       }
     }
     return config;

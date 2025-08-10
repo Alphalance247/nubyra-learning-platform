@@ -8,6 +8,7 @@ const ProjectCard = ({
   clientLocation,
   projectScope,
   projectDuration,
+  url,
 }: {
   image: string;
   title: string;
@@ -16,15 +17,17 @@ const ProjectCard = ({
   projectScope: string;
   projectDuration: string;
   buttonText: string;
+  url: string;
 }) => {
   return (
-    <Link href={`/projects/`}>
+    <Link href={url || "/"}>
       <div className="bg-[#F3F0EC] border border-[#D6C8BA] p-8 rounded-2xl">
         <Image
           width={336}
           height={162}
-          src={`https://api.nubyira.com/${image}`}
+          src={`https://api.nubyira.com${image}`}
           alt="project"
+          className="rounded-lg"
         />
 
         <div className="mt-6">

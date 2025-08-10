@@ -1,27 +1,24 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Button from "./buttons";
-import { GoChevronRight } from 'react-icons/go';
-import { FaAngleDown, FaEdit, FaSignOutAlt } from 'react-icons/fa';
-  // const [showMobileMenu, setShowMobileMenu] = useState(false);
+import { GoChevronRight } from "react-icons/go";
+import { FaAngleDown, FaEdit, FaSignOutAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
 import { useAuth } from "@/app/context/authContext";
-import { Search } from 'lucide-react';
+import { usePathname } from "next/navigation";
+
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { isAuthenticated, user  } = useAuth();  // isLoggingOut logout,
-
-  console.log("🔑 isAuthenticated:", isAuthenticated);
-  console.log("🔑 user:", user);
+  const { isAuthenticated, user, isLoggingOut, logout } = useAuth(); // isLoggingOut logout,
+  const pathname = usePathname();
 
   const navs = [
     { id: 1, name: "Home", link: "/" },
@@ -171,20 +168,23 @@ const Header = () => {
             )}
           </div>
         </div> */}
-        {isLoggedIn ? (
+          {isAuthenticated ? (
             // ✅ LOGGED-IN USER UI
             <div className="flex items-center gap-x-3 relative">
-              <div className="w-full h-[40px] rounded-full bg-[#F2EDE9] flex items-center px-3">
-                <Search size={20} color="#0000008A" />
-              </div>
-
-              <div className="w-full h-[50px] rounded-[16px] px-3 py-4 flex items-center gap-3 bg-[#F2EDE9] relative">
+              <div
+                className="w-full h-[50px] rounded-[16px] cursor-pointer px-3 py-4 flex items-center gap-3 bg-[#F2EDE9] relative"
+                onClick={() => setShowDropdown((prev) => !prev)}
+              >
                 <div
                   className="w-10 h-10 rounded-full border bg-[#FFE7CC] border-white overflow-hidden"
-                  style={{ borderWidth: '1.5px' }}
+                  style={{ borderWidth: "1.5px" }}
                 >
                   <Image
-                    src="/assets/dashboard/userprofile.png"
+                    src={
+                        user?.image?.startsWith("https")
+                          ? user.image
+                          : "/assets/dashboard/userprofile.png"
+                      }
                     alt="Avatar"
                     width={40}
                     height={40}
@@ -192,9 +192,9 @@ const Header = () => {
                   />
                 </div>
                 <p className="text-[14px] font-semibold capitalize text-[#5F5F5F] font-poppins">
-                  John Doe
+                  {user?.first_name}
                 </p>
-                <div onClick={() => setShowDropdown(prev => !prev)} className="cursor-pointer">
+                <div className="cursor-pointer">
                   <FaAngleDown size={16} color="#7C7C7C" />
                 </div>
 
@@ -202,28 +202,38 @@ const Header = () => {
                   <div className="absolute right-0 top-14 mt-2 w-64 bg-white rounded-lg shadow-[0px_4px_14px_rgba(0,0,0,0.1)] p-4 z-10">
                     <div
                       className="py-3 px-4 flex items-center gap-[10px] cursor-pointer hover:opacity-80"
-                      onClick={() => router.push('/dashboard/edit-profile/')}
+                      onClick={() => router.push("/dashboard/edit-profile/")}
                     >
                       <FaEdit size={16} />
-                      <span className="text-[#413B35] text-sm">Edit Profile</span>
+                      <span className="text-[#413B35] text-sm">
+                        Edit Profile
+                      </span>
                     </div>
                     <div
                       className="py-3 px-4 flex items-center gap-[10px] cursor-pointer hover:opacity-80"
                       onClick={() => {
-                        localStorage.removeItem('authToken');
-                        setIsLoggedIn(false);
-                        router.push('/');
+                        logout();
+                        router?.push("/sign-in");
                       }}
                     >
                       <FaSignOutAlt size={16} color="red" />
-                      <span className="text-red-600 text-sm">Logout</span>
+                      <span className="text-red-600 text-sm">
+                        {isLoggingOut ? "Logging out..." : "Logout"}
+                      </span>
                     </div>
-                    <Button
-                      className="mt-2 w-full flex items-center gap-x-3 justify-center py-3"
-                      onClick={() => router.push('/')}
-                    >
-                      Go To Homepage <GoChevronRight />
-                    </Button>
+                    {pathname.startsWith("/dashboard") ? (
+                      <Link href={"/"}>
+                        <Button className="mt-2 w-full flex items-center gap-x-3 justify-center py-3">
+                          Go To Homepage <GoChevronRight />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Link href={"/dashboard"}>
+                        <Button className="mt-2 w-full flex items-center gap-x-3 justify-center py-3">
+                          Go To Dashboard <GoChevronRight />
+                        </Button>
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
@@ -244,16 +254,15 @@ const Header = () => {
               </Link>
             </div>
           )}
-       
 
-        <div className="block transition-all duration-500 lg:hidden">
-          <button
-            className="transition-all duration-500 text-black p-1 text-4xl hover:p-2"
-            onClick={() => setShowMobileMenu((prev) => !prev)}
-          >
-            {showMobileMenu ? <IoClose /> : <FiMenu />}
-          </button>
-        </div> 
+          <div className="block transition-all duration-500 lg:hidden">
+            <button
+              className="transition-all duration-500 text-black p-1 text-4xl hover:p-2"
+              onClick={() => setShowMobileMenu((prev) => !prev)}
+            >
+              {showMobileMenu ? <IoClose /> : <FiMenu />}
+            </button>
+          </div>
         </div>
       </div>
       {/* <nav className="hidden xl:justify-start xl:items-left gap-4 xl:flex xl:flex-col xl:py-8 xl:px-3">

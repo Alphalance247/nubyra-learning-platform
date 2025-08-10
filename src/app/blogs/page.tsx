@@ -60,6 +60,13 @@ const Blogs = () => {
     fetchProjects();
   }, []);
 
+  function slugify(title: string) {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric with hyphens
+      .replace(/(^-|-$)+/g, ""); // Remove leading/trailing hyphens
+  }
+
   return (
     <Layout>
       <HeroCommon
@@ -106,7 +113,7 @@ const Blogs = () => {
                     blogTitle={blog?.title}
                     author_name={blog?.post_meta?.author_name[0]}
                     datePosted={blog?.post_meta?.date}
-                    blogUrl="/"
+                    blogUrl={`/blogs/${blog.id}-${slugify(blog.title)}`}
                   />
                 ))}
               </div>
