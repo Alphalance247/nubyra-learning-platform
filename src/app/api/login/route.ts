@@ -12,8 +12,6 @@ export async function POST(request: NextRequest) {
       { headers: { "Content-Type": "application/json" } }
     );
 
-    console.log("🔑 Data:", data);
-
     const { token, first_name } = data?.success;
 
     // Set token in HttpOnly cookie

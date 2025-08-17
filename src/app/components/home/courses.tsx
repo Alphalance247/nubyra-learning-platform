@@ -57,9 +57,10 @@ const OurCourses = () => {
                 key={index}
                 image={course?.image}
                 title={course?.title}
-                price={course?.price.toString()}
+                price={course?.price}
                 time={course?.number_of_days}
-                duration={course?.duration.toString()}
+                duration={course?.duration}
+                link={`/learning/${course?.cid}`}
               />
             ))}
           </div>

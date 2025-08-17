@@ -23,7 +23,8 @@ const MoreBlogCards = ({
           width={156}
           height={114}
           src={
-            `https://api.nubyira.com/${image}` || "/assets/blogs/blog-card.png"
+            `https://stage-backend.nubyira.com/${image}` ||
+            "/assets/blogs/blog-card.png"
           }
           alt={alt}
           className="w-[156px] h-[114px] rounded-lg"

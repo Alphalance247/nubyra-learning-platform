@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.nubyira.com",
+        hostname: "stage-backend.nubyira.com",
         // pathname: "/**" // optional, allows all paths
       },
     ],

@@ -7,6 +7,7 @@ interface freeCourseData {
     course_tab: string;
     duration: string;
     title: string;
+    cid: string;
   }[];
   current_page: number;
   total_pages: number;
@@ -16,6 +17,7 @@ interface premiumCourseData {
   courses: {
     course_tab: string;
     duration: string;
+    cid: string;
     title: string;
   }[];
   current_page: number;
@@ -26,9 +28,10 @@ interface webinarCourseData {
   courses: {
     id: string;
     title: string;
-    number_of_days: string;
+    number_of_days: number;
     image: string;
     price: number;
+    cid: string;
     duration: number;
   }[];
 }

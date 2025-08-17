@@ -1,12 +1,17 @@
 import Image from "next/image";
 import Button from "./buttons";
+import Link from "next/link";
 
 const PremiumCourseCard = ({
   title,
   type,
+  link,
+  watchNowLink,
 }: {
   title: string;
   type: string;
+  link: string;
+  watchNowLink: string;
 }) => {
   return (
     <div>
@@ -24,12 +29,13 @@ const PremiumCourseCard = ({
       <p className="mt-2 text-base text-[#413B35] ">Subscribe to watch</p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <Button variant="primary" className="w-full">
-          Subscribe
-        </Button>
-        <Button variant="secondary" className="w-full">
-          More Info
-        </Button>
+        <Link href={watchNowLink || "/learning"} className="w-full">
+          <Button variant="primary">Watch Now</Button>
+        </Link>
+
+        <Link href={link || "/learning"} className="w-full">
+          <Button variant="secondary">More Info</Button>
+        </Link>
       </div>
     </div>
   );

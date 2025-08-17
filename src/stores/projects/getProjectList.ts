@@ -5,13 +5,19 @@ import { create } from "zustand";
 interface projectListDataStore {
   response: {
     id: string;
-    image: string;
+    images: {
+      image: string;
+    }[];
+    field: {
+      label: string;
+    };
     project_type: string;
     project_title: string;
     project_scope: string;
     project_duration: string;
     country: string;
     prid: string;
+    project_completion_date: string;
   }[];
 }
 

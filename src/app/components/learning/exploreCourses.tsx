@@ -11,15 +11,6 @@ import { getCourseListStore } from "@/stores/courses/getCourseList";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
 import PremiumCourseCard from "../common/premiumCourseCard";
 
-
-// export interface Course {
-//   id: number;
-//   title: string;
-//   image: string; // backend full URL
-//   price: string;
-//   time: string;
-//   duration: string;
-// }
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
   const { data: fetchAllCoursedata, fetchAllCourses } = getAllCourses();
@@ -29,10 +20,8 @@ const ExploreCourses = () => {
     fetchAllCourses();
   }, [fetchCourseList, fetchAllCourses]);
 
-
-  const [activeBtn, setActiveBtn] = useState<string>("All");
+  const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const tabs: { id: number; name: string }[] = [
-    { id: 1, name: "All" },
     { id: 2, name: "Webinars" },
     { id: 3, name: "Premium Courses" },
     { id: 4, name: "Free Courses" },
@@ -94,32 +83,17 @@ const ExploreCourses = () => {
           </div>
         </div>
 
-        <h1></h1>
-
-        {activeBtn === "All" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-6">
-            {data?.courses.map((course, index) => (
-              <CourseCard
-                key={index}
-                image={course?.image}
-                title={course?.title}
-                price={course?.price?.toString()}
-                time={course?.number_of_days}
-                duration={course?.duration?.toString()}
-              />
-            ))}
-          </div>
-        )}
         {activeBtn === "Webinars" && (
           <div className="grid md:grid-cols-3 gap-8 mt-6">
-            {data?.courses.map((course, index) => (
+            {fetchAllCoursedata?.Webinar?.courses?.map((course, index) => (
               <CourseCard
                 key={index}
                 image={course?.image}
                 title={course?.title}
-                price={course?.price?.toString()}
+                price={course?.price}
                 time={course?.number_of_days}
-                duration={course?.duration?.toString()}
+                duration={course?.duration}
+                link={`/learning/${course?.cid}`}
               />
             ))}
           </div>
@@ -132,6 +106,8 @@ const ExploreCourses = () => {
                 key={i}
                 title={el?.title}
                 type={el?.course_tab}
+                link={`/learning/${el?.cid}`}
+                watchNowLink={`/learning/${el?.cid}`}
               />
             ))}
           </div>
@@ -144,6 +120,8 @@ const ExploreCourses = () => {
                 key={i}
                 title={el?.title}
                 type={el?.course_tab}
+                link={`/learning/${el?.cid}`}
+                watchNowLink={`/learning/${el?.cid}`}
               />
             ))}
           </div>
