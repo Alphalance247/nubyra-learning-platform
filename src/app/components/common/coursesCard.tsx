@@ -44,11 +44,11 @@ const CourseCard = ({
       </p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <div>
+        <Link href={"/checkout"}>
           <Button variant="primary" className="w-full">
             Enroll Now
           </Button>
-        </div>
+        </Link>
 
         <Link href={link || "/learning"}>
           <Button variant="secondary" className="w-full">

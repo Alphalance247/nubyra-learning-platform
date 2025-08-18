@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "./buttons";
 import Image from "next/image";
 
@@ -11,10 +12,7 @@ const Footer = () => {
       link: "/about",
       name: "About",
     },
-    {
-      link: "/contact",
-      name: "Contact",
-    },
+
     {
       link: "/blog",
       name: "Blog",
@@ -32,9 +30,11 @@ const Footer = () => {
                 width={200}
                 height={171}
               />
-              <Button variant="secondary" className="w-fit mt-10">
-                Contact Us
-              </Button>
+              <Link href={"/project/submit"}>
+                <Button variant="secondary" className="w-fit mt-10">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
 
             <div className="flex-1 grid md:grid-cols-2 xl:grid-cols-3 gap-x-10">

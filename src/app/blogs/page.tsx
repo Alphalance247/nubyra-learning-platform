@@ -77,7 +77,7 @@ const Blogs = () => {
         description="Explore how Nubyira Blog transforms ideas into impactful learning!"
         bgUrl="bg-[url(/assets/blogs/blog-hero.png)]"
         btnText="Contact us"
-        btnLink="/"
+        btnLink="/project/submit"
       />
 
       <Container>

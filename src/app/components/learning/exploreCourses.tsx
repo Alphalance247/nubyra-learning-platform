@@ -108,6 +108,8 @@ const ExploreCourses = () => {
                 type={el?.course_tab}
                 link={`/learning/${el?.cid}`}
                 watchNowLink={`/learning/${el?.cid}`}
+                subcribeText="Subscribe to watch"
+                btnName="Subscribe Now"
               />
             ))}
           </div>
@@ -122,6 +124,8 @@ const ExploreCourses = () => {
                 type={el?.course_tab}
                 link={`/learning/${el?.cid}`}
                 watchNowLink={`/learning/${el?.cid}`}
+                subcribeText="Watch for free"
+                btnName="Watch Now"
               />
             ))}
           </div>

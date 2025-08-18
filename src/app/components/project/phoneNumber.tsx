@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 interface Country {
   name: string;
-  code: string;      // e.g. "+234"
+  code: string; // e.g. "+234"
   shortCode: string; // e.g. "NG"
 }
 
@@ -33,20 +33,22 @@ const fetchCountries = async (): Promise<Country[]> => {
     );
     const data: CountryAPI[] = await res.json();
 
-    return data
-      .map((c): Country | null => {
-        const root = c?.idd?.root;
-        const suffix = c?.idd?.suffixes?.[0];
-        if (!root || !suffix || !c.cca2 || !c.name?.common) return null;
-        return {
-          name: c.name.common,
-          code: root + suffix,
-          shortCode: c.cca2,
-        };
-      })
-      .filter((c): c is Country => c !== null)
-      // keep unique codes and stable order
-      .sort((a, b) => a.name.localeCompare(b.name));
+    return (
+      data
+        .map((c): Country | null => {
+          const root = c?.idd?.root;
+          const suffix = c?.idd?.suffixes?.[0];
+          if (!root || !suffix || !c.cca2 || !c.name?.common) return null;
+          return {
+            name: c.name.common,
+            code: root + suffix,
+            shortCode: c.cca2,
+          };
+        })
+        .filter((c): c is Country => c !== null)
+        // keep unique codes and stable order
+        .sort((a, b) => a.name.localeCompare(b.name))
+    );
   } catch (error) {
     console.error("Failed to fetch countries:", error);
     return [
@@ -59,7 +61,7 @@ const fetchCountries = async (): Promise<Country[]> => {
 export default function PhoneInput({
   value = "",
   onChange,
-  label = "Phone Number",
+  label = "WhatsApp/Telegram Number",
   placeholder = "9012345678",
   className = "",
   inputClassName = "",

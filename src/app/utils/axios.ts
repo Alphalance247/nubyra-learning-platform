@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
         ?.split("=")[1];
 
       if (token) {
-        config.headers.Authorization = `Token ${token}`;
+        config.headers.Authorization = `token ${token}`;
       }
     }
     return config;
@@ -44,9 +44,6 @@ axiosInstance.interceptors.response.use(
 
         // Store the redirect path in sessionStorage (persists during the session)
         sessionStorage.setItem("redirectAfterLogin", currentPath);
-
-        // Redirect to login page
-        window.location.href = "/sign-in";
       }
     }
 

@@ -4,17 +4,17 @@ import HeadingSubhead from "../common/headingSubhead";
 import Image from "next/image";
 import Button from "../common/buttons";
 import CourseCard from "../common/coursesCard";
-import { getCourseListStore } from "@/stores/courses/getCourseList";
 import Spinner from "../common/spinner/spinner";
 import { useEffect } from "react";
 import Link from "next/link";
+import { getAllCourses } from "@/stores/courses/getAllCourses";
 
 const OurCourses = () => {
-  const { data, loading, error, fetchCourseList } = getCourseListStore();
+  const { data, fetchAllCourses, error, loading } = getAllCourses();
 
   useEffect(() => {
-    fetchCourseList();
-  }, [fetchCourseList]);
+    fetchAllCourses();
+  }, [fetchAllCourses]);
 
   return (
     <section className="bg-[#FEFEFD] relative">
@@ -45,14 +45,14 @@ const OurCourses = () => {
             <Button
               variant="secondary"
               className="w-[289px]"
-              onClick={() => fetchCourseList()}
+              onClick={() => fetchAllCourses()}
             >
               Try Again
             </Button>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-8 mt-15">
-            {data?.courses?.slice(0, 3).map((course, index) => (
+            {data?.Webinar?.courses?.slice(0, 3).map((course, index) => (
               <CourseCard
                 key={index}
                 image={course?.image}

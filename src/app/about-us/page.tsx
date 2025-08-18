@@ -14,7 +14,7 @@ const AboutUs = () => {
         description="Learn more about the Nubyira team, driven by passion and grounded in real-world industry experience"
         bgUrl="bg-[url(/assets/about/hero.png)]"
         btnText="Contact us"
-        btnLink="/"
+        btnLink="/project/submit"
       />
       <About />
       <WhyChooseUs />

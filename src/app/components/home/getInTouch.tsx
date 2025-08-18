@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../common/buttons";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
@@ -16,9 +17,11 @@ const GetInTouch = () => {
             />
 
             <div className="mt-10 flex justify-center">
-              <Button variant="secondary" className="w-[289px]">
-                Contact Us
-              </Button>
+              <Link href={"/project/submit"}>
+                <Button variant="secondary" className="w-[289px]">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

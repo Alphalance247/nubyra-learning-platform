@@ -1,14 +1,14 @@
 "use client";
-import { getCourseListStore } from "@/stores/courses/getCourseList";
 import CourseCard from "../common/coursesCard";
 import { useEffect } from "react";
+import { getAllCourses } from "@/stores/courses/getAllCourses";
 
 const RelatedCourses = () => {
-  const { data, fetchCourseList } = getCourseListStore();
+  const { data, fetchAllCourses } = getAllCourses();
 
   useEffect(() => {
-    fetchCourseList();
-  }, [fetchCourseList]);
+    fetchAllCourses();
+  }, [fetchAllCourses]);
 
   return (
     <div className="pt-15 border-t-[1.5px] border-[#B6979133]">
@@ -17,7 +17,7 @@ const RelatedCourses = () => {
       </h5>
 
       <div className="grid md:grid-cols-3 gap-8">
-        {data?.courses.map((course, index) => (
+        {data?.Webinar?.courses.map((course, index) => (
           <CourseCard
             link={`/learning/${course?.cid}`}
             key={index}

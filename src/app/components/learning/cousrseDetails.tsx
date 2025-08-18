@@ -11,6 +11,7 @@ import Spinner from "../common/spinner/spinner";
 import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface courseDetailsProps {
   meta_tag: string;
@@ -53,9 +54,9 @@ const CourseDetails = ({ id }: { id: string }) => {
     }
   }, [fetchSubscriptionStatus, courseData?.course_tab]);
 
-  const [activeBtn, setActiveBtn] = useState<string>("Introduction");
+  const [activeBtn, setActiveBtn] = useState<string>("Overview");
   const tabs: { id: number; name: string }[] = [
-    { id: 1, name: "Introduction" },
+    { id: 1, name: "Overview" },
     { id: 2, name: "Objectives" },
 
     {
@@ -67,6 +68,15 @@ const CourseDetails = ({ id }: { id: string }) => {
     { id: 5, name: "Deliverables" },
     { id: 6, name: "Target Audience" },
     { id: 7, name: "Prerequisite" },
+  ];
+
+  const premiumFreeTab = [
+    { id: 1, name: "Overview" },
+
+    {
+      id: 3,
+      name: "Training Software",
+    },
   ];
 
   const handleCheckOut = () => {
@@ -110,13 +120,20 @@ const CourseDetails = ({ id }: { id: string }) => {
     () => [
       {
         icon: "",
+        head: "Training Software:",
+        subhead: `${
+          courseData?.training_software?.find((el) => el?.name)?.name || "N/A"
+        } `,
+      },
+      {
+        icon: "",
         head: "Course Duration: ",
         subhead: `${courseData?.number_of_days} days` || "N/A",
       },
       {
         icon: "",
-        head: `Time: ${courseData?.duration} hours a day.` || "N/A",
-        subhead: "From 9am-12pm",
+        head: "Time: ",
+        subhead: `${courseData?.duration} hours a day.`,
       },
       {
         icon: "",
@@ -133,18 +150,6 @@ const CourseDetails = ({ id }: { id: string }) => {
               : "Not Available"
           } ` || " N/A",
       },
-      {
-        icon: "",
-        head: "Training Software:",
-        subhead: `${
-          courseData?.training_software?.find((el) => el?.name)?.name || "N/A"
-        } `,
-      },
-      {
-        icon: "",
-        head: "Software Installation: ",
-        subhead: "Contact Us",
-      },
     ],
     [
       courseData?.number_of_days,
@@ -153,6 +158,9 @@ const CourseDetails = ({ id }: { id: string }) => {
       courseData?.training_software,
     ]
   );
+
+  const courseTabData =
+    courseData?.course_tab === "Webinar" ? outline : outline?.slice(0, 1);
 
   return (
     <Layout>
@@ -179,7 +187,7 @@ const CourseDetails = ({ id }: { id: string }) => {
             </h3>
 
             <div className="grid md:grid-cols-2 gap-20 mb-14">
-              {courseData?.course_tab === "Webinar" ? (
+              {courseData?.course_tab === "Premium" ? (
                 <>
                   {data?.sub_status ? (
                     <div
@@ -195,7 +203,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                         src="/assets/learning/youtube-image.webp"
                         width={333}
                         height={567}
-                        className="w-[579px] h-[567px] rounded-xl"
+                        className="w-[679px] h-[467px] rounded-xl"
                         alt="youtube"
                       />
                     </div>
@@ -207,11 +215,11 @@ const CourseDetails = ({ id }: { id: string }) => {
                   dangerouslySetInnerHTML={{
                     __html: courseData?.video_link || "",
                   }}
-                  className="w-[333px] h-[567px] rounded-2xl"
+                  className="w-[333px] h-[467px] rounded-2xl"
                 />
               )}
 
-              <div className=" shadow-2xl rounded-xl p-6 bg-[#FFFFFF]">
+              <div className=" shadow-2xl rounded-xl p-6 bg-[#FFFFFF] h-fit">
                 <div className="flex items-center gap-x-5 mb-5">
                   <p className="text-xl font-semibold text-[#0F0918]">
                     Course Overview
@@ -222,7 +230,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                 </div>
 
                 <div className="bg-[#FBFAF9] p-6 rounded-b-md flex flex-col gap-y-6">
-                  {outline.map((el, i) => (
+                  {courseTabData.map((el, i) => (
                     <div className="flex items-center gap-1" key={i}>
                       <span>
                         <IoMdTime size={24} color="#413B35" />
@@ -236,159 +244,174 @@ const CourseDetails = ({ id }: { id: string }) => {
                 </div>
 
                 <div className="mt-5 flex flex-col gap-y-5">
-                  <Button variant="primary" className="w-full">
+                  <Button
+                    variant="primary"
+                    className="w-full"
+                    onClick={handleCheckOut}
+                  >
                     Enrol Now
                   </Button>
-                  <Button variant="secondary" className="w-full">
-                    Contact Us
-                  </Button>
+                  <Link href={"/project/submit"}>
+                    <Button variant="secondary" className="w-full">
+                      Contact Us
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
 
             <div className="mt-14">
-              <div className="flex gap-x-3 items-center justify-between border-b border-[#E4E7EC]">
-                {tabs.map((el, i) => (
-                  <button
-                    className={`${
-                      activeBtn === el.name
-                        ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
-                        : "text-[#413B35] border-b-[1px] border-transparent "
-                    }   font-normal text-base p-4  cursor-pointer`}
-                    onClick={() => setActiveBtn(el.name)}
-                    key={i}
-                  >
-                    {el.name}
-                  </button>
-                ))}
-              </div>
+              {courseData?.course_tab === "Webinar" ? (
+                <div className="flex gap-x-3 items-center justify-between border-b border-[#E4E7EC]">
+                  {tabs.map((el, i) => (
+                    <button
+                      className={`${
+                        activeBtn === el.name
+                          ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
+                          : "text-[#413B35] border-b-[1px] border-transparent "
+                      }   font-normal text-base p-4  cursor-pointer`}
+                      onClick={() => setActiveBtn(el.name)}
+                      key={i}
+                    >
+                      {el.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex gap-x-3 items-center border-b border-[#E4E7EC]">
+                  {premiumFreeTab.map((el, i) => (
+                    <button
+                      className={`${
+                        activeBtn === el.name
+                          ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
+                          : "text-[#413B35] border-b-[1px] border-transparent "
+                      }   font-normal text-base p-4  cursor-pointer`}
+                      onClick={() => setActiveBtn(el.name)}
+                      key={i}
+                    >
+                      {el.name}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-              {activeBtn === "Introduction" && (
-                <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                  <p className="mb-5 text-xl font-semibold font-montserrat">
-                    Introduction
-                  </p>
-                  <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                    <p className="text-[#413B35] text-base font-inter font-normal">
-                      AutoCAD Plant 3D is the oldest and the most used CAD
-                      software for drafting and development of PFDs, P&IDs,
-                      plant models, isometrics, orthographies, BOMs, etc. This
-                      implies that mastering this software is a requirement for
-                      young engineering students and professionals. Join our
-                      exclusive online course webinar on the basics of AutoCAD
-                      Plant 3D. This set your rigid foundations to build
-                      in-demand drafting skills and expertise to create
-                      high-quality plant designs in today’s evolving process
-                      industries. Register now for this online interactive
-                      course.
+              <>
+                {activeBtn === "Overview" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Overview
                     </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <p
+                        className="text-[#413B35] text-base font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.overview}` || " N/A",
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {activeBtn === "Training Software" && (
-                <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                  <p className="mb-5 text-xl font-semibold font-montserrat">
-                    Training Software
-                  </p>
-                  <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                    {courseData?.training_software?.map((el, i) => {
-                      return (
-                        <p
-                          className="text-[#413B35] text-base font-inter font-normal"
-                          key={i}
-                        >
-                          {el?.name}
-                        </p>
-                      );
-                    }) || " N/A"}
+                {activeBtn === "Training Software" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Training Software
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      {courseData?.training_software?.map((el, i) => {
+                        return (
+                          <p
+                            className="text-[#413B35] text-base font-inter font-normal"
+                            key={i}
+                          >
+                            {el?.name}
+                          </p>
+                        );
+                      }) || " N/A"}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {courseData?.course_tab === "Webinar" && (
-                <>
-                  {activeBtn === "Objectives" && (
-                    <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                      <p className="mb-5 text-xl font-semibold font-montserrat">
-                        Objectives
-                      </p>
-                      <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                        <p
-                          className="text-[#413B35] text-base font-inter font-normal"
-                          dangerouslySetInnerHTML={{
-                            __html: `${courseData?.course_objective}` || " N/A",
-                          }}
-                        />
-                      </div>
+                {activeBtn === "Objectives" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Objectives
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <p
+                        className="text-[#413B35] text-base font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.course_objective}` || " N/A",
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {activeBtn === "Timeline" && (
-                    <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                      <p className="mb-5 text-xl font-semibold font-montserrat">
-                        Timeline
-                      </p>
-                      <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                        <p
-                          className="text-[#413B35] text-base font-inter font-normal"
-                          dangerouslySetInnerHTML={{
-                            __html: `${courseData?.timeline}` || " N/A",
-                          }}
-                        />
-                      </div>
+                {activeBtn === "Timeline" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Timeline
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <p
+                        className="text-[#413B35] text-base font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.timeline}` || " N/A",
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {activeBtn === "Deliverables" && (
-                    <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                      <p className="mb-5 text-xl font-semibold font-montserrat">
-                        Deliverables
-                      </p>
-                      <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                        <p
-                          className="text-[#413B35] text-base font-inter font-normal"
-                          dangerouslySetInnerHTML={{
-                            __html: `${courseData?.deliverables}` || " N/A",
-                          }}
-                        />
-                      </div>
+                {activeBtn === "Deliverables" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Deliverables
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <p
+                        className="text-[#413B35] text-base font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.deliverables}` || " N/A",
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {activeBtn === "Target Audience" && (
-                    <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                      <p className="mb-5 text-xl font-semibold font-montserrat">
-                        Target Audience
-                      </p>
-                      <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                        <div
-                          className="text-[#413B35]  font-inter font-normal"
-                          dangerouslySetInnerHTML={{
-                            __html: `${courseData?.audience} ` || " N/A",
-                          }}
-                        />
-                      </div>
+                {activeBtn === "Target Audience" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Target Audience
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <div
+                        className="text-[#413B35]  font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.audience} ` || " N/A",
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {activeBtn === "Prerequisite" && (
-                    <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                      <p className="mb-5 text-xl font-semibold font-montserrat">
-                        Prerequisite
-                      </p>
-                      <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                        <div
-                          className="text-[#413B35]  font-inter font-normal"
-                          dangerouslySetInnerHTML={{
-                            __html: `${courseData?.prerequisite}` || " N/A",
-                          }}
-                        />
-                      </div>
+                {activeBtn === "Prerequisite" && (
+                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
+                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                      Prerequisite
+                    </p>
+                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                      <div
+                        className="text-[#413B35]  font-inter font-normal"
+                        dangerouslySetInnerHTML={{
+                          __html: `${courseData?.prerequisite}` || " N/A",
+                        }}
+                      />
                     </div>
-                  )}
-                </>
-              )}
+                  </div>
+                )}
+              </>
             </div>
           </>
         )}
