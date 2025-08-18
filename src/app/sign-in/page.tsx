@@ -43,10 +43,10 @@ const LoginPage = () => {
         console.log("Status:", response.status);
         if (response.status >= 200 && response.status < 300) {
           // Store in localStorage
-          const { first_name } = response?.data;
+          const { first_name, middle_name, last_name   } = response?.data;
           toast.success(`Login Successful Welcome back ${first_name}`);
 
-          login({ first_name });
+          login({ first_name, middle_name, last_name });
 
           setFormData({ email: "", password: "" });
           // Clear the stored redirect path after successful login

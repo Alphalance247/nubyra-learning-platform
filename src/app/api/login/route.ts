@@ -12,12 +12,17 @@ export async function POST(request: NextRequest) {
       { headers: { "Content-Type": "application/json" } }
     );
 
-    const { token, first_name } = data?.success;
+    console.log("🔑 Data:", data);
+
+    const { token, first_name, middle_name, last_name, image } = data?.success;
 
     // Set token in HttpOnly cookie
     const response = NextResponse.json({
       message: "Login successful",
       first_name,
+      middle_name,
+      last_name,
+      image,
     });
 
     response.cookies.set("token", token, {

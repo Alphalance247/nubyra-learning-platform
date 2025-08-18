@@ -5,7 +5,6 @@ import PhoneInput from "@/app/components/project/phoneNumber";
 import InputField from "@/app/components/project/InputField";
 import HeroImageSection from "@/app/components/auth/authImageSection";
 import Button from "@/app/components/common/buttons";
-import Image from "next/image";
 import { environment } from "../env/env.local";
 import { toast } from "react-hot-toast";
 import axios, { AxiosError } from "axios";
@@ -140,17 +139,6 @@ const SignUpPage = () => {
             <p className="text-center text-gray-500 mb-6">Create an account to get started</p>
           </div>
 
-          {/* Google Sign Up */}
-          {/* <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
-            <Image src="/assets/general/google-logo.svg" alt="Google" width={18} height={18} />
-            Sign Up with Google
-          </button> */}
-
-          {/* <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => console.log('Sign-up Failed')}
-            useOneTap
-          /> */}
 
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
@@ -164,7 +152,7 @@ const SignUpPage = () => {
           />
 
           {/* Divider */}
-          <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
+          {/* <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
             <div className="w-full h-px bg-gradient-to-r from-[#F2F2F3] to-[#B3BABF]" />
               <span className="min-w-[57px] h-[36px] px-[10px] py-[5px] text-[#34474E] text-sm flex items-center justify-center">
                 Or
@@ -172,10 +160,10 @@ const SignUpPage = () => {
               <p className="text-center text-gray-500 mb-6">
                 Create an account to get started
               </p>
-          </div>
+          </div> */}
 
         {/* Google Sign Up */}
-        <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
+        {/* <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
           <Image
             src="/assets/general/google-logo.svg"
             alt="Google"
@@ -183,7 +171,7 @@ const SignUpPage = () => {
             height={18}
           />
           Sign Up with Google
-        </button>
+        </button> */}
 
         {/* Divider */}
         <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">

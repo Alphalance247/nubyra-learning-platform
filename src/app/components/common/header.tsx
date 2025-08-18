@@ -11,6 +11,7 @@ import { FiMenu } from "react-icons/fi";
 import { useAuth } from "@/app/context/authContext";
 import { usePathname } from "next/navigation";
 
+
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -179,7 +180,11 @@ const Header = () => {
                   style={{ borderWidth: "1.5px" }}
                 >
                   <Image
-                    src="/assets/dashboard/userprofile.png"
+                    src={
+                        user?.image?.startsWith("https")
+                          ? user.image
+                          : "/assets/dashboard/userprofile.png"
+                      }
                     alt="Avatar"
                     width={40}
                     height={40}
