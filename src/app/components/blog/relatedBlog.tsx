@@ -5,7 +5,9 @@ interface morePostProps {
   moreBlogs: {
     title: string;
     id: number;
-    image: string;
+    blog_images: {
+      image: string;
+    }[];
     post_meta: {
       author_name: string[];
       date: string;
@@ -35,7 +37,7 @@ const RelatedBlog = ({ moreBlogs }: morePostProps) => {
               heading={el?.title}
               author={el?.post_meta?.author_name[0]}
               datePosted={el?.post_meta?.date}
-              image={el?.image}
+              image={el?.blog_images[0]?.image}
               key={i}
               alt={el?.post_meta?.img_alt}
               url={`/blogs/${el?.id}-${slugify(el?.title)}`}

@@ -2,6 +2,7 @@ import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
 import Image from "next/image";
 import Button from "../common/buttons";
+import Link from "next/link";
 const Industries = () => {
   const industries = [
     {
@@ -102,9 +103,11 @@ const Industries = () => {
         </div>
 
         <div className="mt-16 flex flex-col justify-center items-center">
-          <Button variant="primary" className="w-[298px]">
-            Contact Us
-          </Button>
+          <Link href={"/project/submit"}>
+            <Button variant="primary" className="w-[298px]">
+              Contact Us
+            </Button>
+          </Link>
         </div>
       </Container>
     </section>

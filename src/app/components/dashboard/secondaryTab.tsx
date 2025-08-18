@@ -19,7 +19,7 @@ type Tab = {
               key={label}
               onClick={() => onSelect(label)}
               className={`flex items-center justify-center w-full h-[56px] px-3 py-2 gap-1 
-                text-sm font-medium rounded-[12px] transition-colors
+                text-sm font-medium rounded-[12px] transition-colors cursor-pointer
                 ${isActive 
                   ? 'bg-[#D6C8BA] text-black'
                   : 'bg-gray-100 text-gray-600'

@@ -23,7 +23,10 @@ const BlogCard = ({
 
       <div className="flex flex-col">
         <Image
-          src={`https://api.nubyira.com/${image}` || "/assets/my-farms/2.png"}
+          src={
+            `https://stage-backend.nubyira.com/${image}` ||
+            "/assets/my-farms/2.png"
+          }
           alt="blog-1"
           width={584}
           height={402}

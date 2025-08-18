@@ -15,12 +15,38 @@ axiosInstance.interceptors.request.use(
         ?.split("=")[1];
 
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `token ${token}`;
       }
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      if (typeof window !== "undefined") {
+        const currentPath = window.location.pathname + window.location.search;
+        // Clear cookies
+        document.cookie =
+          "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        // Clear localStorage
+        localStorage.removeItem("first_name");
+        localStorage.removeItem("userData");
+
+        // // Dispatch custom event for other components to listen to
+        // window.dispatchEvent(new CustomEvent("sessionConflict"));
+
+        // Store the redirect path in sessionStorage (persists during the session)
+        sessionStorage.setItem("redirectAfterLogin", currentPath);
+      }
+    }
+
     return Promise.reject(error);
   }
 );

@@ -46,9 +46,11 @@ const FAQ = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <Button variant="primary" className="w-[298px]">
-              Get in touch
-            </Button>
+            <a href="https://wa.me/message/WABZJFRNPMNYL1" target="_blank">
+              <Button variant="primary" className="w-[298px]">
+                Get in touch
+              </Button>
+            </a>
           </div>
         </div>
       </Container>

@@ -1,12 +1,21 @@
 import Image from "next/image";
 import Button from "./buttons";
+import Link from "next/link";
 
 const PremiumCourseCard = ({
   title,
   type,
+  link,
+  watchNowLink,
+  btnName,
+  subcribeText,
 }: {
   title: string;
   type: string;
+  link: string;
+  watchNowLink: string;
+  btnName: string;
+  subcribeText?: string;
 }) => {
   return (
     <div>
@@ -21,15 +30,16 @@ const PremiumCourseCard = ({
         {title}
       </p>
       <p className="mt-2 text-2xl font-semibold  text-[#120A02]">{type}</p>
-      <p className="mt-2 text-base text-[#413B35] ">Subscribe to watch</p>
+      <p className="mt-2 text-base text-[#413B35] ">{subcribeText}</p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <Button variant="primary" className="w-full">
-          Subscribe
-        </Button>
-        <Button variant="secondary" className="w-full">
-          More Info
-        </Button>
+        <Link href={watchNowLink || "/learning"} className="w-full">
+          <Button variant="primary">{btnName}</Button>
+        </Link>
+
+        <Link href={link || "/learning"} className="w-full">
+          <Button variant="secondary">More Info</Button>
+        </Link>
       </div>
     </div>
   );

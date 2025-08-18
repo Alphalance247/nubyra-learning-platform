@@ -179,7 +179,11 @@ const Header = () => {
                   style={{ borderWidth: "1.5px" }}
                 >
                   <Image
-                    src="/assets/dashboard/userprofile.png"
+                    src={
+                      user?.image?.startsWith("https")
+                        ? user.image
+                        : "/assets/dashboard/userprofile.png"
+                    }
                     alt="Avatar"
                     width={40}
                     height={40}
@@ -241,7 +245,7 @@ const Header = () => {
                   Login
                 </Button>
               </Link>
-              <Link href="/user-select">
+              <Link href="/sign-up">
                 <Button className="w-fit flex items-center gap-x-2 justify-center">
                   Enrol for free
                   <GoChevronRight />

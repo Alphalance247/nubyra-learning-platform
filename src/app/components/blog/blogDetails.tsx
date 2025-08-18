@@ -16,7 +16,9 @@ interface blogDetailsProp {
   more_posts: {
     title: string;
     id: number;
-    image: string;
+    blog_images: {
+      image: string;
+    }[];
     post_meta: {
       author_name: string[];
       date: string;
@@ -39,7 +41,9 @@ interface blogDetailsProp {
       };
     }[];
     full_content: string;
-    image: string;
+    blog_images: {
+      image: string;
+    }[];
     title: string;
     post_meta: {
       author_name: string[];
@@ -95,7 +99,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
       .replace(/(^-|-$)+/g, ""); // Remove leading/trailing hyphens
   }
 
-  const baseUrl = "https://api.nubyira.com";
+  const baseUrl = "https://stage-backend.nubyira.com/";
   function addBaseUrlToImages(html: string, baseUrl: string) {
     return html.replace(
       /<img\s+([^>]*?)src=["'](\/[^"']*)["']/gi,
@@ -188,7 +192,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
               <div className="grid grid-cols-2 gap-x-6 mt-8">
                 <div>
                   <Image
-                    src={`https://api.nubyira.com/${blogDetailsData?.response?.image}`}
+                    src={`https://stage-backend.nubyira.com/${blogDetailsData?.response?.blog_images[0]?.image}`}
                     width={584}
                     height={565}
                     alt="imageHeading"

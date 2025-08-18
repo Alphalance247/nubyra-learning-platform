@@ -11,7 +11,7 @@ const Project = () => {
         description="A comprehensive list of completed process engineering projects"
         bgUrl="bg-[url(/assets/projects/hero.png)]"
         btnText="Contact us"
-        btnLink="/"
+        btnLink="/project/submit"
       />
       <Explore />
       <GetInTouch />

@@ -11,7 +11,9 @@ import Spinner from "../common/spinner/spinner";
 
 // Define the Project type based on the properties used in ProjectCard
 interface Project {
-  image: string;
+  images: {
+    image: string;
+  }[];
   project_title: string;
   project_type: string;
   country: string;
@@ -106,7 +108,7 @@ const Explore = () => {
             <div className="grid grid-cols-3 gap-y-4 gap-x-4 mt-10">
               {projects.map((project, i) => (
                 <ProjectCard
-                  image={project?.image}
+                  image={project?.images[0]?.image}
                   title={project.project_title}
                   type={project.project_type}
                   clientLocation={project.country}

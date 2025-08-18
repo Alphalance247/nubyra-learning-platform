@@ -22,13 +22,13 @@ const AboutUs = () => {
             </p>
 
             <div className="flex items-center gap-x-4">
-              <Link href={"/user-select"}>
+              <Link href={"/sign-up"}>
                 <Button className=" w-fit" variant="primary">
                   Enrol for free
                 </Button>
               </Link>
 
-              <Link href={"/user-select"}>
+              <Link href={"/about-us"}>
                 <Button className=" w-fit" variant="secondary">
                   Know More about us
                 </Button>

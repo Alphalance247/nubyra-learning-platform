@@ -13,7 +13,9 @@ interface authorResponseProps {
       };
     }[];
     full_content: string;
-    image: string;
+    blog_images: {
+      image: string;
+    }[];
     title: string;
     post_meta: {
       author_name: string[];
@@ -31,7 +33,7 @@ const AboutAuthor = ({ response }: authorResponseProps) => {
           width={508}
           height={506}
           className="w-[508px] h-[406px] rounded-xl"
-          src={`https://api.nubyira.com${response?.author[0]?.author_meta?.author_img}`}
+          src={`https://stage-backend.nubyira.com${response?.author[0]?.author_meta?.author_img}`}
           alt={response?.author[0]?.author_meta?.author_img_alt}
         />
 
