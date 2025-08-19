@@ -4,10 +4,10 @@ import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
 import ProjectCard from "../common/projectCard";
 import { FaChevronDown } from "react-icons/fa6";
-import axiosInstance from "@/app/utils/axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import Spinner from "../common/spinner/spinner";
+import { environment } from "@/app/env/env.local";
 
 // Define the Project type based on the properties used in ProjectCard
 interface Project {
@@ -33,7 +33,7 @@ const Explore = () => {
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/project-list/`, {
+      const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
         page: 1,
       });
       if (res.status === 200 && Array.isArray(res.data.projects)) {

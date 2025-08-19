@@ -24,14 +24,8 @@ const LoginPage = () => {
       setFormData((prev) => ({ ...prev, [name]: value }));
     };
     const searchParams = useSearchParams();
-    // Get the redirect URL from query params
-    const redirectTo =
-      searchParams.get("redirect") ||
-      (typeof window !== "undefined"
-        ? sessionStorage.getItem("redirectAfterLogin")
-        : null) ||
-      "/dashboard";
-    // const redirectTo = searchParams.get("redirect") || "/dashboard";
+
+    const redirectTo = searchParams.get("redirect") || "/dashboard";
 
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -40,8 +34,7 @@ const LoginPage = () => {
         .post("/api/login", { ...formData })
         .then((response) => {
           setLoading(false);
-          console.log("Login response:", response);
-          console.log("Status:", response.status);
+
           if (response.status >= 200 && response.status < 300) {
             // Store in localStorage
             const { first_name, middle_name, last_name, image } =
@@ -52,9 +45,7 @@ const LoginPage = () => {
 
             setFormData({ email: "", password: "" });
             // Clear the stored redirect path after successful login
-            if (typeof window !== "undefined") {
-              sessionStorage.removeItem("redirectAfterLogin");
-            }
+
             router.push(redirectTo);
           } else {
             toast.error("Error login please try again or contact Admin");
@@ -109,6 +100,7 @@ const LoginPage = () => {
         // alert('Something went wrong logging in with Google.');
       }
     };
+
     return (
       <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
         {/* Left Side: Image + Welcome */}

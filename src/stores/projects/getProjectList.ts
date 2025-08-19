@@ -1,5 +1,5 @@
-import axiosInstance from "@/app/utils/axios";
-import { AxiosError } from "axios";
+import { environment } from "@/app/env/env.local";
+import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 
 interface projectListDataStore {
@@ -43,7 +43,7 @@ export const getProjectListStore = create<projectListStore>((set) => ({
   fetchProjectList: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await axiosInstance.get("/executed-projects");
+      const res = await axios.get(`${environment?.baseUrl}/executed-projects`);
       set({ data: res.data, loading: false });
     } catch (err) {
       if (err instanceof AxiosError) {

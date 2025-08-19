@@ -10,15 +10,34 @@ import CourseCard from "../common/coursesCard";
 import { getCourseListStore } from "@/stores/courses/getCourseList";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
 import PremiumCourseCard from "../common/premiumCourseCard";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
+import { useRouter } from "next/navigation";
 
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
   const { data: fetchAllCoursedata, fetchAllCourses } = getAllCourses();
+  const { data: subStatus, fetchSubscriptionStatus } =
+    getSubscriotionStatusStore();
+  const router = useRouter();
 
   useEffect(() => {
     fetchCourseList();
     fetchAllCourses();
-  }, [fetchCourseList, fetchAllCourses]);
+    fetchSubscriptionStatus();
+  }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
+
+  const handleCheckOut = (course: {
+    title?: string;
+    price?: number;
+    duration?: string;
+    cid?: string;
+  }) => {
+    localStorage.setItem("courseTitle", course?.title || "");
+    localStorage.setItem("coursePrice", course?.price?.toString() || "");
+    localStorage.setItem("courseDuration", course?.duration || "");
+    localStorage.setItem("courseId", course?.cid || "");
+    router?.push("/checkout");
+  };
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const tabs: { id: number; name: string }[] = [
@@ -107,9 +126,17 @@ const ExploreCourses = () => {
                 title={el?.title}
                 type={el?.course_tab}
                 link={`/learning/${el?.cid}`}
-                watchNowLink={`/learning/${el?.cid}`}
-                subcribeText="Subscribe to watch"
-                btnName="Subscribe Now"
+                onClickWatch={() => {
+                  if (subStatus?.sub_status) {
+                    router.push(`/learning/${el?.cid}`);
+                  } else {
+                    handleCheckOut(el);
+                  }
+                }}
+                subcribeText={
+                  subStatus?.sub_status ? "Watch" : "Subscribe to watch"
+                }
+                btnName={subStatus?.sub_status ? "Watch Now" : "Subscribe Now"}
               />
             ))}
           </div>
@@ -123,7 +150,7 @@ const ExploreCourses = () => {
                 title={el?.title}
                 type={el?.course_tab}
                 link={`/learning/${el?.cid}`}
-                watchNowLink={`/learning/${el?.cid}`}
+                onClickWatch={() => router.push(`/learning/${el?.cid}`)}
                 subcribeText="Watch for free"
                 btnName="Watch Now"
               />

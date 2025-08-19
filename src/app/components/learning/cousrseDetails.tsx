@@ -3,15 +3,14 @@ import Button from "@/app/components/common/buttons";
 import Container from "@/app/components/common/container";
 import Layout from "@/app/components/common/layout";
 import RelatedCourses from "@/app/components/learning/relatedCourses";
-import axiosInstance from "@/app/utils/axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { IoMdTime } from "react-icons/io";
 import Spinner from "../common/spinner/spinner";
 import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { environment } from "@/app/env/env.local";
 
 interface courseDetailsProps {
   meta_tag: string;
@@ -49,7 +48,7 @@ const CourseDetails = ({ id }: { id: string }) => {
   const { data, fetchSubscriptionStatus } = getSubscriotionStatusStore();
 
   useEffect(() => {
-    if (courseData?.course_tab === "Webinar") {
+    if (courseData?.course_tab === "Premium") {
       fetchSubscriptionStatus();
     }
   }, [fetchSubscriptionStatus, courseData?.course_tab]);
@@ -90,7 +89,7 @@ const CourseDetails = ({ id }: { id: string }) => {
   const fetchBlogDetails = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/single-course/`, {
+      const res = await axios.post(`${environment?.baseUrl}/single-course/`, {
         cid: id,
       });
       if (res.status === 200) {
@@ -127,14 +126,20 @@ const CourseDetails = ({ id }: { id: string }) => {
       },
       {
         icon: "",
-        head: "Course Duration: ",
-        subhead: `${courseData?.number_of_days} days` || "N/A",
+        head: "Course Price: ",
+        subhead: `$${courseData?.price}` || 0,
       },
       {
         icon: "",
         head: "Time: ",
         subhead: `${courseData?.duration} hours a day.`,
       },
+      {
+        icon: "",
+        head: "Course Duration: ",
+        subhead: `${courseData?.number_of_days} days` || "N/A",
+      },
+
       {
         icon: "",
         head: "Course Venue:",
@@ -156,6 +161,7 @@ const CourseDetails = ({ id }: { id: string }) => {
       courseData?.duration,
       courseData?.certificate_available,
       courseData?.training_software,
+      courseData?.price,
     ]
   );
 
@@ -251,11 +257,14 @@ const CourseDetails = ({ id }: { id: string }) => {
                   >
                     Enrol Now
                   </Button>
-                  <Link href={"/project/submit"}>
+                  <a
+                    href="https://wa.me/message/WABZJFRNPMNYL1"
+                    target="_blank"
+                  >
                     <Button variant="secondary" className="w-full">
                       Contact Us
                     </Button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
