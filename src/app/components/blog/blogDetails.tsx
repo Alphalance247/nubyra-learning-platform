@@ -5,12 +5,12 @@ import Container from "@/app/components/common/container";
 import Layout from "@/app/components/common/layout";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
-import axiosInstance from "@/app/utils/axios";
+import axios, { AxiosError } from "axios";
 import Spinner from "../common/spinner/spinner";
 import Button from "../common/buttons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { environment } from "@/app/env/env.local";
 
 interface blogDetailsProp {
   more_posts: {
@@ -67,7 +67,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
     const fetchBlogDetails = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.post(`/blog-detail/`, {
+        const res = await axios.post(`${environment?.baseUrl}/blog-detail/`, {
           bid: blogTitle,
         });
         if (res.status === 200) {

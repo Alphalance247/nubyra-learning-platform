@@ -6,10 +6,10 @@ import Layout from "../components/common/layout";
 import Image from "next/image";
 import GetInTouch from "../components/home/getInTouch";
 import { useEffect, useState } from "react";
-import axiosInstance from "../utils/axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import Button from "../components/common/buttons";
 import Spinner from "../components/common/spinner/spinner";
+import { environment } from "../env/env.local";
 
 interface BlogsProps {
   id: string;
@@ -28,15 +28,13 @@ const Blogs = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  console.log(blogsData);
-
   const errrMesaage =
     "An error occurred while fetching the projects. Please try again later.";
 
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/blogs/`, {
+      const res = await axios.post(`${environment?.baseUrl}/blogs/`, {
         page: 1,
       });
       if (res.status === 200 && Array.isArray(res.data.response?.blogs)) {

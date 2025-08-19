@@ -5,10 +5,10 @@ import Layout from "@/app/components/common/layout";
 import Image from "next/image";
 import ProjectCard from "@/app/components/common/projectCard";
 import Button from "@/app/components/common/buttons";
-import { AxiosError } from "axios";
-import axiosInstance from "@/app/utils/axios";
+import axios, { AxiosError } from "axios";
 import Spinner from "../common/spinner/spinner";
 import { getProjectListStore } from "@/stores/projects/getProjectList";
+import { environment } from "@/app/env/env.local";
 
 interface projectDetailsProps {
   response: {
@@ -55,7 +55,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
     const fetchBlogDetails = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.post(`/get-project/`, {
+        const res = await axios.post(`${environment?.baseUrl}/get-project/`, {
           prid: projectTitle,
         });
         if (res.status === 200) {

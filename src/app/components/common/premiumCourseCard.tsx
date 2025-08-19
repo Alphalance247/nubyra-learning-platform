@@ -6,16 +6,16 @@ const PremiumCourseCard = ({
   title,
   type,
   link,
-  watchNowLink,
   btnName,
+  onClickWatch,
   subcribeText,
 }: {
   title: string;
   type: string;
   link: string;
-  watchNowLink: string;
   btnName: string;
   subcribeText?: string;
+  onClickWatch: () => void;
 }) => {
   return (
     <div>
@@ -33,9 +33,12 @@ const PremiumCourseCard = ({
       <p className="mt-2 text-base text-[#413B35] ">{subcribeText}</p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <Link href={watchNowLink || "/learning"} className="w-full">
-          <Button variant="primary">{btnName}</Button>
-        </Link>
+        <div className="w-full">
+          <Button variant="primary" onClick={onClickWatch}>
+            {" "}
+            {btnName}
+          </Button>
+        </div>
 
         <Link href={link || "/learning"} className="w-full">
           <Button variant="secondary">More Info</Button>
