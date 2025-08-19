@@ -43,6 +43,7 @@ interface UserData {
     registered_courses: RegisteredCourse[];
   };
   blogs_saved: Record<string, Blog>;
+  project_subscription: boolean;
 }
 
 export default function Dashboard() {
@@ -208,16 +209,17 @@ export default function Dashboard() {
                       <EmptyPlaceholder
                         title="Get full access to Nubyira project reports and reference files"
                         description="Subscription Status"
-                        badgeText="Inactive"
+                        badgeText={userData?.project_subscription ? "Active" : "Inactive"}
                       />
                       <PrimaryButton
-                        text="Subscribe Now"
-                        href="/dashboard/subscribe"
+                        text={userData?.project_subscription ? "Contact Us Now" : "Subscribe Now"}
+                        href={userData?.project_subscription ? "/contact" : "/dashboard/subscribe"}
                         variant="brown"
                       />
                     </div>
                   </>
                 )}
+
 
                 {activeTab === "saved" && (
                   <>

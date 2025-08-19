@@ -15,8 +15,10 @@ import Breadcrumb from "@/app/components/checkout/Breadcrumb";
 import SectionHeader from "@/app/components/common/sectionHeader";
 import SuccessOverlay from "@/app/components/checkout/SuccessOverlay";
 import PhoneInput from "@/app/components/project/phoneNumber";
+import CountryStateSelect from "../components/project/countryState";
 
 const ContactForm: React.FC = () => {
+  const [location, setLocation] = useState({ country: '', state: '' });
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -24,8 +26,8 @@ const ContactForm: React.FC = () => {
     phone: "",
     company: "",
     address: "",
-    state: "",
-    country: "",
+    // state: "",
+    // country: "",
     academicField: "",
     messageDetail: "",
     file: null as File | null,
@@ -119,7 +121,7 @@ const ContactForm: React.FC = () => {
                       />
                     </div>
 
-                    <div className="w-[648px] h-[82px] flex gap-2">
+                    {/* <div className="w-[648px] h-[82px] flex gap-2">
                       <InputField
                         label="Company/University"
                         name="company"
@@ -141,9 +143,9 @@ const ContactForm: React.FC = () => {
                         placeholder="Enter address"
                         className="w-[648px]"
                       />
-                    </div>
+                    </div> */}
 
-                    <div className="w-[648px] h-[82px] flex gap-3">
+                    {/* <div className="w-[648px] h-[82px] flex gap-3">
                       <SelectField
                         label="Country"
                         name="country"
@@ -168,24 +170,25 @@ const ContactForm: React.FC = () => {
                           { label: "Texas", value: "TX" },
                         ]}
                       />
-                    </div>
+                    </div> */}
+                    <CountryStateSelect value={location} onChange={setLocation} />
 
-                    <FileUpload
+                    {/* <FileUpload
                       label="Project Document"
                       name="file"
                       className="w-[648px]"
                       required={true}
                       onChange={(file) => setFormData({ ...formData, file })}
-                    />
+                    /> */}
 
                     <div className="w-full">
                       <TextArea
-                        label="Project Description"
+                        label="Message"
                         name="messageDetail"
                         value={formData.messageDetail}
                         onChange={handleChange}
-                        placeholder="Describe your project"
-                        className="w-[646px] "
+                        placeholder="Enter your message"
+                        className="w-[646px] h-[150px]"
                       />
                     </div>
 

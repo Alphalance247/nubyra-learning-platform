@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 interface Country {
   name: string;
-  code: string;      // e.g. "+234"
-  shortCode: string; // e.g. "NG"
+  code: string;     
+  shortCode: string; 
 }
 
 interface CountryAPI {
@@ -15,7 +15,7 @@ interface CountryAPI {
 }
 
 interface PhoneInputProps {
-  value: string; // e.g. "+2348134757902"
+  value: string;
   onChange: (value: string) => void;
   label?: string;
   placeholder?: string;
@@ -45,7 +45,6 @@ const fetchCountries = async (): Promise<Country[]> => {
         };
       })
       .filter((c): c is Country => c !== null)
-      // keep unique codes and stable order
       .sort((a, b) => a.name.localeCompare(b.name));
   } catch (error) {
     console.error("Failed to fetch countries:", error);
@@ -59,7 +58,7 @@ const fetchCountries = async (): Promise<Country[]> => {
 export default function PhoneInput({
   value = "",
   onChange,
-  label = "Phone Number",
+  label = "WhatsApp/Telegram Number",
   placeholder = "9012345678",
   className = "",
   inputClassName = "",
@@ -68,45 +67,27 @@ export default function PhoneInput({
   required = false,
 }: PhoneInputProps) {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCode, setSelectedCode] = useState<string>("+234"); // initial fallback
+  const [selectedCode, setSelectedCode] = useState<string>("+234");
   const [number, setNumber] = useState<string>("");
 
-  // Fetch countries once
+  // Fetch countries only once
   useEffect(() => {
     let mounted = true;
     fetchCountries().then((list) => {
       if (!mounted) return;
       setCountries(list);
-
-      // If we already have a value, try to initialize states
-      if (value) {
-        // find longest matching code prefix
-        const sorted = [...list].sort((a, b) => b.code.length - a.code.length);
-        const matched = sorted.find((c) => value.startsWith(c.code));
-        if (matched) {
-          setSelectedCode(matched.code);
-          setNumber(value.slice(matched.code.length));
-          return;
-        }
-      }
-
-      // if no value or no match, pick Nigeria if present or the first country
-      const nigeria = list.find((c) => c.shortCode === "NG");
-      setSelectedCode(nigeria?.code ?? list[0]?.code ?? "+234");
     });
     return () => {
       mounted = false;
     };
-  }, [value]); // run only once
+  }, []);
 
-  // If `value` changes (after countries loaded), update selectedCode & number
   useEffect(() => {
     if (!value) {
       setNumber("");
       return;
     }
     if (countries.length === 0) {
-      // countries not loaded yet — try simple regex until countries arrive
       const match = value.match(/^(\+\d{1,4})(\d*)$/);
       if (match) {
         setSelectedCode(match[1]);
@@ -114,15 +95,12 @@ export default function PhoneInput({
       }
       return;
     }
-
-    // with countries: prefer longest prefix match to avoid incorrect short matches
     const sorted = [...countries].sort((a, b) => b.code.length - a.code.length);
     const matched = sorted.find((c) => value.startsWith(c.code));
     if (matched) {
       setSelectedCode(matched.code);
       setNumber(value.slice(matched.code.length));
     } else {
-      // final fallback: take first +NNN from value
       const match = value.match(/^(\+\d{1,4})(\d*)$/);
       if (match) {
         setSelectedCode(match[1]);
@@ -133,13 +111,17 @@ export default function PhoneInput({
     }
   }, [value, countries]);
 
-  // Emit combined value whenever selectedCode or number changes
-  useEffect(() => {
-    const combined = selectedCode + number;
-    onChange(combined);
-  }, [selectedCode, number, onChange]);
+  const handleCodeChange = (newCode: string) => {
+    setSelectedCode(newCode);
+    onChange(newCode + number);
+  };
 
-  // Helper: if selectedCode is not in countries, render a leading option so the select doesn't go blank
+  const handleNumberChange = (newNumber: string) => {
+    const digitsOnly = newNumber.replace(/\D/g, "");
+    setNumber(digitsOnly);
+    onChange(selectedCode + digitsOnly);
+  };
+
   const codeInList = countries.some((c) => c.code === selectedCode);
 
   return (
@@ -155,12 +137,10 @@ export default function PhoneInput({
       <div className="flex w-full h-[50px] bg-[#FEFEFD] rounded-[12px] overflow-hidden border border-[#D1D1D1] focus-within:border-[#FEFEFD]">
         <select
           value={selectedCode}
-          onChange={(e) => setSelectedCode(e.target.value)}
+          onChange={(e) => handleCodeChange(e.target.value)}
           className={`w-[100px] px-3 bg-[#F2EDE9] text-[#120A02] font-medium text-[14px] leading-[22px] tracking-normal font-inter outline-none appearance-none ${selectClassName}`}
         >
-          {/* If current selectedCode isn't part of fetched countries, show it first */}
           {!codeInList && <option value={selectedCode}>{selectedCode}</option>}
-
           {countries.map((country) => (
             <option key={country.shortCode} value={country.code}>
               {country.shortCode} {country.code}
@@ -173,11 +153,7 @@ export default function PhoneInput({
           placeholder={placeholder}
           value={number}
           required={required}
-          onChange={(e) => {
-            // optional: keep only digits in the number portion
-            const digitsOnly = e.target.value.replace(/\D/g, "");
-            setNumber(digitsOnly);
-          }}
+          onChange={(e) => handleNumberChange(e.target.value)}
           className={`flex-1 px-3 py-2 bg-[#FEFEFD] text-[#120A02] text-[14px] font-inter outline-none ${inputClassName}`}
         />
       </div>
