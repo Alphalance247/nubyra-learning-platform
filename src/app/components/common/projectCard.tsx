@@ -25,7 +25,7 @@ const ProjectCard = ({
         <Image
           width={336}
           height={162}
-          src={`https://api.nubyira.com${image}`}
+          src={`https://stage-backend.nubyira.com/${image}`}
           alt="project"
           className="rounded-lg"
         />
@@ -34,21 +34,25 @@ const ProjectCard = ({
           <p className="text-xl font-semibold text-[#70451C] mb-6">{title}</p>
           <p className="text-[#413B35] text-lg mb-4">
             Project type:{" "}
-            <span className="font-medium text-[#120A02]">
-              {type.slice(0, 80)}.......
-            </span>{" "}
+            <span className="font-medium text-[#120A02]">{type}</span>{" "}
           </p>
 
           <p className="text-[#413B35] text-lg mb-4">
             Client Location:
             <span className="font-medium text-[#120A02]">
+              {" "}
               {clientLocation}
             </span>{" "}
           </p>
 
           <p className="text-[#413B35] text-lg mb-4">
-            Project Scope:{" "}
-            <span className="font-medium text-[#120A02]">{projectScope}</span>{" "}
+            Project Scope:
+            <span
+              className="font-medium text-[#120A02]"
+              dangerouslySetInnerHTML={{
+                __html: `${projectScope?.slice(0, 80)}...`,
+              }}
+            />{" "}
           </p>
 
           <p className="text-[#413B35] text-lg mb-10">

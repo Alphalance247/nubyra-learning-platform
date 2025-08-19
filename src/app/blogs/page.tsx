@@ -14,7 +14,9 @@ import Spinner from "../components/common/spinner/spinner";
 interface BlogsProps {
   id: string;
   title: string;
-  image: string;
+  blog_images: {
+    image: string;
+  }[];
   post_meta: {
     author_name: string[];
     date: string;
@@ -75,7 +77,7 @@ const Blogs = () => {
         description="Explore how Nubyira Blog transforms ideas into impactful learning!"
         bgUrl="bg-[url(/assets/blogs/blog-hero.png)]"
         btnText="Contact us"
-        btnLink="/"
+        btnLink="/project/submit"
       />
 
       <Container>
@@ -109,7 +111,7 @@ const Blogs = () => {
                 {blogsData?.map((blog, i) => (
                   <BlogCard
                     key={i}
-                    image={blog?.image}
+                    image={blog?.blog_images[0]?.image}
                     blogTitle={blog?.title}
                     author_name={blog?.post_meta?.author_name[0]}
                     datePosted={blog?.post_meta?.date}

@@ -6,10 +6,11 @@ interface courseListDataStore {
   courses: {
     id: string;
     title: string;
-    number_of_days: string;
+    number_of_days: number;
     image: string;
     price: number;
     duration: number;
+    cid: string;
   }[];
 }
 
@@ -28,7 +29,7 @@ export const getCourseListStore = create<courseListStore>((set) => ({
   fetchCourseList: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await axiosInstance.get('/courses/'); 
+      const res = await axiosInstance.get("/courses/");
       set({ data: res.data, loading: false });
     } catch (err) {
       if (err instanceof AxiosError) {

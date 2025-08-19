@@ -5,16 +5,11 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
-  console.log("🔍 Middleware running for:", pathname);
-  console.log("🔍 Token found:", !!token);
-
   // List of protected routes
   const isProtectedRoute =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/dashboard");
+    pathname.startsWith("/dashboard") || pathname.startsWith("/checkout");
 
   if (isProtectedRoute && !token) {
-    console.log("🚫 Redirecting to login - no token found");
-
     // Create login URL with redirect parameter
     const loginUrl = new URL("/sign-in", request.url);
     loginUrl.searchParams.set("redirect", pathname);
@@ -26,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/dashboard/:path*"],
+  matcher: ["/dashboard", "/dashboard/:path*", "/checkout"],
 };

@@ -47,8 +47,8 @@ const OurProjects = () => {
               {data?.response?.slice(0, 3).map((project, index) => (
                 <ProjectCard
                   key={index}
-                  image={project?.image}
-                  title={project?.project_title}
+                  image={project?.images[0]?.image}
+                  title={project?.field?.label}
                   type={project?.project_type}
                   clientLocation={project?.country}
                   projectScope={project?.project_scope}

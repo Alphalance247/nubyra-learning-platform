@@ -1,6 +1,4 @@
-
 "use client";
-
 import React, { useEffect, useState } from "react";
 import DashLayout from "../components/dashboard/dashLayout";
 import Container from "../components/common/container";
@@ -16,7 +14,7 @@ import SectionHeader from "../components/dashboard/sectionHeader";
 import EmptyPlaceholder from "../components/dashboard/NoCoursesPlaceholder";
 import PrimaryButton from "../components/dashboard/dashButton";
 import ProtectedRoute from "../components/common/protectedRoute";
-import { environment } from "../env/env.local"
+import { environment } from "../env/env.local";
 import { BsArrowLeft } from "react-icons/bs";
 import axiosInstance from "@/app/utils/axios";
 
@@ -36,7 +34,7 @@ interface Blog {
 interface UserData {
   primary_info: {
     full_name: string;
-    image?: string,
+    image?: string;
     email: string;
   };
   course_info: {
@@ -72,18 +70,20 @@ export default function Dashboard() {
   }, []);
 
   const realCourses: Course[] =
-  userData?.course_info?.registered_courses?.map((course: RegisteredCourse) => ({
-    id: course.id, // 👈 this fixes the error
-    title: course.course_title,
-    imageUrl: "/assets/dashboard/courseimage.png",
-    progress: course.status === "Completed" ? 100 : 50,
-    status:
-      course.status === "Completed"
-        ? "Completed Course"
-        : course.postponed
-        ? "Postponed Course"
-        : "Registered Course",
-  })) || [];
+    userData?.course_info?.registered_courses?.map(
+      (course: RegisteredCourse) => ({
+        id: course.id, // 👈 this fixes the error
+        title: course.course_title,
+        imageUrl: "/assets/dashboard/courseimage.png",
+        progress: course.status === "Completed" ? 100 : 50,
+        status:
+          course.status === "Completed"
+            ? "Completed Course"
+            : course.postponed
+            ? "Postponed Course"
+            : "Registered Course",
+      })
+    ) || [];
 
   const savedBlogs: Blog[] = Object.values(userData?.blogs_saved || {});
 
@@ -91,8 +91,12 @@ export default function Dashboard() {
     setActiveTab(key);
   };
 
-  const registeredCount = realCourses.filter((c) => c.status === "Registered Course").length;
-  const completedCount = realCourses.filter((c) => c.status === "Completed Course").length;
+  const registeredCount = realCourses.filter(
+    (c) => c.status === "Registered Course"
+  ).length;
+  const completedCount = realCourses.filter(
+    (c) => c.status === "Completed Course"
+  ).length;
 
   const filteredCourses = realCourses.filter((course) => {
     if (selectedTab === "Registered Course") {
@@ -191,7 +195,10 @@ export default function Dashboard() {
                             title={`No ${selectedTab}s`}
                             description="Browse courses to get started"
                           />
-                          <PrimaryButton text="Browse Course" href="/learning" />
+                          <PrimaryButton
+                            text="Browse Course"
+                            href="/learning"
+                          />
                         </div>
                       )}
                     </div>

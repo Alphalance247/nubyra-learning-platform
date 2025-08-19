@@ -1,29 +1,15 @@
+"use client";
 import CourseCard from "../common/coursesCard";
+import { useEffect } from "react";
+import { getAllCourses } from "@/stores/courses/getAllCourses";
 
 const RelatedCourses = () => {
-  const courses = [
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid2.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-    {
-      image: "/assets/home/vid1.png",
-      title: "Aspen HYSYS Basic course webinar",
-      price: "$50.00",
-      time: "3 hours a day",
-      duration: "5 days",
-    },
-  ];
+  const { data, fetchAllCourses } = getAllCourses();
+
+  useEffect(() => {
+    fetchAllCourses();
+  }, [fetchAllCourses]);
+
   return (
     <div className="pt-15 border-t-[1.5px] border-[#B6979133]">
       <h5 className="text-3xl font-bold text-[#120A02] mb-8">
@@ -31,13 +17,14 @@ const RelatedCourses = () => {
       </h5>
 
       <div className="grid md:grid-cols-3 gap-8">
-        {courses.map((course, index) => (
+        {data?.Webinar?.courses.map((course, index) => (
           <CourseCard
+            link={`/learning/${course?.cid}`}
             key={index}
             image={course?.image}
             title={course?.title}
             price={course?.price}
-            time={course?.time}
+            time={course?.number_of_days}
             duration={course?.duration}
           />
         ))}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../common/buttons";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
@@ -82,9 +83,11 @@ const Services = () => {
         </div>
 
         <div className="mt-10 flex flex-col justify-center items-center">
-          <Button variant="primary" className="w-[298px]">
-            Contact Us
-          </Button>
+          <Link href={"/project/submit"}>
+            <Button variant="primary" className="w-[298px]">
+              Contact Us
+            </Button>
+          </Link>
         </div>
       </Container>
     </section>

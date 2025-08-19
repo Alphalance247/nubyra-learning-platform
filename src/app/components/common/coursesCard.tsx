@@ -2,6 +2,7 @@ import { IoMdTime } from "react-icons/io";
 import Image from "next/image";
 import { FaRegCalendar } from "react-icons/fa6";
 import Button from "./buttons";
+import Link from "next/link";
 
 const CourseCard = ({
   image,
@@ -9,19 +10,21 @@ const CourseCard = ({
   price,
   time,
   duration,
+  link,
 }: {
   image: string;
   title: string;
-  price: string;
-  time: string;
-  duration: string;
+  price: number;
+  time: number;
+  duration: number;
+  link: string;
 }) => {
   return (
     <div>
       <Image
         width={378}
         height={170}
-        src={`https://api.nubyira.com/${image}`}
+        src={`https://stage-backend.nubyira.com/${image}`}
         className="rounded-lg w-[378px] h-[170px]"
         alt="course"
       />
@@ -41,12 +44,17 @@ const CourseCard = ({
       </p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <Button variant="primary" className="w-full">
-          Enroll Now
-        </Button>
-        <Button variant="secondary" className="w-full">
-          View Details
-        </Button>
+        <Link href={"/checkout"}>
+          <Button variant="primary" className="w-full">
+            Enroll Now
+          </Button>
+        </Link>
+
+        <Link href={link || "/learning"}>
+          <Button variant="secondary" className="w-full">
+            View Details
+          </Button>
+        </Link>
       </div>
     </div>
   );
