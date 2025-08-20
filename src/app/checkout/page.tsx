@@ -9,41 +9,49 @@ import Container from "../components/common/container";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "../components/common/protectedRoute";
+import { getSubsriptionPriceListStore } from "@/stores/courses/getSubcriptionPrice";
 
 // Define the course data interface
 interface CourseData {
   title: string;
-  price: number;
+  // price: number;
   duration: string;
   venue: string;
 }
 
 export default function CheckoutPage() {
-  // Create state to store the course data
   const [courseData, setCourseData] = useState<CourseData>({
     title: "Apen Plus Basic Course Webinar",
-    price: 50,
+    // price: 50,
     duration: "5 Days",
     venue: "Online Class",
   });
 
+  const { fetchSubscribePrice } = getSubsriptionPriceListStore();
+
+  useEffect(() => {
+    fetchSubscribePrice();
+  }, [fetchSubscribePrice]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTitle = localStorage.getItem("courseTitle");
-      const storedPrice = localStorage.getItem("coursePrice");
+      // const storedPrice = localStorage.getItem("coursePrice");
       const storedDuration = localStorage.getItem("courseDuration");
 
+      // price: storedPrice ? parseInt(storedPrice, 10) : courseData.price,
+
       // Update the state with stored values if they exist
-      if (storedTitle || storedPrice || storedDuration) {
+      if (storedTitle || storedDuration) {
         setCourseData({
           title: storedTitle || courseData.title,
-          price: storedPrice ? parseInt(storedPrice, 10) : courseData.price,
+
           duration: `${storedDuration} days` || courseData.duration,
           venue: "Online Class",
         });
       }
     }
-  }, [courseData?.duration, courseData.price, courseData.title]);
+  }, [courseData?.duration, courseData.title]);
 
   return (
     <ProtectedRoute>

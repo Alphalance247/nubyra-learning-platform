@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaRegCalendar } from "react-icons/fa6";
 import Button from "./buttons";
 import Link from "next/link";
+import { environment } from "@/app/env/env.local";
 
 const CourseCard = ({
   image,
@@ -24,7 +25,7 @@ const CourseCard = ({
       <Image
         width={378}
         height={170}
-        src={`https://stage-backend.nubyira.com/${image}`}
+        src={`${environment?.imageUrl}/media/${image}`}
         className="rounded-lg w-[378px] h-[170px]"
         alt="course"
       />

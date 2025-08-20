@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SuccessOverlay from "./SuccessOverlay";
 import Button from "../common/buttons";
+import { AxiosError } from "axios";
+import axiosInstance from "@/app/utils/axios";
+import toast from "react-hot-toast";
 
 type PaymentMethod = "paystack" | "paypal";
 
@@ -22,6 +25,7 @@ const courseData = {
 const PaymentMethodSelector = () => {
   const [selected, setSelected] = useState<PaymentMethod>("paystack");
   const [showOverlay, setShowOverlay] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +39,51 @@ const PaymentMethodSelector = () => {
       document.body.style.overflow = "auto";
     };
   }, [showOverlay]);
+
+  const handlePayPalIntegration = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.post(`/subscription/paypal/initiate/`);
+
+      if (res.status === 200) {
+        router.push(res?.data?.links[1]?.href);
+        console.log(res?.data?.links[1]?.href);
+        toast.success("Payment Initiated successfully Redirecting....");
+      }
+      setLoading(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.detail || errorMessage;
+      }
+      setLoading(false);
+      toast.error(errorMessage);
+    }
+  };
+
+  const handlePayStackIntegration = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.post(`/subscription/paystack/initiate/`);
+
+      if (res.status === 200) {
+        router.push(res?.data?.authorization_url);
+        toast.success("Payment Initiated successfully Redirecting....");
+      }
+      setLoading(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.detail || errorMessage;
+      }
+      setLoading(false);
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <div className="w-[580px] h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
@@ -51,7 +100,7 @@ const PaymentMethodSelector = () => {
             key={method}
             onClick={() => setSelected(method)}
             className={`
-                flex items-center justify-center gap-2
+                flex items-center justify-center gap-2 cursor-pointer
                 w-[260px] h-[44px] p-[6px]
                 rounded-lg border bg-[#FEFEFD]
                 ${selected === method ? "border-blue-500" : "border-[#E7E7E6]"}
@@ -84,11 +133,19 @@ const PaymentMethodSelector = () => {
         Choose Payment
       </button> */}
         <Button
-          onClick={() => setShowOverlay(true)}
+          onClick={
+            selected === "paystack"
+              ? handlePayStackIntegration
+              : handlePayPalIntegration
+          }
           variant="primary"
           className="w-[532px] h-[56px] flex items-center justify-center gap-[6px]"
         >
-          Choose Payment
+          {loading
+            ? "Processing....."
+            : selected === "paystack"
+            ? `Pay with paystack`
+            : "Pay with paypal"}
         </Button>
         {showOverlay && (
           <SuccessOverlay

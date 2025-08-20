@@ -8,6 +8,7 @@ interface freeCourseData {
     duration: string;
     title: string;
     cid: string;
+    image: string;
   }[];
   current_page: number;
   total_pages: number;
@@ -19,6 +20,7 @@ interface premiumCourseData {
     duration: string;
     cid: string;
     title: string;
+    image: string;
   }[];
   current_page: number;
   total_pages: number;
