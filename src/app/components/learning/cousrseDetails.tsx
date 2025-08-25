@@ -251,17 +251,24 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 <div className="mt-5 flex flex-col gap-y-5">
                   {courseData?.course_tab !== "Free" && (
-                    <Button
-                      variant="primary"
-                      className="w-full"
-                      onClick={() =>
-                        courseData?.course_tab === "Premium"
-                          ? router?.push("/checkout")
-                          : router?.push("/learning/enroll")
-                      }
-                    >
-                      Enrol Now
-                    </Button>
+                    <>
+                      {courseData?.course_tab === "Premium" &&
+                      data?.sub_status ? (
+                        ""
+                      ) : (
+                        <Button
+                          variant="primary"
+                          className="w-full"
+                          onClick={() =>
+                            courseData?.course_tab === "Premium"
+                              ? router?.push("/checkout")
+                              : router?.push("/learning/enroll")
+                          }
+                        >
+                          Enrol Now
+                        </Button>
+                      )}
+                    </>
                   )}
                   <a
                     href="https://wa.me/message/WABZJFRNPMNYL1"

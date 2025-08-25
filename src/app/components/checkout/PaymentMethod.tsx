@@ -95,7 +95,7 @@ const PaymentMethodSelector = () => {
       </div>
 
       <div className="w-[532px] h-[44px] gap-3 flex">
-        {(["paystack", "paypal"] as PaymentMethod[]).map((method) => (
+        {(["paystack", ] as PaymentMethod[]).map((method) => (
           <button
             key={method}
             onClick={() => setSelected(method)}
