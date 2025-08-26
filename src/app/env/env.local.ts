@@ -10,5 +10,5 @@ export const environment = {
   setPassword: "accounts/auth/set-new-password",
   courses: "/courses/",
   resendVerificationLink: "/resend-confirmation-link/",
-  paymentVerification: "/payment-info/",
+  paymentVerification: "/subscription/paystack/verify/",
 };
