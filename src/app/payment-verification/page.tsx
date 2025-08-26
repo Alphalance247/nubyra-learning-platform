@@ -21,7 +21,7 @@ const PaymentVerification = () => {
         const res = await axios.post(
           `${environment?.baseUrl}${environment?.paymentVerification}`,
           {
-            ref_id: token,
+            reference: token,
           }
         );
 
