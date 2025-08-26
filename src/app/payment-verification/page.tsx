@@ -37,7 +37,7 @@ const PaymentVerification = () => {
         let errorMessage = "";
         if (err instanceof AxiosError) {
           // Check if err is an instance of AxiosError
-          errorMessage = err.response?.data?.message || errorMessage;
+          errorMessage = err.response?.data?.detail || errorMessage;
         }
 
         toast.error(errorMessage);
