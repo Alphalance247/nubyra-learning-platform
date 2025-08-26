@@ -4,8 +4,9 @@ import SuccessOverlay from "../components/checkout/SuccessOverlay";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { environment } from "../env/env.local";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Layout from "../components/common/layout";
+import axiosInstance from "../utils/axios";
 
 const PaymentVerification = () => {
   const PaymentInfo = () => {
@@ -18,7 +19,7 @@ const PaymentVerification = () => {
     const handlePaymentConfirmation = async (token: string) => {
       try {
         setLoading(true);
-        const res = await axios.post(
+        const res = await axiosInstance.post(
           `${environment?.baseUrl}${environment?.paymentVerification}`,
           {
             reference: token,
