@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import InputField from "@/app/components/project/InputField";
-import SelectField from "@/app/components/project/SelectField";
 import TextArea from "@/app/components/project/TextArea";
-import FileUpload from "@/app/components/project/FileUpload";
 import Button from "@/app/components/common/buttons";
 import Layout from "@/app/components/common/layout";
 import Container from "@/app/components/common/container";

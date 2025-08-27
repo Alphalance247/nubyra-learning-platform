@@ -220,7 +220,7 @@ export default function Dashboard() {
                       />
                       <PrimaryButton
                         text={userData?.project_subscription ? "Contact Us Now" : "Subscribe Now"}
-                        href={userData?.project_subscription ? "/contact" : "/dashboard/subscribe"}
+                        href={userData?.project_subscription ? "/contact" : "/dashboard/subscription"}
                         variant="brown"
                       />
                     </div>
