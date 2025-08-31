@@ -45,6 +45,7 @@ const LoginPage = () => {
 
             setFormData({ email: "", password: "" });
             // Clear the stored redirect path after successful login
+            localStorage.setItem("user_email_checkout", formData?.email);
 
             router.push(redirectTo);
           } else {

@@ -8,6 +8,7 @@ import Spinner from "../common/spinner/spinner";
 import { useEffect } from "react";
 import Link from "next/link";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
+import { useCheckout } from "@/app/utils/checkoutUtility";
 
 const OurCourses = () => {
   const { data, fetchAllCourses, error, loading } = getAllCourses();
@@ -15,6 +16,8 @@ const OurCourses = () => {
   useEffect(() => {
     fetchAllCourses();
   }, [fetchAllCourses]);
+
+  const { handleCheckOut } = useCheckout();
 
   return (
     <section className="bg-[#FEFEFD] relative">
@@ -58,9 +61,10 @@ const OurCourses = () => {
                 image={course?.image}
                 title={course?.title}
                 price={course?.price}
-                time={course?.number_of_days}
-                duration={course?.duration}
+                time={course?.duration}
+                duration={course?.number_of_days}
                 link={`/learning/${course?.cid}`}
+                onClickEnroll={() => handleCheckOut(course)}
               />
             ))}
           </div>

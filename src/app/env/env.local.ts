@@ -11,4 +11,5 @@ export const environment = {
   courses: "/courses/",
   resendVerificationLink: "/resend-confirmation-link/",
   paymentVerification: "/subscription/paystack/verify/",
+  webinarVerication: "/course/payment/verify/",
 };

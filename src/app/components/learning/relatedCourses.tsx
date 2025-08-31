@@ -2,6 +2,7 @@
 import CourseCard from "../common/coursesCard";
 import { useEffect } from "react";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
+import { useCheckout } from "@/app/utils/checkoutUtility";
 
 const RelatedCourses = () => {
   const { data, fetchAllCourses } = getAllCourses();
@@ -9,6 +10,8 @@ const RelatedCourses = () => {
   useEffect(() => {
     fetchAllCourses();
   }, [fetchAllCourses]);
+
+  const { handleCheckOut } = useCheckout();
 
   return (
     <div className="pt-15 border-t-[1.5px] border-[#B6979133]">
@@ -19,13 +22,14 @@ const RelatedCourses = () => {
       <div className="grid md:grid-cols-3 gap-8">
         {data?.Webinar?.courses?.slice(0, 3).map((course, index) => (
           <CourseCard
-            link={`/learning/${course?.cid}`}
             key={index}
             image={course?.image}
             title={course?.title}
             price={course?.price}
-            time={course?.number_of_days}
-            duration={course?.duration}
+            time={course?.duration}
+            duration={course?.number_of_days}
+            link={`/learning/${course?.cid}`}
+            onClickEnroll={() => handleCheckOut(course)}
           />
         ))}
       </div>

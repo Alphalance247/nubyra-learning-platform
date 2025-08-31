@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Button from "../common/buttons";
-import { GoChevronRight } from "react-icons/go";
 
 interface authorResponseProps {
   response: {
@@ -45,18 +43,6 @@ const AboutAuthor = ({ response }: authorResponseProps) => {
             {response?.author[0]?.author_meta?.author_desc}
           </p>
         </div>
-      </div>
-
-      <div className="mt-10">
-        <Button
-          className="w-[298px] flex gap-x-3 justify-center items-center mx-auto"
-          variant="primary"
-        >
-          Next Post
-          <span>
-            <GoChevronRight />
-          </span>
-        </Button>
       </div>
     </section>
   );

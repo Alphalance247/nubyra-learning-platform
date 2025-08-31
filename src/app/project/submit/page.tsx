@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
 
 import InputField from "@/app/components/project/InputField";
 import SelectField from "@/app/components/project/SelectField";
@@ -16,36 +19,103 @@ import SectionHeader from "@/app/components/common/sectionHeader";
 import SuccessOverlay from "@/app/components/checkout/SuccessOverlay";
 import PhoneInput from "@/app/components/project/phoneNumber";
 import CountryStateSelect from "@/app/components/project/countryState";
+import axiosInstance from "@/app/utils/axios";
+import ProtectedRoute from "@/app/components/common/protectedRoute";
 
 const ContactForm: React.FC = () => {
   const [location, setLocation] = useState({ country: "", state: "" });
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    company: "",
-    projectType: "",
-    projectNature: "",
-    address: "",
-    // country: location.country,
-    // state: location.state,
-    projectTitle: "",
-    academicField: "",
-    projectDescription: "",
-    file: null as File | null,
-  });
+  first_name: "",
+  middle_name: "",
+  last_name: "",
+  email: "",
+  company_university: "",
+  project_type: "",
+  address: "",
+  project_title: "",
+  professional_academic_field: "",
+  comment: "",
+  project_file: null as File | null,
+});
   const [showOverlay, setShowOverlay] = useState(false);
   const [phone, setPhone] = useState("");
   const router = useRouter();
-
-  // const handleChange = (e: React.ChangeEvent<any>) => {
-  //   const { name, value, files } = e.target;
-  //   if (files) {
-  //     setFormData({ ...formData, [name]: files[0] });
-  //   } else {
-  //     setFormData({ ...formData, [name]: value });
-  //   }
-  // };
+  const termsAndConditions = [
+  {
+    id: 1,
+    title: "Project Integrity and Original Work",
+    clauses: [
+      "The Company guarantees that all deliverables will be the original work of its internal team and not outsourced to third parties unless previously and explicitly approved in writing by the Client.",
+      "Projects submitted to the Client will be developed with professional integrity and a commitment to quality.",
+      "If any third-party resources are used (e.g., stock images, open-source libraries), they will be properly licensed and disclosed."
+    ]
+  },
+  {
+    id: 2,
+    title: "Project Privacy and Confidentiality",
+    clauses: [
+      "All project briefs, communications, assets, and related information shared by the Client are treated as strictly confidential.",
+      "The Company agrees not to disclose, share, or use any client information outside the scope of the project without written consent.",
+      "Similarly, the Client agrees not to share confidential materials, strategies, or proprietary methods used by the Company without prior authorization."
+    ]
+  },
+  {
+    id: 3,
+    title: "Ownership of Deliverables",
+    clauses: [
+      "Upon full payment, all final deliverables submitted to the Client become the sole property of the Client.",
+      "Until full payment is received, all submitted work remains the intellectual property of the Company.",
+      "The Company reserves the right to retain copies of work for references, portfolio and marketing purposes unless a non-disclosure agreement (NDA) prohibits it."
+    ]
+  },
+  {
+    id: 4,
+    title: "Prohibition of Third-Party Submissions by Clients",
+    clauses: [
+      "The Client must submit original project briefs and materials.",
+      "Submissions made on behalf of third parties without disclosure or authorization are prohibited.",
+      "The Company reserves the right to decline or cancel projects that are misrepresented or submitted under false pretenses."
+    ]
+  },
+  {
+    id: 5,
+    title: "Abandoned Project Policy",
+    clauses: [
+      "A project is considered abandoned if the Client becomes unresponsive for 20 consecutive business days after a milestone or feedback request.",
+      "In such cases: The project may be placed on hold or terminated at the Company’s discretion. Any prior payments will be retained as compensation for work completed. Reactivation may incur additional fees or require a new agreement."
+    ]
+  },
+  {
+    id: 6,
+    title: "Submission Review and Rejection",
+    clauses: [
+      "Clients are encouraged to review all submissions promptly and provide clear feedback.",
+      "If the Client fails to approve or request changes within 7 days of delivery, the submission will be considered accepted.",
+      "The Company reserves the right to reject revision requests that fall outside the original project scope or are based on speculative or previously unapproved changes."
+    ]
+  },
+  {
+    id: 7,
+    title: "Limitation of Liability",
+    clauses: [
+      "The Company is not responsible for any indirect, incidental, or consequential damages arising from the use of deliverables.",
+      "Responsibility for proper use, licensing, and distribution of final materials lies solely with the Client after delivery."
+    ]
+  },
+  {
+    id: 8,
+    title: "Amendments and Updates",
+    clauses: [
+      "These Terms may be updated from time to time.",
+      "Clients will be notified of any material changes, and continued engagement implies acceptance of the revised Terms."
+    ]
+  }
+];
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const today = new Date();
+  const fullDate = today.getUTCFullYear() + "-" +
+                 String(today.getUTCMonth() + 1).padStart(2, "0") + "-" +
+                 String(today.getUTCDate()).padStart(2, "0");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -66,213 +136,276 @@ const ContactForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const submissionData = {
-      ...formData,
-      phone,
-      country: location.country,
-      state: location.state,
-    };
 
-    console.log(submissionData);
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!acceptedTerms) {
+    toast.error("You must accept the terms and conditions before submitting.");
+    return;
+  }
+
+  const submissionData = new FormData();
+  submissionData.append("first_name", formData.first_name);
+  submissionData.append("middle_name", formData.middle_name);
+  submissionData.append("last_name", formData.last_name);
+  submissionData.append("email", formData.email);
+  submissionData.append("company_university", formData.company_university);
+  submissionData.append("phone_number", phone);
+  submissionData.append("zip_number", ""); // optional
+  submissionData.append("professional_academic_field", formData.professional_academic_field);
+  submissionData.append("address", formData.address);
+  submissionData.append("country", location.country);
+  submissionData.append("project_type", formData.project_type);
+  submissionData.append("project_title", formData.project_title);
+  submissionData.append("comment", formData.comment || "");
+  submissionData.append("date_submitted", fullDate);
+
+  if (formData.project_file) {
+    submissionData.append("project_file", formData.project_file);
+  }
+
+  try {
+    const response = await axiosInstance.post("/project/submit/", submissionData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    toast.success(response.data?.message || "Project submitted successfully!");
+    setShowOverlay(true);
+  } catch (err: unknown) {
+    const axiosErr = err as AxiosError<{ detail?: string }>;
+    if (axiosErr.response?.data?.detail) {
+      toast.error(axiosErr.response.data.detail);
+    } else {
+      toast.error("Something went wrong while submitting your project.");
+    }
+  }
+};
+
 
   return (
-    <Layout>
-      <section className="bg-[#FEFEFD] w-full overflow-x-hidden">
-        <Container>
-          <div className="flex flex-col gap-8">
-            <NavigateArrow
-              className="w-[74px] h-[32px] flex gap-2"
-              icon={<ArrowLeft size={16} />}
-              label={<span className="text-sm font-medium">Back</span>}
-            />
+    <ProtectedRoute>
+      <Layout>
+        <section className="bg-[#FEFEFD] w-full overflow-x-hidden">
+          <Container>
+            <div className="flex flex-col gap-8">
+              <NavigateArrow
+                className="w-[74px] h-[32px] flex gap-2"
+                icon={<ArrowLeft size={16} />}
+                label={<span className="text-sm font-medium">Back</span>}
+              />
 
-            <Breadcrumb previousStep="Home" currentStep="Project submission" />
-          </div>
-          <div className="w-full max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-8">
-            <div className="w-full max-w-3xl mx-auto gap-8">
-              <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
-                <SectionHeader
-                  title="Submit Project"
-                  subtitle="Please fill out the form below to submit your project"
-                  className="mb-4"
-                />
-                <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
-                  <form
-                    onSubmit={handleSubmit}
-                    className="w-full flex flex-col gap-4"
-                  >
-                    <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px] h-[82px]">
-                      <InputField
-                        label="First Name"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter first name"
-                        className="w-full"
-                      />
-                      <InputField
-                        label="Last Name"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter last name"
-                        className="w-full"
-                      />
-                    </div>
-
-                    <div className="w-full max-w-[648px] h-[82px] flex gap-3">
-                      <InputField
-                        label="Email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter email"
-                        className="w-full"
-                      />
-                      <PhoneInput
-                        value={phone}
-                        onChange={setPhone}
-                        className="w-full"
-                      />
-                    </div>
-
-                    <div className="w-[648px] h-[82px] flex gap-2">
-                      <InputField
-                        label="Company/University"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        required={true}
-                        placeholder="Enter name"
-                        className="w-[648px]"
-                      />
-                    </div>
-                    <div className="w-[648px] h-[82px] flex gap-3">
-                      <SelectField
-                        label="Project Type"
-                        name="projectType"
-                        value={formData.projectType}
-                        onChange={handleChange}
-                        required={true}
-                        options={[
-                          { label: "Select", value: "" },
-                          { label: "Power Plant", value: "power" },
-                          { label: "Manufacturing", value: "Manufacturing" },
-                          { label: "Industrial Design", value: "industrial" },
-                        ]}
-                      />
-                      <SelectField
-                        label="Project Nature"
-                        name="projectNature"
-                        value={formData.projectNature}
-                        onChange={handleChange}
-                        required={true}
-                        options={[
-                          { label: "Select", value: "" },
-                          { label: "Full Excution", value: "full" },
-                          { label: "Project Assistance", value: "assistance" },
-                        ]}
-                      />
-                    </div>
-
-                    <div className="w-[648px] h-[82px] flex gap-2">
-                      <InputField
-                        label="Address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required={true}
-                        placeholder="Enter address"
-                        className="w-[648px]"
-                      />
-                    </div>
-
-                    <CountryStateSelect
-                      value={location}
-                      onChange={setLocation}
-                    />
-
-                    <div className="w-[648px] h-[82px] flex gap-2">
-                      <InputField
-                        label="Engineering Field"
-                        name="academicField"
-                        value={formData.academicField}
-                        onChange={handleChange}
-                        required={true}
-                        placeholder="Enter engineering field"
-                        className="w-[648px]"
-                      />
-                    </div>
-
-                    <div className="w-[648px] h-[82px] flex gap-2">
-                      <InputField
-                        label="Project Title"
-                        name="projectTitle"
-                        value={formData.projectTitle}
-                        onChange={handleChange}
-                        required={true}
-                        placeholder="Enter project title"
-                        className="w-[648px]"
-                      />
-                    </div>
-
-                    <FileUpload
-                      label="Project Document"
-                      name="file"
-                      className="w-[648px]"
-                      required={true}
-                      onChange={(file) => setFormData({ ...formData, file })}
-                    />
-
-                    <div className="w-full">
-                      <TextArea
-                        label="Project Description"
-                        name="projectDescription"
-                        value={formData.projectDescription}
-                        onChange={handleChange}
-                        placeholder="Describe your project"
-                        className="w-[646px] h-[148px]"
-                      />
-                    </div>
-
-                    {/* <Button onClick={() => setShowOverlay(true)}
-                variant="primary"
-                className='w-full mt-4 h-[56px] flex items-center justify-center gap-1.5 rounded-[16px] border border-[#A78769] pt-4 pr-8 pb-4 pl-8 bg-[#95704C] transition-opacity duration-300 ease-out'>
-                    Submit Project
-                </Button> */}
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      className="w-full mt-4"
+              <Breadcrumb previousStep="Home" currentStep="Project submission" />
+            </div>
+            <div className="w-full max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-8">
+              <div className="w-full max-w-3xl mx-auto gap-8">
+                <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
+                  <SectionHeader
+                    title="Submit Project"
+                    subtitle="Please fill out the form below to submit your project"
+                    className="mb-4"
+                  />
+                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
+                    <form
+                      onSubmit={handleSubmit}
+                      className="w-full flex flex-col gap-4"
                     >
-                      Submit Project
-                    </Button>
-                  </form>
-                  {showOverlay && (
-                    <SuccessOverlay
-                      onClose={() => setShowOverlay(false)}
-                      heading="Project Submitted Successfully!"
-                      description="Thank you for reaching out! Our team will review your project details and contact you within 24 hours."
-                      primaryButtonText="Go To HomePage"
-                      secondaryButtonText="Submit another project"
-                      onPrimaryClick={() => router.push("/")}
-                      onSecondaryClick={() => setShowOverlay(false)}
-                    />
-                  )}
+                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px] h-[82px]">
+                        <InputField
+                          label="First Name"
+                          name="first_name"
+                          value={formData.first_name}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter first name"
+                          className="w-full"
+                        />
+                        <InputField
+                          label="Last Name"
+                          name="last_name"
+                          value={formData.last_name}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter last name"
+                          className="w-full"
+                        />
+                      </div>
+
+                      <div className="w-full max-w-[648px] h-[82px] flex gap-3">
+                        <InputField
+                          label="Email"
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter email"
+                          className="w-full"
+                        />
+                        <PhoneInput
+                          value={phone}
+                          onChange={setPhone}
+                          className="w-full"
+                        />
+                      </div>
+
+                      <div className="w-[648px] h-[82px] flex gap-2">
+                        <InputField
+                          label="Company/University"
+                          name="company_university"
+                          value={formData.company_university}
+                          onChange={handleChange}
+                          required={true}
+                          placeholder="Enter name"
+                          className="w-[648px]"
+                        />
+                      </div>
+                      <div className="w-[648px] h-[82px] flex gap-3">
+                        {/* <SelectField
+                          label="Project Type"
+                          name="projectType"
+                          value={formData.projectType}
+                          onChange={handleChange}
+                          required={true}
+                          options={[
+                            { label: "Select", value: "" },
+                            { label: "Power Plant", value: "power" },
+                            { label: "Manufacturing", value: "Manufacturing" },
+                            { label: "Industrial Design", value: "industrial" },
+                          ]}
+                        /> */}
+                        <SelectField
+                          label="Project Nature"
+                          name="project_type"
+                          value={formData.project_type}
+                          onChange={handleChange}
+                          required={true}
+                          options={[
+                            { label: "Select", value: "" },
+                            { label: "Full Excution", value: "full" },
+                            { label: "Project Assistance", value: "assistance" },
+                          ]}
+                        />
+                      </div>
+
+                      <div className="w-[648px] h-[82px] flex gap-2">
+                        <InputField
+                          label="Address"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleChange}
+                          required={true}
+                          placeholder="Enter address"
+                          className="w-[648px]"
+                        />
+                      </div>
+
+                      <CountryStateSelect
+                        value={location}
+                        onChange={setLocation}
+                      />
+
+                      <div className="w-[648px] h-[82px] flex gap-2">
+                        <InputField
+                          label="Engineering Field"
+                          name="professional_academic_field"
+                          value={formData.professional_academic_field}
+                          onChange={handleChange}
+                          required={true}
+                          placeholder="Enter engineering field"
+                          className="w-[648px]"
+                        />
+                      </div>
+
+                      <div className="w-[648px] h-[82px] flex gap-2">
+                        <InputField
+                          label="Project Title"
+                          name="project_title"
+                          value={formData.project_title}
+                          onChange={handleChange}
+                          required={true}
+                          placeholder="Enter project title"
+                          className="w-[648px]"
+                        />
+                      </div>
+
+                      <FileUpload
+                        label="Project Document"
+                        name="file"
+                        className="w-[648px]"
+                        required={true}
+                        onChange={(file) => setFormData({ ...formData, project_file: file })}
+                      />
+
+                      <div className="w-full">
+                        <TextArea
+                          label="Project Description"
+                          name="comment"
+                          value={formData.comment}
+                          onChange={handleChange}
+                          placeholder="Describe your project"
+                          className="w-[646px] h-[148px]"
+                        />
+                      </div>
+                      <div className="w-full max-w-[648px] text-[#413B35]">
+                          <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-[20px] capitalize">Term and Condition</h3>
+                          <div className="flex flex-row">
+                            <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">Effective Date:</h4><span>{fullDate}</span>
+                          </div>
+                          <div className="flex flex-row">
+                            <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">Company Name:</h4><span>Nubyira LTD</span>
+                          </div>
+                          <ul className="pl-5 font-[Inter] text-sm flex flex-col gap-2">
+                            {termsAndConditions.map((term, i) => (
+                              <li key={term.id} className="mb-3">
+                                <strong>{i + 1}. {term.title}</strong>
+                                <ul className="pl-5 mt-2 space-y-1">
+                                  {term.clauses.map((clause, j) => (
+                                    <li key={`${term.id}-${j}`}>
+                                      {i + 1}.{j + 1} {clause}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ))}
+
+                            <div className="mr-2 my-5 text-[#7B4C1F]">
+                              <input
+                                type="checkbox"
+                                checked={acceptedTerms}
+                                onChange={(e) => setAcceptedTerms(e.target.checked)}
+                              />
+                              <span className="pl-2">I agree to the terms and conditions.</span>
+                            </div>
+                          </ul>
+                      </div>
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        className="w-full mt-4"
+                      >
+                        Submit Project
+                      </Button>
+                    </form>
+                    {showOverlay && (
+                      <SuccessOverlay
+                        onClose={() => setShowOverlay(false)}
+                        heading="Project Submitted Successfully!"
+                        description="Thank you for reaching out! Our team will review your project details and contact you within 24 hours."
+                        primaryButtonText="Go To HomePage"
+                        secondaryButtonText="Submit another project"
+                        onPrimaryClick={() => router.push("/")}
+                        onSecondaryClick={() => setShowOverlay(false)}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Container>
-      </section>
-    </Layout>
+          </Container>
+        </section>
+      </Layout>
+  </ProtectedRoute>
   );
 };
 

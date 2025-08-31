@@ -1,14 +1,16 @@
+//
+
 "use client";
 import toast from "react-hot-toast";
-import SuccessOverlay from "../components/checkout/SuccessOverlay";
+import SuccessOverlay from "../../components/checkout/SuccessOverlay";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { environment } from "../env/env.local";
+import { environment } from "../../env/env.local";
 import { AxiosError } from "axios";
-import Layout from "../components/common/layout";
-import axiosInstance from "../utils/axios";
+import Layout from "../../components/common/layout";
+import axiosInstance from "@/app/utils/axios";
 
-const PaymentVerification = () => {
+const WebinarPaymentConfirmation = () => {
   const PaymentInfo = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -20,7 +22,7 @@ const PaymentVerification = () => {
       try {
         setLoading(true);
         const res = await axiosInstance.post(
-          `${environment?.baseUrl}${environment?.paymentVerification}`,
+          `${environment?.baseUrl}${environment?.webinarVerication}`,
           {
             reference: token,
           }
@@ -52,7 +54,7 @@ const PaymentVerification = () => {
       } else {
         // If no token, redirect to forgot password page
         toast.error("Payment Invalid redirecting...");
-        router.push("/premium-subscription");
+        router.push("/checkout");
       }
     }, [searchParams, router]);
 
@@ -89,4 +91,4 @@ const PaymentVerification = () => {
   );
 };
 
-export default PaymentVerification;
+export default WebinarPaymentConfirmation;
