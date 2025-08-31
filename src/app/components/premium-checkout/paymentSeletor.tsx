@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Button from "../common/buttons";
@@ -14,36 +15,36 @@ const logos = {
   paypal: "assets/general/paypal.svg",
 };
 
-const PaymentMethodSelector = () => {
+const PaymentMethodPremium = () => {
   const [selected, setSelected] = useState<PaymentMethod>("paystack");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [userEmail, setUserEmail] = useState("");
-  const [courseId, setCourseId] = useState("");
+  const handlePayPalIntegration = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.post(`/subscription/paypal/initiate/`);
 
-  // Extract token from URL parameters
-
-  useEffect(() => {
-    // Check if we're in the browser
-    if (typeof window !== "undefined") {
-      // Get email from localStorage
-      const storedEmail = localStorage.getItem("user_email_checkout");
-      const storedId = localStorage.getItem("courseId");
-      if (storedEmail && storedId) {
-        setUserEmail(storedEmail);
-        setCourseId(storedId);
+      if (res.status === 200) {
+        toast.success("Payment Initiated successfully Redirecting....");
       }
+      setLoading(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.detail || errorMessage;
+      }
+      setLoading(false);
+      toast.error(errorMessage);
     }
-  }, []);
+  };
 
   const handlePayStackIntegration = async () => {
     try {
       setLoading(true);
-      const res = await axiosInstance.post(`/course/payment/initiate/`, {
-        email: userEmail,
-        course_id: courseId,
-      });
+      const res = await axiosInstance.post(`/subscription/paystack/initiate/`);
 
       if (res.status === 200) {
         router.push(res?.data?.authorization_url);
@@ -55,7 +56,7 @@ const PaymentMethodSelector = () => {
       let errorMessage = "An error occurred please try again or contact Admin";
       if (err instanceof AxiosError) {
         // Check if err is an instance of AxiosError
-        errorMessage = err.response?.data?.error || errorMessage;
+        errorMessage = err.response?.data?.detail || errorMessage;
       }
       setLoading(false);
       toast.error(errorMessage);
@@ -63,7 +64,7 @@ const PaymentMethodSelector = () => {
   };
 
   return (
-    <div className="w-[580px] h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
+    <div className="w-[694px] mx-auto h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
       <div className="w-[322px] h-[36px] font-montserrat font-bold text-[20px] leading-[28px] text-[#120A02] capitalize align-middle">
         Choose Payment Method
       </div>
@@ -71,7 +72,7 @@ const PaymentMethodSelector = () => {
         Pay with
       </div>
 
-      <div className="w-[532px] h-[44px] gap-3 flex">
+      <div className="w-[full] h-[44px] gap-3 flex">
         {(["paystack"] as PaymentMethod[]).map((method) => (
           <button
             key={method}
@@ -97,12 +98,13 @@ const PaymentMethodSelector = () => {
           </button>
         ))}
       </div>
-      <div className="w-[532px] border-t my-6 border-[#D6C8BA]" />
-      <div className="w-[532px] h-[192px] flex flex-col gap-[48px]">
-        <p className="w-[532px] h-[88px] font-inter font-normal text-[14px] leading-[22px] text-[#413B35] align-middle">
+      <div className="w-[full] border-t my-6 border-[#D6C8BA]" />
+      <div className="w-[full] h-[192px] flex flex-col gap-[48px]">
+        <p className="w-[full] h-[88px] font-inter font-normal text-[14px] leading-[22px] text-[#413B35] align-middle">
           This is a one-time payment for your course enrollment. You will be
-          redirected to the payment service website. After payment, you’ll
-          access the course from your dashboard.
+          redirected to the payment service website to make your payment. Once
+          your payment is complete, you will be directed to your dashboard and
+          you will have access to the course on your dashboard .
         </p>
 
         {/* <button onClick={() => setShowOverlay(true)}
@@ -111,10 +113,12 @@ const PaymentMethodSelector = () => {
       </button> */}
         <Button
           onClick={
-            selected === "paystack" ? handlePayStackIntegration : () => {}
+            selected === "paystack"
+              ? handlePayStackIntegration
+              : handlePayPalIntegration
           }
           variant="primary"
-          className="w-[532px] h-[56px] flex items-center justify-center gap-[6px]"
+          className="w-[full] h-[56px] flex items-center justify-center gap-[6px]"
         >
           {loading
             ? "Processing....."
@@ -127,4 +131,4 @@ const PaymentMethodSelector = () => {
   );
 };
 
-export default PaymentMethodSelector;
+export default PaymentMethodPremium;

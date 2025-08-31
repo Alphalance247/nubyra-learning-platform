@@ -1,15 +1,15 @@
 "use client";
-import NavigateArrow from "../components/common/navigate";
-import Breadcrumb from "../components/checkout/Breadcrumb";
+import NavigateArrow from "../../components/common/navigate";
+import Breadcrumb from "../../components/checkout/Breadcrumb";
 // import CoursePreview from "../components/checkout/CoursePreview";
-import CourseInfoCard from "../components/checkout/CourseInfoCard";
-import PaymentMethodSelector from "../components/checkout/PaymentMethod";
-import Layout from "../components/common/layout";
-import Container from "../components/common/container";
+import Layout from "../../components/common/layout";
+import Container from "../../components/common/container";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import ProtectedRoute from "../components/common/protectedRoute";
+import ProtectedRoute from "../../components/common/protectedRoute";
 import { getSubsriptionPriceListStore } from "@/stores/courses/getSubcriptionPrice";
+import PremiumCourseInfo from "@/app/components/premium-checkout/premiumCourseInfo";
+import PaymentMethodPremium from "@/app/components/premium-checkout/paymentSeletor";
 
 // Define the course data interface
 interface CourseData {
@@ -65,25 +65,25 @@ export default function CheckoutPage() {
 
               {/* Breadcrumb trail */}
               <Breadcrumb
-                previousStep={courseData?.title}
-                currentStep="Enrollment Checkout"
+                previousStep="Dashboard"
+                currentStep="Yearly Subscription"
               />
 
               {/* Page heading */}
-              <h1 className="text-3xl md:text-[44px] text-[#120A02] font-bold px-2 py-4">
-                Checkout
+              <h1 className="text-3xl text-center text-[#5F5F5F] font-bold px-2 py-4">
+                Premium Subscription
               </h1>
 
               {/* Two-column layout */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                 {/* Left column: Preview + course info */}
                 <div className="space-y-4">
                   {/* <CoursePreview /> */}
-                  <CourseInfoCard course={courseData} />
+                  <PremiumCourseInfo />
                 </div>
 
                 {/* Right column: Payment options */}
-                <PaymentMethodSelector />
+                <PaymentMethodPremium />
               </div>
             </div>
           </Container>

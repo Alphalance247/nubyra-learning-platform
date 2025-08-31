@@ -3,15 +3,21 @@ import Button from "../common/buttons";
 import Container from "../common/container";
 import FaqComponent from "../common/faqComponent";
 import HeadingSubhead from "../common/headingSubhead";
-import { useState } from "react";
-import { projectsFaqs, learningFaqs } from "../common/data";
+import { useEffect, useState } from "react";
+import { getFaq } from "@/stores/faq/faq";
 
 const FAQ = () => {
-  const [activeBtn, setActiveBtn] = useState<string>("Projects");
+  const [activeBtn, setActiveBtn] = useState<string>("Blogs");
   const tabs: { id: number; name: string }[] = [
-    { id: 1, name: "Projects" },
+    { id: 1, name: "Blogs" },
     { id: 2, name: "Learning" },
   ];
+
+  const { fetchFaq, data } = getFaq();
+
+  useEffect(() => {
+    fetchFaq();
+  }, [fetchFaq]);
 
   return (
     <section className="bg-[#FBFAF9]">
@@ -41,8 +47,23 @@ const FAQ = () => {
           </div>
 
           <div className="mt-14 mb-14">
-            {activeBtn === "Projects" && <FaqComponent faqs={projectsFaqs} />}
-            {activeBtn === "Learning" && <FaqComponent faqs={learningFaqs} />}
+            {activeBtn === "Blogs" && (
+              <FaqComponent
+                results={
+                  data?.results?.filter((find) => find?.option === "blogs") ||
+                  []
+                }
+              />
+            )}
+            {activeBtn === "Learning" && (
+              <FaqComponent
+                results={
+                  data?.results?.filter(
+                    (find) => find?.option === "learning"
+                  ) || []
+                }
+              />
+            )}
           </div>
 
           <div className="flex justify-center items-center">

@@ -13,6 +13,7 @@ import PremiumCourseCard from "../common/premiumCourseCard";
 import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 import { useRouter } from "next/navigation";
 import Spinner from "../common/spinner/spinner";
+import { useCheckout } from "@/app/utils/checkoutUtility";
 
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
@@ -25,6 +26,7 @@ const ExploreCourses = () => {
   const { data: subStatus, fetchSubscriptionStatus } =
     getSubscriotionStatusStore();
   const router = useRouter();
+  const { handleCheckOut } = useCheckout();
 
   useEffect(() => {
     fetchCourseList();
@@ -32,16 +34,19 @@ const ExploreCourses = () => {
     fetchSubscriptionStatus();
   }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
 
-  const handleCheckOut = (course: {
-    title?: string;
-    price?: number;
-    duration?: string;
-    cid?: string;
-  }) => {
-    localStorage.setItem("courseTitle", course?.title || "");
-    localStorage.setItem("courseDuration", course?.duration || "");
-    router?.push("/checkout");
-  };
+  // const handleCheckOut = (course: {
+  //   title?: string;
+  //   price?: string;
+  //   duration?: string;
+  //   cid?: string;
+  //   id: string;
+  // }) => {
+  //   localStorage.setItem("courseTitle", course?.title || "");
+  //   localStorage.setItem("courseDuration", course?.duration || "");
+  //   localStorage.setItem("coursePrice", course?.price || "");
+  //   localStorage.setItem("courseId", course?.id || "");
+  //   router?.push("/learning/enroll");
+  // };
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const tabs: { id: number; name: string }[] = [
@@ -137,9 +142,10 @@ const ExploreCourses = () => {
                     image={course?.image}
                     title={course?.title}
                     price={course?.price}
-                    time={course?.number_of_days}
-                    duration={course?.duration}
+                    time={course?.duration}
+                    duration={course?.number_of_days}
                     link={`/learning/${course?.cid}`}
+                    onClickEnroll={() => handleCheckOut(course)}
                   />
                 ))}
               </div>
@@ -158,7 +164,7 @@ const ExploreCourses = () => {
                       if (subStatus?.sub_status) {
                         router.push(`/learning/${el?.cid}`);
                       } else {
-                        handleCheckOut(el);
+                        router?.push("/learning/premium-subscription");
                       }
                     }}
                     subcribeText={

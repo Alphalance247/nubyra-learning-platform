@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 interface FaqComponentProps {
-  faqs: {
+  results: {
+    id: string;
     question: string;
     answer: string;
+    option: string;
   }[];
 }
-const FaqComponent = ({ faqs }: FaqComponentProps) => {
+const FaqComponent = ({ results }: FaqComponentProps) => {
   const [isOpen, setIsOpen] = useState<number>(0);
 
   const handleToggle = (i: number) => {
@@ -21,7 +23,7 @@ const FaqComponent = ({ faqs }: FaqComponentProps) => {
 
   return (
     <div className="flex flex-col gap-4 w-[52%] mx-auto ">
-      {faqs.map((el, i) => {
+      {results.map((el, i) => {
         return (
           <div key={i} className="pb-3 border-b border-[#E9E7E7]">
             <div

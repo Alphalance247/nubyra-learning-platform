@@ -11,14 +11,16 @@ const CourseCard = ({
   price,
   time,
   duration,
+  onClickEnroll,
   link,
 }: {
   image: string;
   title: string;
-  price: number;
-  time: number;
+  price: string;
+  time: string;
   duration: number;
   link: string;
+  onClickEnroll: () => void;
 }) => {
   return (
     <div>
@@ -45,11 +47,11 @@ const CourseCard = ({
       </p>
 
       <div className="mt-8 flex gap-3 items-center">
-        <Link href={"/checkout"}>
+        <div onClick={onClickEnroll}>
           <Button variant="primary" className="w-full">
             Enroll Now
           </Button>
-        </Link>
+        </div>
 
         <Link href={link || "/learning"}>
           <Button variant="secondary" className="w-full">

@@ -32,9 +32,9 @@ interface webinarCourseData {
     title: string;
     number_of_days: number;
     image: string;
-    price: number;
+    price: string;
     cid: string;
-    duration: number;
+    duration: string;
   }[];
 }
 

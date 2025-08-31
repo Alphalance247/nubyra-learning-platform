@@ -11,6 +11,7 @@ import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { environment } from "@/app/env/env.local";
+import { useCheckout } from "@/app/utils/checkoutUtility";
 
 interface courseDetailsProps {
   meta_tag: string;
@@ -24,7 +25,7 @@ interface courseDetailsProps {
   course_tab: string;
   deliverables: string;
   duration: string;
-  id: number;
+  id: string;
   number_of_days: number;
   objectives: number;
   prerequisite: string;
@@ -78,12 +79,27 @@ const CourseDetails = ({ id }: { id: string }) => {
     },
   ];
 
-  const handleCheckOut = () => {
-    router?.push("/checkout");
+  const handlePremiumCheckOut = () => {
+    router?.push("/learning/premium-subscription");
 
-    localStorage.setItem("courseTitle", courseData?.title || "");
-    localStorage.setItem("coursePrice", courseData?.price?.toString() || "");
-    localStorage.setItem("courseDuration", courseData?.duration || "");
+    // localStorage.setItem("courseTitle", courseData?.title || "");
+    // localStorage.setItem("coursePrice", courseData?.price?.toString() || "");
+    // localStorage.setItem("courseDuration", courseData?.duration || "");
+  };
+
+  const { handleCheckOut } = useCheckout();
+
+  // Replace the old handleCheckOut function with:
+  const handleCourseCheckOut = () => {
+    handleCheckOut(
+      {
+        title: courseData?.title,
+        price: courseData?.price?.toString(),
+        duration: courseData?.duration,
+        id: courseData?.id || "",
+      },
+      "/learning/enroll"
+    );
   };
 
   const fetchBlogDetails = useCallback(async () => {
@@ -204,7 +220,10 @@ const CourseDetails = ({ id }: { id: string }) => {
                       className="w-[333px] h-[567px] rounded-2xl"
                     />
                   ) : (
-                    <div onClick={handleCheckOut} className=" cursor-pointer">
+                    <div
+                      onClick={handlePremiumCheckOut}
+                      className=" cursor-pointer"
+                    >
                       <Image
                         src="/assets/learning/youtube-image.webp"
                         width={333}
@@ -261,8 +280,8 @@ const CourseDetails = ({ id }: { id: string }) => {
                           className="w-full"
                           onClick={() =>
                             courseData?.course_tab === "Premium"
-                              ? router?.push("/checkout")
-                              : router?.push("/learning/enroll")
+                              ? router?.push("/learning/premium-subscription")
+                              : handleCourseCheckOut()
                           }
                         >
                           Enrol Now

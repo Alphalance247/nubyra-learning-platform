@@ -7,7 +7,9 @@ export function middleware(request: NextRequest) {
 
   // List of protected routes
   const isProtectedRoute =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/checkout");
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/learning/enroll");
 
   if (isProtectedRoute && !token) {
     // Create login URL with redirect parameter
@@ -21,5 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/dashboard/:path*", "/checkout"],
+  matcher: ["/dashboard", "/dashboard/:path*", "/checkout", "/learning/enroll"],
 };
