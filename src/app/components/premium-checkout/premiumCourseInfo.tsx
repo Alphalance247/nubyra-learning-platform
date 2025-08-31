@@ -7,7 +7,7 @@ const PremiumCourseInfo = () => {
   const data = [
     {
       type: "Subscription Type:",
-      value: "Yearly",
+      value: "Perpetual",
     },
     {
       type: "Token:",

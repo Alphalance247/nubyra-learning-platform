@@ -17,6 +17,7 @@ import ProtectedRoute from "../components/common/protectedRoute";
 import { environment } from "../env/env.local";
 import { BsArrowLeft } from "react-icons/bs";
 import axiosInstance from "@/app/utils/axios";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 
 interface RegisteredCourse {
   id: number;
@@ -51,6 +52,12 @@ export default function Dashboard() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: subStatus, fetchSubscriptionStatus } =
+    getSubscriotionStatusStore();
+
+  useEffect(() => {
+    fetchSubscriptionStatus();
+  }, [fetchSubscriptionStatus]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -214,19 +221,29 @@ export default function Dashboard() {
                     />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
                       <EmptyPlaceholder
-                        title="Get full access to Nubyira project reports and reference files"
+                        title="Get Full Access to Nubyira Web Platform
+Download Simulation Models, Template Files, Premium Course Videos, Industrial Technical Standards and Guidelines, Detailed Projects Documentations etc."
                         description="Subscription Status"
-                        badgeText={userData?.project_subscription ? "Active" : "Inactive"}
+                        badgeText={
+                          subStatus?.sub_status ? "Active" : "Inactive"
+                        }
                       />
                       <PrimaryButton
-                        text={userData?.project_subscription ? "Contact Us Now" : "Subscribe Now"}
-                        href={userData?.project_subscription ? "/contact" : "/dashboard/subscription"}
+                        text={
+                          subStatus?.sub_status
+                            ? "View All Courses"
+                            : "Subscribe Now"
+                        }
+                        href={
+                          subStatus?.sub_status
+                            ? "/learning"
+                            : "/learning/premium-subscription"
+                        }
                         variant="brown"
                       />
                     </div>
                   </>
                 )}
-
 
                 {activeTab === "saved" && (
                   <>

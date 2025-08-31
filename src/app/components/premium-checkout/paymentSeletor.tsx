@@ -101,7 +101,7 @@ const PaymentMethodPremium = () => {
       <div className="w-[full] border-t my-6 border-[#D6C8BA]" />
       <div className="w-[full] h-[192px] flex flex-col gap-[48px]">
         <p className="w-[full] h-[88px] font-inter font-normal text-[14px] leading-[22px] text-[#413B35] align-middle">
-          This is a one-time payment for your course enrollment. You will be
+          This is a one-time payment for premium subscription. You will be
           redirected to the payment service website to make your payment. Once
           your payment is complete, you will be directed to your dashboard and
           you will have access to the course on your dashboard .

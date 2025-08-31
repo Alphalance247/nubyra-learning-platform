@@ -11,6 +11,7 @@ const FAQ = () => {
   const tabs: { id: number; name: string }[] = [
     { id: 1, name: "Blogs" },
     { id: 2, name: "Learning" },
+    { id: 2, name: "Projects" },
   ];
 
   const { fetchFaq, data } = getFaq();
@@ -61,6 +62,14 @@ const FAQ = () => {
                   data?.results?.filter(
                     (find) => find?.option === "learning"
                   ) || []
+                }
+              />
+            )}
+            {activeBtn === "Projects" && (
+              <FaqComponent
+                results={
+                  data?.results?.filter((find) => find?.option === "project") ||
+                  []
                 }
               />
             )}

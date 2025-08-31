@@ -284,7 +284,9 @@ const CourseDetails = ({ id }: { id: string }) => {
                               : handleCourseCheckOut()
                           }
                         >
-                          Enrol Now
+                          {courseData?.course_tab === "Premium"
+                            ? "Subscribe Now"
+                            : "Enrol Now"}
                         </Button>
                       )}
                     </>

@@ -212,7 +212,7 @@ const EnrollmentForm: React.FC = () => {
               <div className="w-full max-w-3xl mx-auto gap-8">
                 <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
                   <SectionHeader
-                    title={courseTitle || "Not Available"}
+                    title={courseTitle + " Registration" || "Not Available"}
                     subtitle="Please ensure that all fields in the form are completed to register for this webinar."
                     className=""
                   />

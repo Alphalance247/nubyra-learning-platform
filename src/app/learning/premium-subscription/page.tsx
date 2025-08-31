@@ -66,7 +66,7 @@ export default function CheckoutPage() {
               {/* Breadcrumb trail */}
               <Breadcrumb
                 previousStep="Dashboard"
-                currentStep="Yearly Subscription"
+                currentStep="Premium Subscription"
               />
 
               {/* Page heading */}
