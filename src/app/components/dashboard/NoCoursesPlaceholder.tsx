@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
 interface EmptyCourseStateProps {
   title: string;
@@ -15,7 +15,7 @@ const EmptyCourseState: React.FC<EmptyCourseStateProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center h-fit py-[60px] px-[24px] space-y-4 gap-[22px]">
-      <p className="max-w-[416px] max-h-[56px] text-center text-[20px] leading-[28px] font-bold font-[Montserrat] text-[#120A02] capitalize tracking-normal">
+      <p className="max-w-[80%] max-h-[86px] text-center text-[20px] leading-[28px] font-bold font-[Montserrat] text-[#120A02] capitalize tracking-normal">
         {title}
       </p>
 

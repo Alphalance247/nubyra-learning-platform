@@ -13,7 +13,7 @@ const PaymentVerification = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [connfirmPayment, setConfirmPayment] = useState(false);
+    const [connfirmPayment, setConfirmPayment] = useState(true);
     // Extract token from URL parameters
 
     const handlePaymentConfirmation = async (token: string) => {
@@ -27,7 +27,7 @@ const PaymentVerification = () => {
         );
 
         if (res.status === 200) {
-          toast.success("Password reset successfully");
+          toast.success("Subscription successful");
           setConfirmPayment(true);
         }
 
@@ -51,8 +51,8 @@ const PaymentVerification = () => {
         handlePaymentConfirmation(urlToken);
       } else {
         // If no token, redirect to forgot password page
-        toast.error("Payment Invalid redirecting...");
-        router.push("/premium-subscription");
+        // toast.error("Payment Invalid redirecting...");
+        // router.push("/premium-subscription");
       }
     }, [searchParams, router]);
 
@@ -67,8 +67,8 @@ const PaymentVerification = () => {
           {connfirmPayment && (
             <SuccessOverlay
               onClose={() => {}}
-              heading="Enrollment Successful!"
-              description="You are now enrolled for all premium course"
+              heading="Subscription Successful!"
+              description="You have gained full access to the Nubyira Web Platform"
               // // courseTitle={courseData.title}
               // courseTitle="Nil"
               primaryButtonText="Go To Dashboard"

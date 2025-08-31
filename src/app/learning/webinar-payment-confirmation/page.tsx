@@ -70,7 +70,7 @@ const WebinarPaymentConfirmation = () => {
             <SuccessOverlay
               onClose={() => {}}
               heading="Enrollment Successful!"
-              description="You are now enrolled for all premium course"
+              description="You have successfully enrolled in the course"
               // // courseTitle={courseData.title}
               // courseTitle="Nil"
               primaryButtonText="Go To Dashboard"
