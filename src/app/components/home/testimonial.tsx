@@ -55,11 +55,11 @@ const Testimonial = () => {
           </Slider>
         </div>
 
-        <div className="flex justify-center mt-12 md:mt-16">
-          <Button variant="secondary" className="w-full max-w-xs sm:w-72">
+        {/* <div className="flex justify-center mt-30">
+          <Button variant="secondary" className="w-[298px] ">
             View all Reviews
           </Button>
-        </div>
+        </div> */}
       </Container>
     </section>
   );

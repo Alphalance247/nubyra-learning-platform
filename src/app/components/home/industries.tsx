@@ -108,7 +108,7 @@ const Industries = () => {
         <div className="mt-12 flex flex-col justify-center items-center">
           <Link href={"/project/submit"}>
             <Button variant="primary" className="w-full sm:w-[298px]">
-              Contact Us
+              Submit Project Request
             </Button>
           </Link>
         </div>

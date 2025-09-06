@@ -231,7 +231,7 @@ Download Simulation Models, Template Files, Premium Course Videos, Industrial Te
                       <PrimaryButton
                         text={
                           subStatus?.sub_status
-                            ? "View All Courses"
+                            ? "Browse Courses"
                             : "Subscribe Now"
                         }
                         href={

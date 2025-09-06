@@ -10,7 +10,7 @@ const Project = () => {
         span="projects"
         description="A comprehensive list of completed process engineering projects"
         bgUrl="bg-[url(/assets/projects/hero.png)]"
-        btnText="Contact us"
+        btnText="Submit Project Request"
         btnLink="/project/submit"
       />
       <Explore />

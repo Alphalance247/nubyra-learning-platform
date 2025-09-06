@@ -13,7 +13,7 @@ const AboutUs = () => {
         span="Us"
         description="Learn more about the Nubyira team, driven by passion and grounded in real-world industry experience"
         bgUrl="bg-[url(/assets/about/hero.png)]"
-        btnText="Contact us"
+        btnText=" Submit Project Request"
         btnLink="/project/submit"
       />
       <About />
