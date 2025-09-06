@@ -40,11 +40,11 @@ const AboutUs = () => {
                 </Link>
               )}
 
-              <Link href={"/about-us"}>
+              {/* <Link href={"/about-us"}>
                 <Button className="w-full sm:w-fit" variant="secondary">
                   Know More about us
                 </Button>
-              </Link> */}
+              </Link>  */}
             </div>
           </div>
           <div className="flex justify-center md:justify-end">
