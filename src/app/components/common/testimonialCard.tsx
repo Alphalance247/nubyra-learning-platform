@@ -4,7 +4,7 @@ import { ImQuotesLeft } from "react-icons/im";
 
 const TestimonialCard = () => {
   return (
-    <div className="p-4 sm:p-6 rounded-2xl border border-[#D6C8BA] bg-[#F3F0EC] flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center h-full">
+    <div className="p-4 sm:p-6 rounded-2xl border border-[#D6C8BA] bg-[#F3F0EC] flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center h-full lg:mr-4">
       <div className="w-full sm:w-40 md:w-48 flex-shrink-0">
         <Image
           src="/assets/home/testimonial1.png"
