@@ -4,134 +4,110 @@ import Image from "next/image";
 
 const Footer = () => {
   const quickLinks = [
-    {
-      link: "/home",
-      name: "Home",
-    },
-    {
-      link: "/about",
-      name: "About",
-    },
-
-    {
-      link: "/blog",
-      name: "Blog",
-    },
+    { link: "/home", name: "Home" },
+    { link: "/about", name: "About" },
+    { link: "/blog", name: "Blog" },
   ];
+
   return (
     <footer className="bg-[#FDFDFE]">
-      <div className="max-w-[1400px] mx-auto py-7 px-[26px]">
-        <div className="bg-[linear-gradient(270deg,#1D1003_0%,#573616_100%)] py-24 px-24  rounded-[2.5rem] ">
-          <div className="flex gap-x-[10rem] justify-between">
+      <div className="max-w-[1400px] mx-auto py-7 px-6 sm:px-10 lg:px-[26px]">
+        <div className="bg-[linear-gradient(270deg,#1D1003_0%,#573616_100%)] py-12 sm:py-16 lg:py-24 px-6 sm:px-12 xl:px-24 rounded-3xl">
+          {/* Grid layout for logo and link sections */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 xl:gap-16">
+            {/* Logo + Contact */}
             <div>
               <Image
                 src="/assets/home/logo-dark.svg"
                 alt="logo"
-                width={200}
-                height={171}
+                width={180}
+                height={160}
+                className=""
               />
               <Link href={"/project/submit"}>
-                <Button variant="secondary" className="w-fit mt-10">
+                <Button
+                  variant="secondary"
+                  className="mt-6 sm:mt-10 w-full sm:w-[275px] lg:w-fit"
+                >
                   Contact Us
                 </Button>
               </Link>
             </div>
 
-            <div className="flex-1 grid md:grid-cols-2 xl:grid-cols-3 gap-x-10">
-              <div>
-                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
-                  Support
-                </h4>
+            {/* Support */}
+            <div>
+              <h4 className="text-[#FDFDFE] font-bold text-xl sm:text-2xl lg:text-3xl mb-4">
+                Support
+              </h4>
+              <ul className="text-[#ECE8F1] text-base sm:text-lg flex flex-col gap-y-4">
+                <li>
+                  <a href="tel:+2349024514039">+234 9024514039</a>
+                </li>
+                <li>
+                  <a href="">Frequently Asked Questions</a>
+                </li>
+              </ul>
+            </div>
 
-                <ul className="text-[#ECE8F1] text-lg py-1.5 flex flex-col gap-y-6">
-                  <li>
-                    <a href="">+234 9024514039</a>
+            {/* Quick Menu */}
+            <div>
+              <h4 className="text-[#FDFDFE] font-bold text-xl sm:text-2xl lg:text-3xl mb-4">
+                Quick Menu
+              </h4>
+              <ul className="flex flex-col gap-y-3 sm:gap-y-4">
+                {quickLinks.map((link) => (
+                  <li key={link.link}>
+                    <a
+                      href={link.link}
+                      className="text-[#ECE8F1] text-base sm:text-lg"
+                    >
+                      {link.name}
+                    </a>
                   </li>
-                  <li>
-                    <a href="">Frequently Asked Questions</a>
-                  </li>
-                </ul>
-              </div>
+                ))}
+              </ul>
+            </div>
 
-              <div>
-                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
-                  Quick Menu
-                </h4>
-                <ul className="flex flex-col gap-y-4">
-                  {quickLinks.map((link) => (
-                    <li key={link.link}>
-                      <a
-                        href={link.link}
-                        className="text-[#ECE8F1] text-lg py-1.5"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-[#FDFDFE] font-bold text-2xl xl:text-3xl mb-5">
-                  Social Links
-                </h4>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <a href="">
+            {/* Social Links */}
+            <div>
+              <h4 className="text-[#FDFDFE] font-bold text-xl sm:text-2xl lg:text-3xl mb-4">
+                Social Links
+              </h4>
+              <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-4 gap-4 max-w-[250px]">
+                {[...Array(4)].map((_, i) => (
+                  <a href="" key={i}>
                     <Image
                       src="/assets/home/telegram.svg"
-                      alt="facebook"
-                      width={46}
-                      height={46}
+                      alt="social"
+                      width={40}
+                      height={40}
+                      className="w-10 h-10 sm:w-12 sm:h-12"
                     />
                   </a>
-                  <a href="">
-                    <Image
-                      src="/assets/home/telegram.svg"
-                      alt="facebook"
-                      width={46}
-                      height={46}
-                    />
-                  </a>
-                  <a href="">
-                    <Image
-                      src="/assets/home/telegram.svg"
-                      alt="facebook"
-                      width={46}
-                      height={46}
-                    />
-                  </a>
-                  <a href="">
-                    <Image
-                      src="/assets/home/telegram.svg"
-                      alt="facebook"
-                      width={46}
-                      height={46}
-                    />
-                  </a>
-                </div>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="mt-10 items-center flex justify-between border-t border-[#DDDAD7] pt-4">
-            <p className="text-[#ECE8F1] font-medium text-lg">
+          {/* Bottom Section */}
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-4 items-center border-t border-[#DDDAD7] pt-4">
+            {/* Left text */}
+            <p className="text-[#ECE8F1] font-medium text-sm sm:text-base lg:text-lg text-center lg:text-left">
               @ Nubyira LTD 2025. All Rights Reserved
             </p>
 
-            <div className="flex gap-x-10">
-              <ul className="flex gap-x-3 text-[#ECE8F1] font-medium text-lg">
-                <li className="border-r border-[#FFFFFF] pr-3">
-                  <a href="">Privacy Policy</a>
-                </li>
-                <li className="border-r border-[#FFFFFF] pr-3">
-                  <a href="">Terms of Service</a>
-                </li>
-                <li className="">
-                  <a href="">Cookie Policy</a>
-                </li>
-              </ul>
-            </div>
+            {/* Right links */}
+            <ul className="flex flex-wrap justify-center lg:justify-end gap-3 text-[#ECE8F1] font-medium text-sm sm:text-base lg:text-lg">
+              <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
+                <a href="">Privacy Policy</a>
+              </li>
+              <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
+                <a href="">Terms of Service</a>
+              </li>
+              <li>
+                <a href="">Cookie Policy</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

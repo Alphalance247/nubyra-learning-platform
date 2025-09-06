@@ -7,7 +7,7 @@ import Slider from "react-slick";
 const Hero = () => {
   const backgroundImages = [
     "/assets/home/hero-bg-0.png",
-    "/assets/home/hero-bg-1.png", // Add more background images as needed
+    "/assets/home/hero-bg-1.png",
     "/assets/home/hero-bg-2.png",
   ];
 
@@ -25,7 +25,7 @@ const Hero = () => {
 
   return (
     <section className="relative h-[700px]">
-      <div className="absolute inset-0 z-0 ">
+      <div className="absolute inset-0 z-0">
         <Slider {...settings}>
           {backgroundImages.map((bgImage, index) => (
             <div key={index} className="h-[700px]">
@@ -37,32 +37,29 @@ const Hero = () => {
           ))}
         </Slider>
       </div>
-
-      <div className="max-w-[1300px] mx-auto px-8 pt-[7rem] pb-[8rem] relative top-0 left-0 z-50">
-        <div className=" w-[90%] xl:w-[55%]">
-          <h1 className="text-white text-6xl font-bold mb-6 font-montserrat leading-18">
+      <div className="max-w-[1300px] mx-auto px-6 sm:px-8 pt-[6rem] pb-[8rem] relative z-50">
+        <div className="w-full sm:w-[90%] xl:w-[55%] text-start">
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold mb-6 font-montserrat leading-tight">
             Hire Top Process Design{" "}
-            <span className="text-[#442A11] bg-white">Talent </span>{" "}
+            <span className="text-[#442A11] bg-white">Talent</span>
           </h1>
-          <p className="text-lg font-medium mb-10 text-white w-[60%] font-inter">
-            Explore streamlined training and discover most effective engineering
-            solutions
-          </p>
 
-          <div className="flex items-center gap-x-4">
+          <p className="text-base sm:text-lg font-medium mb-8 text-white sm:w-[80%] lg:w-[60%] font-inter">
+            Explore streamlined training and discover the most effective
+            engineering solutions
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <Link href={"/sign-up"}>
-              <Button className=" w-fit" variant="primary">
+              <Button className="w-full sm:w-fit" variant="primary">
                 Enrol for free
               </Button>
             </Link>
-
             <Link href={"/project/submit"}>
-              <Button className="w-fit" variant="secondary">
+              <Button className="w-full sm:w-fit" variant="secondary">
                 Contact Us
               </Button>
             </Link>
           </div>
-
           <div className="mt-10 flex flex-col gap-y-3">
             {["Trusted Excellence", "Affordable Pricing", "Global Reach"].map(
               (item, index) => (
@@ -70,7 +67,9 @@ const Hero = () => {
                   <span className="rounded-full bg-[#F2EDE9] p-2">
                     <IoCheckmark className="text-[#7B4C1F] text-lg font-medium" />
                   </span>
-                  <p className="text-white text-lg font-medium">{item}</p>
+                  <p className="text-white text-base sm:text-lg font-medium">
+                    {item}
+                  </p>
                 </div>
               )
             )}
