@@ -11,11 +11,9 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#FDFDFE]">
-      <div className="max-w-[1400px] mx-auto py-7 px-6 sm:px-10 lg:px-[26px]">
+      <div className="max-w-[1400px] mx-auto py-7 px-4  lg:px-[26px]">
         <div className="bg-[linear-gradient(270deg,#1D1003_0%,#573616_100%)] py-12 sm:py-16 lg:py-24 px-6 sm:px-12 xl:px-24 rounded-3xl">
-          {/* Grid layout for logo and link sections */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 xl:gap-16">
-            {/* Logo + Contact */}
             <div>
               <Image
                 src="/assets/home/logo-dark.svg"
