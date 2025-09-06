@@ -12,34 +12,22 @@ import Button from "../common/buttons";
 const Testimonial = () => {
   const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    initialSlide: 0,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
-
     responsive: [
       {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
+        breakpoint: 1440,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -47,8 +35,9 @@ const Testimonial = () => {
       },
     ],
   };
+
   return (
-    <section className="bg-[#FEFEFD]">
+    <section className="bg-[#FEFEFD] py-12 md:py-20">
       <Container>
         <HeadingSubhead
           heading="What they are saying about us"
@@ -56,17 +45,18 @@ const Testimonial = () => {
           headingClassName="text-[#120A02]"
           subheadingClassName="text-[#413B35]"
         />
-        {/* grid grid-cols-2 gap-x-6  */}
-        <div className="mt-14 slider-container mb-[13rem]">
+
+        <div className="mt-10 md:mt-14">
           <Slider {...settings}>
+            <TestimonialCard />
             <TestimonialCard />
             <TestimonialCard />
             <TestimonialCard />
           </Slider>
         </div>
 
-        <div className="flex justify-center mt-30">
-          <Button variant="secondary" className="w-[298px] ">
+        <div className="flex justify-center mt-12 md:mt-16">
+          <Button variant="secondary" className="w-full max-w-xs sm:w-72">
             View all Reviews
           </Button>
         </div>

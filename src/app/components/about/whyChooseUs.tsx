@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
   return (
     <section className="bg-[linear-gradient(270deg,#1D1003_0%,#573616_100%)]">
       <Container>
-        <div className="mb-16">
+        <div className="lg:mb-16 mb-6">
           <HeadingSubhead
             heading="Industries"
             subheading="We offer a wide range of services to meet your needs. From web design to web development, we have you covered."
@@ -37,7 +37,7 @@ const WhyChooseUs = () => {
           />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-x-6">
+        <div className="grid md:grid-cols-3 gap-y-4 gap-x-6">
           {industries.slice(0, 3).map((industry) => (
             <div
               key={industry.id}
