@@ -19,7 +19,7 @@ const GetInTouch = () => {
             <div className="mt-10 flex justify-center">
               <Link href={"/project/submit"}>
                 <Button variant="secondary" className="w-[289px]">
-                  Contact Us
+                  Submit Project Request
                 </Button>
               </Link>
             </div>

@@ -3,6 +3,7 @@ import Button from "../common/buttons";
 import Link from "next/link";
 import { IoCheckmark } from "react-icons/io5";
 import Slider from "react-slick";
+import { useAuth } from "@/app/context/authContext";
 
 const Hero = () => {
   const backgroundImages = [
@@ -22,6 +23,8 @@ const Hero = () => {
     fade: true,
     arrows: false,
   };
+
+  const { isAuthenticated } = useAuth();
 
   return (
     <section className="relative h-[700px]">
@@ -50,15 +53,23 @@ const Hero = () => {
           </p>
 
           <div className="flex items-center gap-x-4">
-            <Link href={"/sign-up"}>
-              <Button className=" w-fit" variant="primary">
-                Enrol for free
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <Link href={"/dashboard"}>
+                <Button className=" w-fit" variant="primary">
+                  Go To Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href={"/sign-up"}>
+                <Button className=" w-fit" variant="primary">
+                  Enrol for free
+                </Button>
+              </Link>
+            )}
 
             <Link href={"/project/submit"}>
               <Button className="w-fit" variant="secondary">
-                Contact Us
+                Submit Project Request
               </Button>
             </Link>
           </div>

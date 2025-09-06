@@ -1,9 +1,12 @@
+"use client";
 import Container from "../common/container";
 import Link from "next/link";
 import Button from "../common/buttons";
 import Image from "next/image";
+import { useAuth } from "@/app/context/authContext";
 
 const AboutUs = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <section className="">
       <Container>
@@ -22,17 +25,25 @@ const AboutUs = () => {
             </p>
 
             <div className="flex items-center gap-x-4">
-              <Link href={"/sign-up"}>
-                <Button className=" w-fit" variant="primary">
-                  Enrol for free
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <Link href={"/dashboard"}>
+                  <Button className=" w-fit" variant="primary">
+                    Go To Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link href={"/sign-up"}>
+                  <Button className=" w-fit" variant="primary">
+                    Enrol for free
+                  </Button>
+                </Link>
+              )}
 
-              <Link href={"/about-us"}>
+              {/* <Link href={"/about-us"}>
                 <Button className=" w-fit" variant="secondary">
                   Know More about us
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
 

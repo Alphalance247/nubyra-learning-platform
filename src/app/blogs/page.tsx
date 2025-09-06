@@ -74,7 +74,7 @@ const Blogs = () => {
         span="Blog"
         description="Explore how Nubyira Blog transforms ideas into impactful learning!"
         bgUrl="bg-[url(/assets/blogs/blog-hero.png)]"
-        btnText="Contact us"
+        btnText="Submit Project Request"
         btnLink="/project/submit"
       />
 
@@ -118,20 +118,6 @@ const Blogs = () => {
                 ))}
               </div>
             )}
-
-            <div className="text-center py-15">
-              <p className="text-[#120A02] text-2xl font-bold mb-6">
-                Advertisement
-              </p>
-
-              <Image
-                src="/assets/blogs/advertisement.png"
-                alt="ad"
-                width={1200}
-                height={291}
-                className="w-full"
-              />
-            </div>
           </div>
         </div>
       </Container>

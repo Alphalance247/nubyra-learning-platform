@@ -53,7 +53,7 @@ const WhyChooseUs = () => {
         <div className="mt-15 flex flex-col justify-center items-center">
           <Link href={"/project/submit"}>
             <Button variant="primary" className="w-[298px]">
-              Contact Us
+              Submit Project Request
             </Button>
           </Link>
         </div>

@@ -11,7 +11,7 @@ const Learning = () => {
         span="Learning"
         description="Explore how Nubyira Learning turns innovative ideas into effective learning experiences, showcasing our dedication to excellence!"
         bgUrl="bg-[url(/assets/learning/hero.png)]"
-        btnText="Enrol now"
+        btnText="Enrol Now"
         btnLink="/project/submit"
       />
       <ExploreCourses />

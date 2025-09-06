@@ -32,7 +32,7 @@ const Footer = () => {
               />
               <Link href={"/project/submit"}>
                 <Button variant="secondary" className="w-fit mt-10">
-                  Contact Us
+                  Submit Project Request
                 </Button>
               </Link>
             </div>
