@@ -5,14 +5,8 @@ interface morePostProps {
   moreBlogs: {
     title: string;
     id: number;
-    blog_images: {
-      image: string;
-    }[];
-    post_meta: {
-      author_name: string[];
-      date: string;
-      img_alt: string;
-    };
+    blog_images: { image: string }[];
+    post_meta: { author_name: string[]; date: string; img_alt: string };
   }[];
 }
 
@@ -25,20 +19,20 @@ function slugify(title: string) {
 
 const RelatedBlog = ({ moreBlogs }: morePostProps) => {
   return (
-    <section className="bg-[#FBFAF9]">
+    <section className="bg-[#FBFAF9] py-10 sm:py-16">
       <Container>
-        <h3 className="text-[44px] font-bold text-[#120A02] capitalize font-montserrat mb-15">
+        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold text-[#120A02] capitalize font-montserrat mb-6 sm:mb-10">
           More from Nubyira Blog
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1  lg:grid-cols-2 gap-4 sm:gap-6">
           {moreBlogs?.map((el, i) => (
             <MoreBlogCards
+              key={i}
               heading={el?.title}
               author={el?.post_meta?.author_name[0]}
               datePosted={el?.post_meta?.date}
               image={el?.blog_images[0]?.image}
-              key={i}
               alt={el?.post_meta?.img_alt}
               url={`/blogs/${el?.id}-${slugify(el?.title)}`}
             />

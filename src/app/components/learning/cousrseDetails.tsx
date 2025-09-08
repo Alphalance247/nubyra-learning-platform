@@ -188,23 +188,23 @@ const CourseDetails = ({ id }: { id: string }) => {
     <Layout>
       <Container>
         {loading ? (
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex justify-center items-center py-20">
             <Spinner />
           </div>
         ) : error ? (
-          <div className="flex flex-col justify-center items-center">
-            <p className="text-red-500">Error fetching courses</p>
+          <div className="flex flex-col items-center py-20 gap-4">
+            <p className="text-red-500">{error}</p>
             <Button
               variant="secondary"
-              className="w-[289px]"
-              onClick={() => fetchBlogDetails()}
+              className="w-full sm:w-[300px]"
+              onClick={fetchBlogDetails}
             >
               Try Again
             </Button>
           </div>
         ) : (
           <>
-            <h3 className="text-[44px] font-bold text-[#120A02] mb-8 w-[60%]">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#120A02] mb-6">
               {courseData?.title}
             </h3>
 
@@ -304,51 +304,57 @@ const CourseDetails = ({ id }: { id: string }) => {
             </div>
 
             <div className="mt-14">
-              {courseData?.course_tab === "Webinar" ? (
-                <div className="flex gap-x-3 items-center justify-between border-b border-[#E4E7EC]">
-                  {tabs.map((el, i) => (
-                    <button
-                      className={`${
-                        activeBtn === el.name
-                          ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
-                          : "text-[#413B35] border-b-[1px] border-transparent "
-                      }   font-normal text-base p-4  cursor-pointer`}
-                      onClick={() => setActiveBtn(el.name)}
-                      key={i}
-                    >
-                      {el.name}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex gap-x-3 items-center border-b border-[#E4E7EC]">
-                  {premiumFreeTab.map((el, i) => (
-                    <button
-                      className={`${
-                        activeBtn === el.name
-                          ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
-                          : "text-[#413B35] border-b-[1px] border-transparent "
-                      }   font-normal text-base p-4  cursor-pointer`}
-                      onClick={() => setActiveBtn(el.name)}
-                      key={i}
-                    >
-                      {el.name}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <div className="">
+                {courseData?.course_tab === "Webinar" ? (
+                  <div className="overflow-x-auto scrollbar-hide">
+                    <div className="flex gap-x-3 justify-between items-center  min-w-max">
+                      {tabs.map((el, i) => (
+                        <button
+                          className={`${
+                            activeBtn === el.name
+                              ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
+                              : "text-[#413B35] border-b-[1px] border-transparent"
+                          } font-normal text-base p-4 flex-shrink-0 cursor-pointer`}
+                          onClick={() => setActiveBtn(el.name)}
+                          key={i}
+                        >
+                          {el.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto scrollbar-hide">
+                    <div className="flex gap-x-3 justify-between items-center min-w-max">
+                      {premiumFreeTab.map((el, i) => (
+                        <button
+                          className={`${
+                            activeBtn === el.name
+                              ? "text-[#7B4C1F] border-b-[2px] border-[#7B4C1F] bg-[#F2EDE9]"
+                              : "text-[#413B35] border-b-[1px] border-transparent"
+                          } font-normal text-base p-4 flex-shrink-0 cursor-pointer`}
+                          onClick={() => setActiveBtn(el.name)}
+                          key={i}
+                        >
+                          {el.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <>
                 {activeBtn === "Overview" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Overview
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <p
-                        className="text-[#413B35] text-base font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.overview}` || " N/A",
+                          __html: courseData?.overview || "N/A",
                         }}
                       />
                     </div>
@@ -356,35 +362,39 @@ const CourseDetails = ({ id }: { id: string }) => {
                 )}
 
                 {activeBtn === "Training Software" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Training Software
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
-                      {courseData?.training_software?.map((el, i) => {
-                        return (
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)] flex flex-col gap-2">
+                      {courseData?.training_software?.length ? (
+                        courseData.training_software.map((el, i) => (
                           <p
-                            className="text-[#413B35] text-base font-inter font-normal"
+                            className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                             key={i}
                           >
                             {el?.name}
                           </p>
-                        );
-                      }) || " N/A"}
+                        ))
+                      ) : (
+                        <p className="text-[#413B35] text-sm sm:text-base font-inter font-normal">
+                          N/A
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}
 
                 {activeBtn === "Objectives" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Objectives
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <p
-                        className="text-[#413B35] text-base font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.course_objective}` || " N/A",
+                          __html: courseData?.course_objective || "N/A",
                         }}
                       />
                     </div>
@@ -392,15 +402,15 @@ const CourseDetails = ({ id }: { id: string }) => {
                 )}
 
                 {activeBtn === "Timeline" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Timeline
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <p
-                        className="text-[#413B35] text-base font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.timeline}` || " N/A",
+                          __html: courseData?.timeline || "N/A",
                         }}
                       />
                     </div>
@@ -408,15 +418,15 @@ const CourseDetails = ({ id }: { id: string }) => {
                 )}
 
                 {activeBtn === "Deliverables" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Deliverables
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <p
-                        className="text-[#413B35] text-base font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.deliverables}` || " N/A",
+                          __html: courseData?.deliverables || "N/A",
                         }}
                       />
                     </div>
@@ -424,15 +434,15 @@ const CourseDetails = ({ id }: { id: string }) => {
                 )}
 
                 {activeBtn === "Target Audience" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Target Audience
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <div
-                        className="text-[#413B35]  font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.audience} ` || " N/A",
+                          __html: courseData?.audience || "N/A",
                         }}
                       />
                     </div>
@@ -440,15 +450,15 @@ const CourseDetails = ({ id }: { id: string }) => {
                 )}
 
                 {activeBtn === "Prerequisite" && (
-                  <div className="p-6 boroder border-[#D6C8BA] rounded-xl my-12 w-[60%] mx-auto bg-[white]">
-                    <p className="mb-5 text-xl font-semibold font-montserrat">
+                  <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
                       Prerequisite
                     </p>
-                    <div className="p-6 rounded-lg bg-[rgb(251,250,249)]">
+                    <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
                       <div
-                        className="text-[#413B35]  font-inter font-normal"
+                        className="text-[#413B35] text-sm sm:text-base font-inter font-normal"
                         dangerouslySetInnerHTML={{
-                          __html: `${courseData?.prerequisite}` || " N/A",
+                          __html: courseData?.prerequisite || "N/A",
                         }}
                       />
                     </div>

@@ -26,11 +26,11 @@ const AboutAuthor = ({ response }: authorResponseProps) => {
   console.log(response);
   return (
     <section className="mt-15">
-      <div className=" items-start flex gap-x-18">
+      <div className=" items-start flex flex-col lg:flex-row gap-18">
         <Image
           width={508}
           height={506}
-          className="w-[508px] h-[406px] rounded-xl"
+          className="lg:w-[508px] w-full lg:h-[406px] rounded-xl"
           src={`https://stage-backend.nubyira.com${response?.author[0]?.author_meta?.author_img}`}
           alt={response?.author[0]?.author_meta?.author_img_alt}
         />

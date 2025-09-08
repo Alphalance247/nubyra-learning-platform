@@ -23,7 +23,7 @@ const CourseCard = ({
   onClickEnroll: () => void;
 }) => {
   return (
-    <div className="w-full max-w-sm bg-white rounded-xl shadow-sm p-4 flex flex-col">
+    <div className="w-full  bg-white rounded-xl shadow-sm p-4 flex flex-col">
       <div className="w-full h-[180px] sm:h-[200px] xl:h-[220px] relative">
         <Image
           fill
