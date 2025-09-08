@@ -9,8 +9,8 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/checkout") ||
-    pathname.startsWith("/learning/enroll");
-  pathname.startsWith("/project/submit");
+    pathname.startsWith("/learning/enroll") ||
+    pathname.startsWith("/project/submit");
 
   if (isProtectedRoute && !token) {
     // Create login URL with redirect parameter

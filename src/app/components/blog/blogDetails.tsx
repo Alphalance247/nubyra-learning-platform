@@ -182,12 +182,14 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
             </div>
           ) : (
             <div>
-              <div className="flex items-start justify-between">
-                <h3 className="text-[44px] w-[60%] font-bold text-[#120A02] mb-8 capitalize font-montserrat">
+              <div className="flex flex-col lg:flex-row items-start justify-between gap-4 lg:gap-0">
+                {/* Blog Title */}
+                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold text-[#120A02] mb-4 lg:mb-8 w-full lg:w-3/5 capitalize font-montserrat">
                   {blogDetailsData?.response?.title}
                 </h3>
 
-                <div className="flex gap-x-4">
+                {/* Social Share Icons */}
+                <div className="flex flex-wrap gap-3 sm:gap-4">
                   {[
                     {
                       name: "Telegram",
@@ -211,43 +213,45 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
                     },
                   ].map((el, i) => (
                     <a
-                      href={`${el?.url}${encodeURIComponent(fullUrl)}`}
+                      key={i}
+                      href={`${el.url}${encodeURIComponent(fullUrl)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      key={i}
-                      title={el?.name}
+                      title={el.name}
                     >
                       <Image
-                        src={el?.img || ""}
-                        alt={el?.name}
-                        width={46}
-                        height={46}
+                        src={el.img}
+                        alt={el.name}
+                        width={40}
+                        height={40}
+                        className="w-8 h-8 sm:w-10 sm:h-10"
                       />
                     </a>
                   ))}
                 </div>
               </div>
 
-              <div className="text-lg italic text-[#413B35] font-inter font-medium">
+              <div className="text-lg mt-2 italic text-[#413B35] font-inter font-medium">
                 <p>by {blogDetailsData?.response?.post_meta?.author_name}</p>
                 <p>Posted on - {blogDetailsData?.response?.post_meta?.date}.</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 mt-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
                 <div>
                   <Image
                     src={`https://stage-backend.nubyira.com/${blogDetailsData?.response?.blog_images[0]?.image}`}
                     width={584}
                     height={565}
                     alt="imageHeading"
-                    className="w-[584px] h-[565px] rounded-lg"
+                    className="lg:w-[584px] w-full lg:h-[565px] rounded-lg"
                   />
                 </div>
 
-                <div className="p-6 bg-[#FFFFFF] rounded-xl shadow-md flex flex-col gap-y-4">
-                  <p className="text-xl font-semibold text-[#0F0918] pb-5 border-b-[1.5px] border-[#B6979133]">
+                <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md flex flex-col gap-4 sm:gap-y-4">
+                  <p className="text-lg sm:text-xl font-semibold text-[#0F0918] pb-3 sm:pb-5 border-b-[1.5px] border-[#B6979133]">
                     Recommended Posts
                   </p>
+
                   {blogDetailsData?.recommend
                     ?.slice(0, 5)
                     .map((post, index) => (
@@ -255,7 +259,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
                         key={index}
                         href={`/blogs/${post?.id}-${slugify(post?.title)}`}
                       >
-                        <p className="text-[#413B35] text-base hover:bg-[#A78769] transform hover:text-white font-normal cursor-pointer p-6 bg-[#FBFAF9] rounded-lg">
+                        <p className="text-[#413B35] text-sm sm:text-base hover:bg-[#A78769] hover:text-white font-normal cursor-pointer p-3 sm:p-6 bg-[#FBFAF9] rounded-lg transition">
                           {post?.title}
                         </p>
                       </Link>
@@ -267,7 +271,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
                 dangerouslySetInnerHTML={{
                   __html: fullContentWithBaseUrl,
                 }}
-                className="my-20 text-amber-800 w-[60%] blog-content rounded-xl"
+                className="my-20 text-amber-800 w-full lg:w-[60%] blog-content rounded-xl"
               />
 
               <div className="my-10 text-center">
