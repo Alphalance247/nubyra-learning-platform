@@ -39,15 +39,6 @@ const ContactForm: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [phone, setPhone] = useState("");
   const router = useRouter();
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-
-  const today = new Date();
-  const fullDate =
-    today.getUTCFullYear() +
-    "-" +
-    String(today.getUTCMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(today.getUTCDate()).padStart(2, "0");
 
   const termsAndConditions = [
     {
