@@ -9,11 +9,8 @@ import { useEffect, useState } from "react";
 import Spinner from "../common/spinner/spinner";
 import { environment } from "@/app/env/env.local";
 
-// Define the Project type based on the properties used in ProjectCard
 interface Project {
-  images: {
-    image: string;
-  }[];
+  images: { image: string }[];
   project_title: string;
   project_type: string;
   country: string;
@@ -40,15 +37,12 @@ const Explore = () => {
       });
       if (res.status === 200 && Array.isArray(res.data.projects)) {
         setProjects(res.data.projects);
-        setLoading(false);
       } else {
         setError(errrMesaage);
-        setLoading(false);
       }
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message || errrMesaage);
-        setLoading(false);
       } else {
         setError("An unexpected error occurred");
       }
@@ -62,32 +56,27 @@ const Explore = () => {
   }, []);
 
   return (
-    <section className="bg-[#FBFAF9]">
+    <section className="bg-[#FBFAF9] py-12 sm:py-16 lg:py-20">
       <Container>
         <HeadingSubhead
           heading="Explore all projects"
           subheading="Explore our process engineering innovations, hands-on research, and most effective engineering solutions, all available in this hub."
         />
 
-        <div className="mt-16">
-          <div className="flex flex-col md:flex-row  items-start md:items-center justify-between">
-            <h4 className="text-2xl font-semibold text-[#120A02] mb-4 md:mb-0">
+        <div className="mt-10 sm:mt-12 lg:mt-16">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+            <h4 className="text-xl sm:text-2xl font-semibold text-[#120A02]">
               All Projects ({projects.length})
             </h4>
-            <div className="">
-              <Button variant="secondary" className="flex items-center gap-x-2">
-                Most Recent
-                <span>
-                  {" "}
-                  <FaChevronDown className="text-[#7B4C1F]" />
-                </span>
-              </Button>
-            </div>
+            <Button variant="secondary" className="flex items-center gap-x-2">
+              Most Recent
+              <FaChevronDown className="text-[#7B4C1F]" />
+            </Button>
           </div>
 
           {error && (
             <div className="mt-8 text-center text-red-600 text-lg font-semibold flex flex-col items-center justify-center">
-              <p> {error}</p>
+              <p>{error}</p>
               <Button
                 variant="primary"
                 className="mt-4"
@@ -102,7 +91,7 @@ const Explore = () => {
           )}
 
           {loading ? (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mt-8">
               <Spinner />
               <p className="text-lg text-gray-500 mt-4">Loading projects...</p>
             </div>

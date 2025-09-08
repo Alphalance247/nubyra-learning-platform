@@ -39,6 +39,16 @@ const ContactForm: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [phone, setPhone] = useState("");
   const router = useRouter();
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+  const today = new Date();
+  const fullDate =
+    today.getUTCFullYear() +
+    "-" +
+    String(today.getUTCMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getUTCDate()).padStart(2, "0");
+
   const termsAndConditions = [
     {
       id: 1,
@@ -125,8 +135,6 @@ const ContactForm: React.FC = () => {
     >
   ) => {
     const target = e.target;
-
-    // Handle file input specifically
     if (
       target instanceof HTMLInputElement &&
       target.type === "file" &&
@@ -197,11 +205,11 @@ const ContactForm: React.FC = () => {
   return (
     <ProtectedRoute>
       <Layout>
-        <section className="bg-[#FEFEFD] w-full overflow-x-hidden">
+        <section className="bg-[#FEFEFD] w-full overflow-x-hidden py-8 px-4 sm:px-6 lg:px-8">
           <Container>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4 sm:gap-6">
               <NavigateArrow
-                className="w-[74px] h-[32px] flex gap-2"
+                className="flex items-center gap-2 w-max"
                 icon={<ArrowLeft size={16} />}
                 label={<span className="text-sm font-medium">Back</span>}
               />
@@ -245,7 +253,8 @@ const ContactForm: React.FC = () => {
                         />
                       </div>
 
-                      <div className="w-full max-w-[648px] h-[82px] flex gap-3">
+                      {/* Email & Phone */}
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="Email"
                           type="email"
@@ -254,12 +263,12 @@ const ContactForm: React.FC = () => {
                           onChange={handleChange}
                           required
                           placeholder="Enter email"
-                          className="w-full"
+                          className="flex-1"
                         />
                         <PhoneInput
                           value={phone}
                           onChange={setPhone}
-                          className="w-full"
+                          className="flex-1"
                         />
                       </div>
 
@@ -305,46 +314,39 @@ const ContactForm: React.FC = () => {
                         />
                       </div>
 
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Address"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter address"
-                          className="w-[648px]"
-                        />
-                      </div>
+                      {/* Address */}
+                      <InputField
+                        label="Address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter address"
+                      />
 
+                      {/* Country/State */}
                       <CountryStateSelect
                         value={location}
                         onChange={setLocation}
                       />
 
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Engineering Field"
-                          name="professional_academic_field"
-                          value={formData.professional_academic_field}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter engineering field"
-                          className="w-[648px]"
-                        />
-                      </div>
-
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Project Title"
-                          name="project_title"
-                          value={formData.project_title}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter project title"
-                          className="w-[648px]"
-                        />
-                      </div>
+                      {/* Engineering Field & Project Title */}
+                      <InputField
+                        label="Engineering Field"
+                        name="professional_academic_field"
+                        value={formData.professional_academic_field}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter engineering field"
+                      />
+                      <InputField
+                        label="Project Title"
+                        name="project_title"
+                        value={formData.project_title}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter project title"
+                      />
 
                       <FileUpload
                         label="Project Document"
