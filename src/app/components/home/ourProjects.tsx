@@ -43,7 +43,7 @@ const OurProjects = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {data?.response?.slice(0, 3).map((project, index) => (
+            {data?.response?.slice(0, 6).map((project, index) => (
               <ProjectCard
                 key={index}
                 image={project?.images[0]?.image}

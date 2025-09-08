@@ -54,7 +54,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             {isAuthenticated ? (
               <Link href={"/dashboard"}>
-                <Button className=" w-fit" variant="primary">
+                <Button className="w-full sm:w-fit" variant="primary">
                   Go To Dashboard
                 </Button>
               </Link>

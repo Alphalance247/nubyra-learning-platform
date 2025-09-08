@@ -5,7 +5,7 @@ import Button from "../common/buttons";
 import Image from "next/image";
 import { useAuth } from "@/app/context/authContext";
 
-const AboutUs = () => {
+const AboutUs = ({ isBtnAvailable = false }: { isBtnAvailable?: boolean }) => {
   const { isAuthenticated } = useAuth();
   return (
     <section>
@@ -25,26 +25,28 @@ const AboutUs = () => {
               industries.
             </p>
 
-            <div className="flex items-center gap-x-4">
+            <div className="flex flex-col md:flex-row gap-6">
               {isAuthenticated ? (
                 <Link href={"/dashboard"}>
-                  <Button className=" w-fit" variant="primary">
+                  <Button className="w-full sm:w-fit" variant="primary">
                     Go To Dashboard
                   </Button>
                 </Link>
               ) : (
                 <Link href={"/sign-up"}>
-                  <Button className=" w-fit" variant="primary">
+                  <Button className="w-full sm:w-fit" variant="primary">
                     Enrol for free
                   </Button>
                 </Link>
               )}
 
-              {/* <Link href={"/about-us"}>
-                <Button className="w-full sm:w-fit" variant="secondary">
-                  Know More about us
-                </Button>
-              </Link>  */}
+              {isBtnAvailable && (
+                <Link href={"/about-us"}>
+                  <Button className="w-full sm:w-fit" variant="secondary">
+                    Know More about us
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex justify-center md:justify-end">

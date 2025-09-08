@@ -216,7 +216,7 @@ const ContactForm: React.FC = () => {
                 <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
                   <SectionHeader
                     title="Project Request Submission"
-                    subtitle="Please fill out the form below to submit your project"
+                    subtitle="Please fill out the form below to submit your project request"
                     className="mb-4"
                   />
                   <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">

@@ -43,7 +43,8 @@ const Header = () => {
             <Link key={item.id} href={item.link}>
               <span
                 className={`${
-                  activeMenu === item.name
+                  pathname === item.link ||
+                  (item.link !== "/" && pathname.startsWith(item.link))
                     ? "text-[#7B4C1F] bg-[#F2EDE9] rounded-[12px]"
                     : "text-[#5E5A64]"
                 } px-3 py-2 text-base font-medium cursor-pointer hover:text-[#7B4C1F]`}

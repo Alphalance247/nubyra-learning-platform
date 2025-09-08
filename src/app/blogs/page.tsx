@@ -3,7 +3,6 @@ import BlogCard from "../components/common/blogCard";
 import Container from "../components/common/container";
 import HeroCommon from "../components/common/heroCommon";
 import Layout from "../components/common/layout";
-import Image from "next/image";
 import GetInTouch from "../components/home/getInTouch";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";

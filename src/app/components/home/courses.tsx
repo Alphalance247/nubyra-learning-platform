@@ -57,7 +57,7 @@ const OurCourses = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 xl:gap-8 mt-10">
-              {data?.Webinar?.courses?.slice(0, 3).map((course, index) => (
+              {data?.Webinar?.courses?.slice(0, 6).map((course, index) => (
                 <CourseCard
                   key={index}
                   image={course?.image}

@@ -47,7 +47,7 @@ const BlogCard = ({
             </p>
           </div>
           <Link href={blogUrl || "/"}>
-            <Button variant="secondary" className="w-fit">
+            <Button variant="secondary" className="w-full md:w-fit">
               Learn More
             </Button>
           </Link>
