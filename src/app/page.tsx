@@ -12,12 +12,11 @@ import FAQ from "./components/home/faq";
 import Testimonial from "./components/home/testimonial";
 
 const Home = () => {
-
   return (
     <div className="bg-[#FBFAF9]">
       <Header />
       <Hero />
-      <AboutUs />
+      <AboutUs isBtnAvailable={true} />
       <Services />
       <Industries />
       <OurCourses />

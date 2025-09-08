@@ -3,16 +3,14 @@ import axios, { AxiosError } from "axios";
 import { environment } from "@/app/env/env.local";
 
 interface faqDataStore {
-  results: {
-    id: string;
-    question: string;
-    answer: string;
-    option: string;
-  }[];
+  id: string;
+  question: string;
+  answer: string;
+  option: string;
 }
 
 interface faqStore {
-  data: faqDataStore | null;
+  data: faqDataStore[] | null;
   loading: boolean;
   error: string | null;
   fetchFaq: () => Promise<void>;

@@ -49,7 +49,7 @@ const CourseCard = ({
       <div className="mt-6 flex flex-col sm:flex-row gap-3">
         <div onClick={onClickEnroll} className="w-full sm:w-1/2">
           <Button variant="primary" className="w-full">
-            Enroll Now
+            Enrol Now
           </Button>
         </div>
 

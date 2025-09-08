@@ -85,7 +85,7 @@ const Services = () => {
         <div className="mt-10 flex flex-col justify-center items-center">
           <Link href={"/project/submit"}>
             <Button variant="primary" className="w-full sm:w-[298px]">
-              Contact Us
+              Submit Project Request
             </Button>
           </Link>
         </div>

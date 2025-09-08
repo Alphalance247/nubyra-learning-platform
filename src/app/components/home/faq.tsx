@@ -49,37 +49,31 @@ const FAQ = () => {
           <div className="mt-8 md:mt-14 mb-10 md:mb-14">
             {activeBtn === "Blogs" && (
               <FaqComponent
-                results={
-                  data?.results?.filter((find) => find?.option === "blogs") ||
-                  []
-                }
+                results={data?.filter((find) => find?.option === "blogs") || []}
               />
             )}
             {activeBtn === "Learning" && (
               <FaqComponent
                 results={
-                  data?.results?.filter(
-                    (find) => find?.option === "learning"
-                  ) || []
+                  data?.filter((find) => find?.option === "learning") || []
                 }
               />
             )}
             {activeBtn === "Projects" && (
               <FaqComponent
                 results={
-                  data?.results?.filter((find) => find?.option === "project") ||
-                  []
+                  data?.filter((find) => find?.option === "project") || []
                 }
               />
             )}
           </div>
-          <div className="flex justify-center">
+          <div className="w-full text-center">
             <a
               href="https://wa.me/message/WABZJFRNPMNYL1"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button variant="primary" className="w-full sm:w-72">
+              <Button variant="primary" className="w-full md:w-fit">
                 Get in touch
               </Button>
             </a>
