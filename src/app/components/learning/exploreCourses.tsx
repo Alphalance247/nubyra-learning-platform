@@ -14,6 +14,14 @@ import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus"
 import { useRouter } from "next/navigation";
 import Spinner from "../common/spinner/spinner";
 import { useCheckout } from "@/app/utils/checkoutUtility";
+import FilterModal from "../common/filterModal";
+import SortDropdown from "../common/sortDropdown";
+import Pagination from "../common/pagination";
+import {
+  useFilterSortStore,
+  FilterOptions,
+  FilteredCourse,
+} from "@/stores/courses/filterSortStore";
 
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
@@ -35,15 +43,76 @@ const ExploreCourses = () => {
   }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [filteredCourses, setFilteredCourses] = useState<FilteredCourse[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const itemsPerPage = 10;
+  const {
+    currentFilters,
+    currentSort,
+    setCurrentFilters,
+    setCurrentSort,
+    applyFiltersAndSort,
+  } = useFilterSortStore();
+
   const tabs: { id: number; name: string }[] = [
     { id: 2, name: "Webinars" },
     { id: 3, name: "Premium Courses" },
     { id: 4, name: "Free Courses" },
   ];
 
+  useEffect(() => {
+    const applyFilters = async () => {
+      const courses = await applyFiltersAndSort(currentFilters, currentSort);
+      setFilteredCourses(courses);
+  
+      setTotalItems(courses.length);
+      setTotalPages(Math.ceil(courses.length / itemsPerPage));
+      setCurrentPage(1); 
+    };
+
+    applyFilters();
+  }, [currentFilters, currentSort, applyFiltersAndSort, itemsPerPage]);
+
+  const handleFilterChange = (filters: FilterOptions) => {
+    setCurrentFilters(filters);
+  };
+
+  const handleSortChange = (sort: string) => {
+    setCurrentSort(sort);
+  };
+
+  const getCoursesToDisplay = (originalCourses: FilteredCourse[]) => {
+    let coursesToShow = [];
+
+    if (filteredCourses.length > 0) {
+      coursesToShow = filteredCourses;
+    } else {
+      coursesToShow = originalCourses || [];
+    }
+
+    // Apply pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return coursesToShow.slice(startIndex, endIndex);
+  };
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  const convertToCourseData = (course: FilteredCourse) => {
+    return {
+      id: course.id || course.cid,
+      title: course.title,
+      price: course.price,
+      duration: course.duration,
+      cid: course.cid,
+    };
+  };
+
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
-      {/* Background Image */}
       <div className="absolute top-0 left-0 z-0 w-full h-full md:h-[600px]">
         <Image
           src="/assets/home/img.png"
@@ -73,8 +142,6 @@ const ExploreCourses = () => {
             ))}
           </div>
         </div>
-
-        {/* Loader / Error */}
         {loading ? (
           <Spinner />
         ) : error ? (
@@ -90,89 +157,127 @@ const ExploreCourses = () => {
           </div>
         ) : (
           <>
-            {/* Filter / Sort */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-14 gap-4 md:gap-0">
               <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-                All Courses ({data?.courses?.length})
+                All Courses ({totalItems || data?.courses?.length})
               </h4>
               <div className="flex flex-wrap gap-2">
-                <Button variant="secondary" className="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  className="flex items-center gap-2"
+                  onClick={() => setShowFilterModal(true)}
+                >
                   <BsFilterLeft className="text-[#7B4C1F]" />
                   Filter by
                   <FaChevronDown className="text-[#7B4C1F]" />
                 </Button>
 
-                <Button variant="secondary" className="flex items-center gap-2">
-                  Sort by
-                  <FaChevronDown className="text-[#7B4C1F]" />
-                </Button>
+                <SortDropdown
+                  currentSort={currentSort}
+                  onSortChange={handleSortChange}
+                />
               </div>
             </div>
-
-            {/* Courses Grid */}
             {activeBtn === "Webinars" && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                {fetchAllCoursedata?.Webinar?.courses?.map((course, index) => (
-                  <CourseCard
-                    key={index}
-                    image={course?.image}
-                    title={course?.title}
-                    price={course?.price}
-                    time={course?.duration}
-                    duration={course?.number_of_days}
-                    link={`/learning/${course?.cid}`}
-                    onClickEnroll={() => handleCheckOut(course)}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                  {getCoursesToDisplay(
+                    fetchAllCoursedata?.Webinar?.courses || []
+                  ).map((course, index) => (
+                    <CourseCard
+                      key={index}
+                      image={course?.image || ""}
+                      title={course?.title || ""}
+                      price={String(course?.price || "0")}
+                      time={course?.duration || ""}
+                      duration={course?.number_of_days || 0}
+                      link={`/learning/${course?.cid}`}
+                      onClickEnroll={() =>
+                        handleCheckOut(convertToCourseData(course))
+                      }
+                    />
+                  ))}
+                </div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              </>
             )}
 
             {activeBtn === "Premium Courses" && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                {fetchAllCoursedata?.Premium?.courses?.map((el, i) => (
-                  <PremiumCourseCard
-                    key={i}
-                    image={el?.image}
-                    title={el?.title}
-                    type={el?.course_tab}
-                    link={`/learning/${el?.cid}`}
-                    onClickWatch={() => {
-                      if (subStatus?.sub_status) {
-                        router.push(`/learning/${el?.cid}`);
-                      } else {
-                        router.push("/learning/premium-subscription");
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                  {getCoursesToDisplay(
+                    fetchAllCoursedata?.Premium?.courses || []
+                  ).map((el, i) => (
+                    <PremiumCourseCard
+                      key={i}
+                      image={el?.image || ""}
+                      title={el?.title || ""}
+                      type={el?.course_tab || ""}
+                      link={`/learning/${el?.cid}`}
+                      onClickWatch={() => {
+                        if (subStatus?.sub_status) {
+                          router.push(`/learning/${el?.cid}`);
+                        } else {
+                          router.push("/learning/premium-subscription");
+                        }
+                      }}
+                      subcribeText={
+                        subStatus?.sub_status ? "Watch" : "Subscribe to watch"
                       }
-                    }}
-                    subcribeText={
-                      subStatus?.sub_status ? "Watch" : "Subscribe to watch"
-                    }
-                    btnName={
-                      subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
-                    }
-                  />
-                ))}
-              </div>
+                      btnName={
+                        subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
+                      }
+                    />
+                  ))}
+                </div>
+              <Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onPageChange={handlePageChange}
+/>
+
+              </>
             )}
 
             {activeBtn === "Free Courses" && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                {fetchAllCoursedata?.Free?.courses?.map((el, i) => (
-                  <PremiumCourseCard
-                    key={i}
-                    image={el?.image}
-                    title={el?.title}
-                    type={el?.course_tab}
-                    link={`/learning/${el?.cid}`}
-                    onClickWatch={() => router.push(`/learning/${el?.cid}`)}
-                    subcribeText="Watch for free"
-                    btnName="Watch Now"
-                  />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                  {getCoursesToDisplay(
+                    fetchAllCoursedata?.Free?.courses || []
+                  ).map((el, i) => (
+                    <PremiumCourseCard
+                      key={i}
+                      image={el?.image || ""}
+                      title={el?.title || ""}
+                      type={el?.course_tab || ""}
+                      link={`/learning/${el?.cid}`}
+                      onClickWatch={() => router.push(`/learning/${el?.cid}`)}
+                      subcribeText="Watch for free"
+                      btnName="Watch Now"
+                    />
+                  ))}
+                </div>
+       <Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onPageChange={handlePageChange}
+/>
+
+              </>
             )}
           </>
         )}
       </Container>
+      <FilterModal
+        isOpen={showFilterModal}
+        onClose={() => setShowFilterModal(false)}
+        onApplyFilters={handleFilterChange}
+        currentFilters={currentFilters}
+      />
     </section>
   );
 };
