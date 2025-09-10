@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Button from "./buttons";
+import { useFilterSortStore } from "@/stores/courses/filterSortStore";
 
 interface SortDropdownProps {
   currentSort: string;
@@ -15,7 +16,12 @@ export default function SortDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const sortOptions = ["Recent", "Newest to oldest", "Oldest to newest"];
+  const { data } = useFilterSortStore();
+
+  const sortOptions = data?.sorts?.length
+    ? data.sorts
+    : ["Recent", "Newest to oldest", "Oldest to newest"];
+  
 
   // Close dropdown when clicking outside
   useEffect(() => {

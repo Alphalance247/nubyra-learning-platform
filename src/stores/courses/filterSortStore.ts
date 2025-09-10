@@ -1,20 +1,31 @@
 import { create } from "zustand";
 import axios, { AxiosError } from "axios";
 import { environment } from "@/app/env/env.local";
+// store/types.ts
 
-export interface FilterData {
-  categories: string[];
-  courseCategories: string[];
-  software: string[];
-  priceRanges: string[];
+export interface FilterOption {
+  label: string;
+  value: string;
 }
 
+export type FilterValue = string[] | FilterOption[];
+
+export interface FilterGroup {
+  [key: string]: FilterValue; // e.g. { "Engineering Field": [ {label, value}, ... ] }
+}
+
+export interface FilterResponse {
+  filters: FilterGroup[];
+  sorts: string[];
+}
+
+
 interface FilterSortStore {
-  data: FilterData | null;
+  data: FilterResponse | null;
   loading: boolean;
   error: string | null;
   fetchFilterOptions: () => Promise<void>;
-  applyFiltersAndSort: () => Promise<FilterData[]>;
+  applyFiltersAndSort: () => Promise<FilterResponse | null>;
 }
 
 export const useFilterSortStore = create<FilterSortStore>((set) => ({
@@ -25,7 +36,9 @@ export const useFilterSortStore = create<FilterSortStore>((set) => ({
   fetchFilterOptions: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await axios.get<FilterData>(`${environment?.baseUrl}/sort_filter/`);
+      const res = await axios.get<FilterResponse>(
+        `${environment?.baseUrl}/sort_filter/`
+      );
       set({ data: res.data, loading: false });
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -37,14 +50,16 @@ export const useFilterSortStore = create<FilterSortStore>((set) => ({
   applyFiltersAndSort: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await axios.get<FilterData[]>(`${environment?.baseUrl}/sort_filter/`);
+      const res = await axios.get<FilterResponse>(
+        `${environment?.baseUrl}/sort_filter/`
+      );
       set({ loading: false });
-      return res.data ?? [];
+      return res.data ?? null;
     } catch (err) {
       if (err instanceof AxiosError) {
         set({ error: err.message, loading: false });
       }
-      return [];
+      return null;
     }
   },
 }));
