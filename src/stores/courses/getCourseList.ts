@@ -25,7 +25,7 @@ export const getCourseListStore = create<courseListStore>((set) => ({
   data: null,
   loading: false,
   error: null,
-
+// 
   fetchCourseList: async () => {
     set({ loading: true, error: null });
     try {

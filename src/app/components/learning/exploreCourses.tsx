@@ -17,11 +17,7 @@ import { useCheckout } from "@/app/utils/checkoutUtility";
 import FilterModal from "../common/filterModal";
 import SortDropdown from "../common/sortDropdown";
 import Pagination from "../common/pagination";
-import {
-  useFilterSortStore,
-  FilterOptions,
-  FilteredCourse,
-} from "@/stores/courses/filterSortStore";
+import { useFilterSortStore } from "@/stores/courses/filterSortStore";
 
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
@@ -44,18 +40,13 @@ const ExploreCourses = () => {
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [filteredCourses, setFilteredCourses] = useState<FilteredCourse[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [currentSort, setCurrentSort] = useState<string>("");
+
   const itemsPerPage = 10;
-  const {
-    currentFilters,
-    currentSort,
-    setCurrentFilters,
-    setCurrentSort,
-    applyFiltersAndSort,
-  } = useFilterSortStore();
+  const { applyFiltersAndSort } = useFilterSortStore();
 
   const tabs: { id: number; name: string }[] = [
     { id: 2, name: "Webinars" },
@@ -65,51 +56,16 @@ const ExploreCourses = () => {
 
   useEffect(() => {
     const applyFilters = async () => {
-      const courses = await applyFiltersAndSort(currentFilters, currentSort);
-      setFilteredCourses(courses);
-  
-      setTotalItems(courses.length);
-      setTotalPages(Math.ceil(courses.length / itemsPerPage));
-      setCurrentPage(1); 
+      const courses = await applyFiltersAndSort();
+      if (courses) {
+        setTotalItems(courses.length);
+        setTotalPages(Math.ceil(courses.length / itemsPerPage));
+        setCurrentPage(1);
+      }
     };
 
     applyFilters();
-  }, [currentFilters, currentSort, applyFiltersAndSort, itemsPerPage]);
-
-  const handleFilterChange = (filters: FilterOptions) => {
-    setCurrentFilters(filters);
-  };
-
-  const handleSortChange = (sort: string) => {
-    setCurrentSort(sort);
-  };
-
-  const getCoursesToDisplay = (originalCourses: FilteredCourse[]) => {
-    let coursesToShow = [];
-
-    if (filteredCourses.length > 0) {
-      coursesToShow = filteredCourses;
-    } else {
-      coursesToShow = originalCourses || [];
-    }
-
-    // Apply pagination
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return coursesToShow.slice(startIndex, endIndex);
-  };
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-  const convertToCourseData = (course: FilteredCourse) => {
-    return {
-      id: course.id || course.cid,
-      title: course.title,
-      price: course.price,
-      duration: course.duration,
-      cid: course.cid,
-    };
-  };
+  }, [applyFiltersAndSort, itemsPerPage]);
 
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
@@ -124,17 +80,16 @@ const ExploreCourses = () => {
 
       <Container className="relative z-10">
         <HeadingSubhead withSubhead={false} heading="Explore Our Courses" />
-
         <div className="mt-6 w-full md:w-[750px] mx-auto">
           <div className="flex gap-2 px-3 py-2 border bg-[#FEFEFD] border-[#F2EDE9] rounded-2xl overflow-x-auto md:overflow-x-visible scrollbar-hide">
-            {tabs.map((el, i) => (
+            {tabs.map((el) => (
               <button
-                key={i}
+                key={el.id}
                 className={`${
                   activeBtn === el.name
                     ? "text-white bg-[#7B4C1F]"
                     : "text-[#5E5A64] border border-[#E7E7E6] bg-[#FBFAF9]"
-                } font-medium text-sm sm:text-lg px-3 py-2 sm:py-4 border-b-[1px] cursor-pointer rounded-2xl flex-shrink-0 md:flex-1 text-center`}
+                } font-medium text-sm sm:text-lg px-3 py-2 sm:py-4 cursor-pointer rounded-2xl flex-shrink-0 md:flex-1 text-center`}
                 onClick={() => setActiveBtn(el.name)}
               >
                 {el.name}
@@ -159,7 +114,7 @@ const ExploreCourses = () => {
           <>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-14 gap-4 md:gap-0">
               <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-                All Courses ({totalItems || data?.courses?.length})
+                All Courses ({totalItems || data?.courses?.length || 0})
               </h4>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -174,100 +129,76 @@ const ExploreCourses = () => {
 
                 <SortDropdown
                   currentSort={currentSort}
-                  onSortChange={handleSortChange}
+                  onSortChange={setCurrentSort}
                 />
               </div>
             </div>
             {activeBtn === "Webinars" && (
-              <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {getCoursesToDisplay(
-                    fetchAllCoursedata?.Webinar?.courses || []
-                  ).map((course, index) => (
-                    <CourseCard
-                      key={index}
-                      image={course?.image || ""}
-                      title={course?.title || ""}
-                      price={String(course?.price || "0")}
-                      time={course?.duration || ""}
-                      duration={course?.number_of_days || 0}
-                      link={`/learning/${course?.cid}`}
-                      onClickEnroll={() =>
-                        handleCheckOut(convertToCourseData(course))
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                {fetchAllCoursedata?.Webinar?.courses?.map((course, index) => (
+                  <CourseCard
+                    key={index}
+                    image={course?.image}
+                    title={course?.title}
+                    price={course?.price}
+                    time={course?.duration}
+                    duration={course?.number_of_days}
+                    link={`/learning/${course?.cid}`}
+                    onClickEnroll={() => handleCheckOut(course)}
+                  />
+                ))}
+              </div>
+            )}
+            {activeBtn === "Premium Courses" && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                {fetchAllCoursedata?.Premium?.courses?.map((el, i) => (
+                  <PremiumCourseCard
+                    key={i}
+                    image={el?.image}
+                    title={el?.title}
+                    type={el?.course_tab}
+                    link={`/learning/${el?.cid}`}
+                    onClickWatch={() => {
+                      if (subStatus?.sub_status) {
+                        router.push(`/learning/${el?.cid}`);
+                      } else {
+                        router.push("/learning/premium-subscription");
                       }
-                    />
-                  ))}
-                </div>
+                    }}
+                    subcribeText={
+                      subStatus?.sub_status ? "Watch" : "Subscribe to watch"
+                    }
+                    btnName={
+                      subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
+                    }
+                  />
+                ))}
+              </div>
+            )}
+            {activeBtn === "Free Courses" && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                {fetchAllCoursedata?.Free?.courses?.map((el, i) => (
+                  <PremiumCourseCard
+                    key={i}
+                    image={el?.image}
+                    title={el?.title}
+                    type={el?.course_tab}
+                    link={`/learning/${el?.cid}`}
+                    onClickWatch={() => router.push(`/learning/${el?.cid}`)}
+                    subcribeText="Watch for free"
+                    btnName="Watch Now"
+                  />
+                ))}
+              </div>
+            )}
+            {totalPages > 1 && (
+              <div className="mt-10 flex justify-center">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  onPageChange={setCurrentPage}
                 />
-              </>
-            )}
-
-            {activeBtn === "Premium Courses" && (
-              <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {getCoursesToDisplay(
-                    fetchAllCoursedata?.Premium?.courses || []
-                  ).map((el, i) => (
-                    <PremiumCourseCard
-                      key={i}
-                      image={el?.image || ""}
-                      title={el?.title || ""}
-                      type={el?.course_tab || ""}
-                      link={`/learning/${el?.cid}`}
-                      onClickWatch={() => {
-                        if (subStatus?.sub_status) {
-                          router.push(`/learning/${el?.cid}`);
-                        } else {
-                          router.push("/learning/premium-subscription");
-                        }
-                      }}
-                      subcribeText={
-                        subStatus?.sub_status ? "Watch" : "Subscribe to watch"
-                      }
-                      btnName={
-                        subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
-                      }
-                    />
-                  ))}
-                </div>
-              <Pagination
-  currentPage={currentPage}
-  totalPages={totalPages}
-  onPageChange={handlePageChange}
-/>
-
-              </>
-            )}
-
-            {activeBtn === "Free Courses" && (
-              <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {getCoursesToDisplay(
-                    fetchAllCoursedata?.Free?.courses || []
-                  ).map((el, i) => (
-                    <PremiumCourseCard
-                      key={i}
-                      image={el?.image || ""}
-                      title={el?.title || ""}
-                      type={el?.course_tab || ""}
-                      link={`/learning/${el?.cid}`}
-                      onClickWatch={() => router.push(`/learning/${el?.cid}`)}
-                      subcribeText="Watch for free"
-                      btnName="Watch Now"
-                    />
-                  ))}
-                </div>
-       <Pagination
-  currentPage={currentPage}
-  totalPages={totalPages}
-  onPageChange={handlePageChange}
-/>
-
-              </>
+              </div>
             )}
           </>
         )}
@@ -275,8 +206,6 @@ const ExploreCourses = () => {
       <FilterModal
         isOpen={showFilterModal}
         onClose={() => setShowFilterModal(false)}
-        onApplyFilters={handleFilterChange}
-        currentFilters={currentFilters}
       />
     </section>
   );

@@ -8,26 +8,28 @@ interface SortDropdownProps {
   onSortChange: (sort: string) => void;
 }
 
-export default function SortDropdown({ currentSort, onSortChange }: SortDropdownProps) {
+export default function SortDropdown({
+  currentSort,
+  onSortChange,
+}: SortDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const sortOptions = [
-    "Recent",
-    "Newest to oldest",
-    "Oldest to newest"
-  ];
+  const sortOptions = ["Recent", "Newest to oldest", "Oldest to newest"];
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSortSelect = (sort: string) => {
@@ -36,21 +38,24 @@ export default function SortDropdown({ currentSort, onSortChange }: SortDropdown
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block" ref={dropdownRef}>
       <Button
         variant="secondary"
         className="flex items-center gap-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-[#7B4C1F] font-medium">{currentSort}</span>
+        <span className="text-[#7B4C1F] font-medium">
+          {currentSort || "Sort"}
+        </span>
         <FaChevronDown
           className={`w-3 h-3 text-[#7B4C1F] transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </Button>
+
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50">
+        <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50">
           {sortOptions.map((option) => (
             <button
               key={option}
