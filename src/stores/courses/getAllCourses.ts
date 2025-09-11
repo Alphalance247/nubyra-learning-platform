@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios, { AxiosError } from "axios";
 import { environment } from "@/app/env/env.local";
 
-interface freeCourseData {
+export interface freeCourseData {
   courses: {
     course_tab: string;
     duration: string;
@@ -14,7 +14,7 @@ interface freeCourseData {
   total_pages: number;
 }
 
-interface premiumCourseData {
+export interface premiumCourseData {
   courses: {
     course_tab: string;
     duration: string;
@@ -26,7 +26,7 @@ interface premiumCourseData {
   total_pages: number;
 }
 
-interface webinarCourseData {
+export interface webinarCourseData {
   courses: {
     id: string;
     title: string;

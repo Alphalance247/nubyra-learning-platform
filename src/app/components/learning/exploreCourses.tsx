@@ -18,6 +18,20 @@ import FilterModal from "../common/filterModal";
 import SortDropdown from "../common/sortDropdown";
 import Pagination from "../common/pagination";
 
+// ✅ Type aliases from your store
+type WebinarCourse =
+  import("@/stores/courses/getAllCourses").webinarCourseData["courses"][number];
+type PremiumCourse =
+  import("@/stores/courses/getAllCourses").premiumCourseData["courses"][number];
+type FreeCourse =
+  import("@/stores/courses/getAllCourses").freeCourseData["courses"][number];
+
+// ✅ Generic paginate
+const paginate = <T,>(items: T[], page: number, itemsPerPage: number): T[] => {
+  const start = (page - 1) * itemsPerPage;
+  return items.slice(start, start + itemsPerPage);
+};
+
 const ExploreCourses = () => {
   const { fetchCourseList } = getCourseListStore();
   const {
@@ -42,9 +56,9 @@ const ExploreCourses = () => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentSort, setCurrentSort] = useState<string>("");
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
 
-  // Keep pagination state per tab
+  // ✅ Pagination state per tab
   const [tabPages, setTabPages] = useState({
     Webinars: 1,
     "Premium Courses": 1,
@@ -55,16 +69,10 @@ const ExploreCourses = () => {
     setTabPages((prev) => ({ ...prev, [tab]: page }));
   };
 
-  // Helper to paginate
-  const paginate = (items: any[], page: number) => {
-    const start = (page - 1) * itemsPerPage;
-    return items.slice(start, start + itemsPerPage);
-  };
-
-  // Courses per tab
-  const webinars = fetchAllCoursedata?.Webinar?.courses || [];
-  const premium = fetchAllCoursedata?.Premium?.courses || [];
-  const free = fetchAllCoursedata?.Free?.courses || [];
+  // ✅ Strongly typed course arrays
+  const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
+  const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
+  const free: FreeCourse[] = fetchAllCoursedata?.Free?.courses ?? [];
 
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
@@ -148,22 +156,24 @@ const ExploreCourses = () => {
               </div>
             </div>
 
-            {/* Courses */}
+            {/* Webinars */}
             {activeBtn === "Webinars" && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(webinars, tabPages.Webinars).map((course, i) => (
-                    <CourseCard
-                      key={i}
-                      image={course?.image}
-                      title={course?.title}
-                      price={course?.price}
-                      time={course?.duration}
-                      duration={course?.number_of_days}
-                      link={`/learning/${course?.cid}`}
-                      onClickEnroll={() => handleCheckOut(course)}
-                    />
-                  ))}
+                  {paginate(webinars, tabPages.Webinars, itemsPerPage).map(
+                    (course) => (
+                      <CourseCard
+                        key={course.cid}
+                        image={course.image}
+                        title={course.title}
+                        price={course.price}
+                        time={course.duration}
+                        duration={course.number_of_days}
+                        link={`/learning/${course.cid}`}
+                        onClickEnroll={() => handleCheckOut(course)}
+                      />
+                    )
+                  )}
                 </div>
                 {webinars.length > itemsPerPage && (
                   <div className="mt-10 flex justify-center">
@@ -179,19 +189,24 @@ const ExploreCourses = () => {
               </>
             )}
 
+            {/* Premium */}
             {activeBtn === "Premium Courses" && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(premium, tabPages["Premium Courses"]).map((el, i) => (
+                  {paginate(
+                    premium,
+                    tabPages["Premium Courses"],
+                    itemsPerPage
+                  ).map((course) => (
                     <PremiumCourseCard
-                      key={i}
-                      image={el?.image}
-                      title={el?.title}
-                      type={el?.course_tab}
-                      link={`/learning/${el?.cid}`}
+                      key={course.cid}
+                      image={course.image}
+                      title={course.title}
+                      type={course.course_tab}
+                      link={`/learning/${course.cid}`}
                       onClickWatch={() => {
                         if (subStatus?.sub_status) {
-                          router.push(`/learning/${el?.cid}`);
+                          router.push(`/learning/${course.cid}`);
                         } else {
                           router.push("/learning/premium-subscription");
                         }
@@ -219,21 +234,26 @@ const ExploreCourses = () => {
               </>
             )}
 
+            {/* Free */}
             {activeBtn === "Free Courses" && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(free, tabPages["Free Courses"]).map((el, i) => (
-                    <PremiumCourseCard
-                      key={i}
-                      image={el?.image}
-                      title={el?.title}
-                      type={el?.course_tab}
-                      link={`/learning/${el?.cid}`}
-                      onClickWatch={() => router.push(`/learning/${el?.cid}`)}
-                      subcribeText="Watch for free"
-                      btnName="Watch Now"
-                    />
-                  ))}
+                  {paginate(free, tabPages["Free Courses"], itemsPerPage).map(
+                    (course) => (
+                      <PremiumCourseCard
+                        key={course.cid}
+                        image={course.image}
+                        title={course.title}
+                        type={course.course_tab}
+                        link={`/learning/${course.cid}`}
+                        onClickWatch={() =>
+                          router.push(`/learning/${course.cid}`)
+                        }
+                        subcribeText="Watch for free"
+                        btnName="Watch Now"
+                      />
+                    )
+                  )}
                 </div>
                 {free.length > itemsPerPage && (
                   <div className="mt-10 flex justify-center">
