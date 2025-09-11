@@ -30,6 +30,7 @@ const ExploreCourses = () => {
   const {
     data: fetchAllCoursedata,
     fetchAllCourses,
+    filterCourses,
     error,
     loading,
   } = getAllCourses();
@@ -41,13 +42,16 @@ const ExploreCourses = () => {
 
   useEffect(() => {
     fetchCourseList();
-    fetchAllCourses( );
+    fetchAllCourses();
     fetchSubscriptionStatus();
   }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentSort, setCurrentSort] = useState<string>("");
+  const [appliedFilters, setAppliedFilters] = useState<
+    Record<string, string[]>
+  >({});
 
   const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
   const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
@@ -130,7 +134,19 @@ const ExploreCourses = () => {
 
                 <SortDropdown
                   currentSort={currentSort}
-                  onSortChange={setCurrentSort}
+                  onSortChange={(sort) => {
+                    const mapSort = (s: string) => {
+                      if (!s) return "newest-first";
+                      if (s === "recent") return "newest-first";
+                      if (s === "newest") return "newest-first";
+                      if (s === "oldest") return "oldest-first";
+                      return s;
+                    };
+                    const apiSort = mapSort(sort);
+                    setCurrentSort(apiSort);
+                    const flatFilters = Object.values(appliedFilters).flat();
+                    filterCourses(flatFilters, apiSort);
+                  }}
                 />
               </div>
             </div>
@@ -158,8 +174,9 @@ const ExploreCourses = () => {
                       currentPage={fetchAllCoursedata.Webinar.current_page}
                       totalPages={fetchAllCoursedata.Webinar.total_pages}
                       onPageChange={(page) => {
-                        // TODO: extend store to support page param
-                        console.log("Webinar page:", page);
+                        const flatFilters =
+                          Object.values(appliedFilters).flat();
+                        filterCourses(flatFilters, currentSort, page);
                       }}
                     />
                   </div>
@@ -200,7 +217,9 @@ const ExploreCourses = () => {
                       currentPage={fetchAllCoursedata.Premium.current_page}
                       totalPages={fetchAllCoursedata.Premium.total_pages}
                       onPageChange={(page) => {
-                        console.log("Premium page:", page);
+                        const flatFilters =
+                          Object.values(appliedFilters).flat();
+                        filterCourses(flatFilters, currentSort, page);
                       }}
                     />
                   </div>
@@ -233,7 +252,9 @@ const ExploreCourses = () => {
                       currentPage={fetchAllCoursedata.Free.current_page}
                       totalPages={fetchAllCoursedata.Free.total_pages}
                       onPageChange={(page) => {
-                        console.log("Free page:", page);
+                        const flatFilters =
+                          Object.values(appliedFilters).flat();
+                        filterCourses(flatFilters, currentSort, page);
                       }}
                     />
                   </div>
@@ -248,6 +269,16 @@ const ExploreCourses = () => {
       <FilterModal
         isOpen={showFilterModal}
         onClose={() => setShowFilterModal(false)}
+        onChange={(filters) => {
+          // only refetch when filters actually change
+          const prevFlat = Object.values(appliedFilters).flat().join(",");
+          const nextFlat = Object.values(filters).flat().join(",");
+          if (prevFlat === nextFlat) return;
+
+          setAppliedFilters(filters);
+          const flatFilters = Object.values(filters).flat();
+          filterCourses(flatFilters, currentSort || "newest-first");
+        }}
       />
     </section>
   );

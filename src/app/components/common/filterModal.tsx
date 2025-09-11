@@ -9,11 +9,17 @@ import {
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onChange?: (filters: Record<string, string[]>) => void;
 }
 
-export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
+export default function FilterModal({
+  isOpen,
+  onClose,
+  onChange,
+}: FilterModalProps) {
   const { data, fetchFilterOptions, loading } = useFilterSortStore();
   const modalRef = useRef<HTMLDivElement>(null);
+  const didMountRef = useRef(false);
 
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, string[]>
@@ -45,33 +51,27 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    if (onChange) onChange(selectedFilters);
+  }, [selectedFilters, onChange]);
+
   if (!isOpen) return null;
 
   const toggleFilter = (category: string, value: string) => {
     setSelectedFilters((prev) => {
       const currentValues = prev[category] || [];
-      if (currentValues.includes(value)) {
-        return {
-          ...prev,
-          [category]: currentValues.filter((v) => v !== value),
-        };
-      } else {
-        return {
-          ...prev,
-          [category]: [...currentValues, value],
-        };
-      }
+      const next = currentValues.includes(value)
+        ? { ...prev, [category]: currentValues.filter((v) => v !== value) }
+        : { ...prev, [category]: [...currentValues, value] };
+      return next;
     });
   };
 
-  const handleClearAll = () => {
-    setSelectedFilters({});
-  };
-
-  const handleApply = () => {
-    console.log("Applied Filters:", selectedFilters);
-    onClose();
-  };
+  // Footer removed; applying filters on each change
 
   return (
     <div className="fixed inset-0 mt-10 flex items-center justify-center z-50">
@@ -143,21 +143,7 @@ export default function FilterModal({ isOpen, onClose }: FilterModalProps) {
           )}
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t flex justify-end gap-4">
-          <button
-            onClick={handleClearAll}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
-          >
-            Clear All
-          </button>
-          <button
-            onClick={handleApply}
-            className="px-4 py-2 rounded-lg bg-[#7B4C1F] text-white hover:bg-[#693f1b]"
-          >
-            Apply Filters
-          </button>
-        </div>
+        {/* Footer removed: filters apply on change */}
       </div>
     </div>
   );
