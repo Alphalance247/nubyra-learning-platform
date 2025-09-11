@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Button from "./buttons";
-import { useFilterSortStore } from "@/stores/courses/filterSortStore";
+import { useFilterSortStore } from "@/stores/courses/sortFilterStore";
 
 interface SortDropdownProps {
   currentSort: string;
@@ -16,14 +16,21 @@ export default function SortDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data } = useFilterSortStore();
+  const { data, fetchFilterOptions } = useFilterSortStore();
+
+  // fetch sort/filter options on mount
+  useEffect(() => {
+    fetchFilterOptions();
+  }, [fetchFilterOptions]);
 
   const sortOptions = data?.sorts?.length
     ? data.sorts
-    : ["Recent", "Newest to oldest", "Oldest to newest"];
-  
+    : [
+        { label: "Recent", value: "recent" },
+        { label: "Newest to oldest", value: "newest" },
+        { label: "Oldest to newest", value: "oldest" },
+      ];
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -33,7 +40,6 @@ export default function SortDropdown({
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -64,15 +70,15 @@ export default function SortDropdown({
         <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50">
           {sortOptions.map((option) => (
             <button
-              key={option}
-              onClick={() => handleSortSelect(option)}
+              key={option.value}
+              onClick={() => handleSortSelect(option.value)}
               className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl ${
-                currentSort === option
+                currentSort === option.value
                   ? "bg-blue-50 text-blue-600"
                   : "text-gray-700"
               }`}
             >
-              {option}
+              {option.label}
             </button>
           ))}
         </div>
