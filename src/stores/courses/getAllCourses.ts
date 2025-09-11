@@ -36,6 +36,8 @@ export interface webinarCourseData {
     cid: string;
     duration: string;
   }[];
+  current_page: number;
+  total_pages: number;
 }
 
 interface allCourseDataStore {

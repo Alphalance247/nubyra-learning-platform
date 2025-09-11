@@ -32,35 +32,36 @@ const Explore = () => {
   const errrMesaage =
     "An error occurred while fetching the projects. Please try again later.";
 
-  const fetchProjects = async (page: number = currentPage) => {
-    setLoading(true);
-    try {
-      const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
-        page: page,
-      });
-      if (res.status === 200 && Array.isArray(res.data.projects)) {
-        setProjects(res.data.projects);
-        if (res.data.total_pages) {
-          setTotalPages(res.data.total_pages);
-        }
-        if (res.data.total_items) {
-          setTotalItems(res.data.total_items);
+    const fetchProjects = async (page: number = currentPage) => {
+      setLoading(true);
+      try {
+        const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
+          page,
+        });
+
+        if (res.status === 200 && Array.isArray(res.data.projects)) {
+          setProjects(res.data.projects);
+
+          // backend pagination values
+          setTotalPages(res.data.total_pages || 1);
+          setCurrentPage(res.data.current_page || 1);
+
+          // if backend doesn’t send total_items, use current page length
+          setTotalItems(res.data.total_items ?? res.data.projects.length);
         } else {
-          setTotalItems(res.data.projects.length);
+          setError(errrMesaage);
         }
-      } else {
-        setError(errrMesaage);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          setError(err.message || errrMesaage);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        setError(err.message || errrMesaage);
-      } else {
-        setError("An unexpected error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    
 
   useEffect(() => {
     fetchProjects();

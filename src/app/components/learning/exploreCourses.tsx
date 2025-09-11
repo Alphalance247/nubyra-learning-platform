@@ -18,19 +18,12 @@ import FilterModal from "../common/filterModal";
 import SortDropdown from "../common/sortDropdown";
 import Pagination from "../common/pagination";
 
-// ✅ Type aliases from your store
 type WebinarCourse =
   import("@/stores/courses/getAllCourses").webinarCourseData["courses"][number];
 type PremiumCourse =
   import("@/stores/courses/getAllCourses").premiumCourseData["courses"][number];
 type FreeCourse =
   import("@/stores/courses/getAllCourses").freeCourseData["courses"][number];
-
-// ✅ Generic paginate
-const paginate = <T,>(items: T[], page: number, itemsPerPage: number): T[] => {
-  const start = (page - 1) * itemsPerPage;
-  return items.slice(start, start + itemsPerPage);
-};
 
 const ExploreCourses = () => {
   const { fetchCourseList } = getCourseListStore();
@@ -48,7 +41,7 @@ const ExploreCourses = () => {
 
   useEffect(() => {
     fetchCourseList();
-    fetchAllCourses();
+    fetchAllCourses( );
     fetchSubscriptionStatus();
   }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
 
@@ -56,20 +49,6 @@ const ExploreCourses = () => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentSort, setCurrentSort] = useState<string>("");
 
-  const itemsPerPage = 6;
-
-  // ✅ Pagination state per tab
-  const [tabPages, setTabPages] = useState({
-    Webinars: 1,
-    "Premium Courses": 1,
-    "Free Courses": 1,
-  });
-
-  const handlePageChange = (tab: string, page: number) => {
-    setTabPages((prev) => ({ ...prev, [tab]: page }));
-  };
-
-  // ✅ Strongly typed course arrays
   const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
   const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
   const free: FreeCourse[] = fetchAllCoursedata?.Free?.courses ?? [];
@@ -157,32 +136,31 @@ const ExploreCourses = () => {
             </div>
 
             {/* Webinars */}
-            {activeBtn === "Webinars" && (
+            {activeBtn === "Webinars" && fetchAllCoursedata?.Webinar && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(webinars, tabPages.Webinars, itemsPerPage).map(
-                    (course) => (
-                      <CourseCard
-                        key={course.cid}
-                        image={course.image}
-                        title={course.title}
-                        price={course.price}
-                        time={course.duration}
-                        duration={course.number_of_days}
-                        link={`/learning/${course.cid}`}
-                        onClickEnroll={() => handleCheckOut(course)}
-                      />
-                    )
-                  )}
+                  {webinars.map((course) => (
+                    <CourseCard
+                      key={course.cid}
+                      image={course.image}
+                      title={course.title}
+                      price={course.price}
+                      time={course.duration}
+                      duration={course.number_of_days}
+                      link={`/learning/${course.cid}`}
+                      onClickEnroll={() => handleCheckOut(course)}
+                    />
+                  ))}
                 </div>
-                {webinars.length > itemsPerPage && (
+                {fetchAllCoursedata.Webinar.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination
-                      currentPage={tabPages.Webinars}
-                      totalPages={Math.ceil(webinars.length / itemsPerPage)}
-                      onPageChange={(page) =>
-                        handlePageChange("Webinars", page)
-                      }
+                      currentPage={fetchAllCoursedata.Webinar.current_page}
+                      totalPages={fetchAllCoursedata.Webinar.total_pages}
+                      onPageChange={(page) => {
+                        // TODO: extend store to support page param
+                        console.log("Webinar page:", page);
+                      }}
                     />
                   </div>
                 )}
@@ -190,14 +168,10 @@ const ExploreCourses = () => {
             )}
 
             {/* Premium */}
-            {activeBtn === "Premium Courses" && (
+            {activeBtn === "Premium Courses" && fetchAllCoursedata?.Premium && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(
-                    premium,
-                    tabPages["Premium Courses"],
-                    itemsPerPage
-                  ).map((course) => (
+                  {premium.map((course) => (
                     <PremiumCourseCard
                       key={course.cid}
                       image={course.image}
@@ -220,14 +194,14 @@ const ExploreCourses = () => {
                     />
                   ))}
                 </div>
-                {premium.length > itemsPerPage && (
+                {fetchAllCoursedata.Premium.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination
-                      currentPage={tabPages["Premium Courses"]}
-                      totalPages={Math.ceil(premium.length / itemsPerPage)}
-                      onPageChange={(page) =>
-                        handlePageChange("Premium Courses", page)
-                      }
+                      currentPage={fetchAllCoursedata.Premium.current_page}
+                      totalPages={fetchAllCoursedata.Premium.total_pages}
+                      onPageChange={(page) => {
+                        console.log("Premium page:", page);
+                      }}
                     />
                   </div>
                 )}
@@ -235,34 +209,32 @@ const ExploreCourses = () => {
             )}
 
             {/* Free */}
-            {activeBtn === "Free Courses" && (
+            {activeBtn === "Free Courses" && fetchAllCoursedata?.Free && (
               <>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {paginate(free, tabPages["Free Courses"], itemsPerPage).map(
-                    (course) => (
-                      <PremiumCourseCard
-                        key={course.cid}
-                        image={course.image}
-                        title={course.title}
-                        type={course.course_tab}
-                        link={`/learning/${course.cid}`}
-                        onClickWatch={() =>
-                          router.push(`/learning/${course.cid}`)
-                        }
-                        subcribeText="Watch for free"
-                        btnName="Watch Now"
-                      />
-                    )
-                  )}
+                  {free.map((course) => (
+                    <PremiumCourseCard
+                      key={course.cid}
+                      image={course.image}
+                      title={course.title}
+                      type={course.course_tab}
+                      link={`/learning/${course.cid}`}
+                      onClickWatch={() =>
+                        router.push(`/learning/${course.cid}`)
+                      }
+                      subcribeText="Watch for free"
+                      btnName="Watch Now"
+                    />
+                  ))}
                 </div>
-                {free.length > itemsPerPage && (
+                {fetchAllCoursedata.Free.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination
-                      currentPage={tabPages["Free Courses"]}
-                      totalPages={Math.ceil(free.length / itemsPerPage)}
-                      onPageChange={(page) =>
-                        handlePageChange("Free Courses", page)
-                      }
+                      currentPage={fetchAllCoursedata.Free.current_page}
+                      totalPages={fetchAllCoursedata.Free.total_pages}
+                      onPageChange={(page) => {
+                        console.log("Free page:", page);
+                      }}
                     />
                   </div>
                 )}
