@@ -208,7 +208,7 @@ const CourseDetails = ({ id }: { id: string }) => {
               {courseData?.title}
             </h3>
 
-            <div className="grid md:grid-cols-2 gap-20 mb-14">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16 xl:gap-20 mb-14">
               {courseData?.course_tab === "Premium" ? (
                 <>
                   {data?.sub_status ? (
@@ -217,18 +217,17 @@ const CourseDetails = ({ id }: { id: string }) => {
                       dangerouslySetInnerHTML={{
                         __html: courseData?.video_link || "",
                       }}
-                      className="w-[333px] h-[567px] rounded-2xl"
+                      className="rounded-2xl aspect-video"
                     />
                   ) : (
                     <div
                       onClick={handlePremiumCheckOut}
-                      className=" cursor-pointer"
+                      className="cursor-pointer  aspect-video  rounded-xl"
                     >
                       <Image
                         src="/assets/learning/youtube-image.webp"
-                        width={333}
-                        height={567}
-                        className="w-[679px] h-[467px] rounded-xl"
+                        fill
+                        className="object-cover rounded-xl"
                         alt="youtube"
                       />
                     </div>
@@ -240,16 +239,17 @@ const CourseDetails = ({ id }: { id: string }) => {
                   dangerouslySetInnerHTML={{
                     __html: courseData?.video_link || "",
                   }}
-                  className="w-[333px] h-[467px] rounded-2xl"
+                  className="rounded-2xl aspect-video"
                 />
               )}
 
-              <div className=" shadow-2xl rounded-xl p-6 bg-[#FFFFFF] h-fit">
+              {/* Right Column */}
+              <div className="shadow-2xl rounded-xl p-6 bg-white h-fit">
                 <div className="flex items-center gap-x-5 mb-5">
                   <p className="text-xl font-semibold text-[#0F0918]">
                     Course Overview
                   </p>
-                  <p className="px-4 py-1.5 bg-[#98EEAF] border-[0.5px] border-[#55FF83] rounded-2xl text-xs text-[#00260A] font-normal">
+                  <p className="px-4 py-1.5 bg-[#98EEAF] border border-[#55FF83] rounded-2xl text-xs text-[#00260A] font-normal">
                     Available
                   </p>
                 </div>
@@ -259,7 +259,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                     <div className="flex items-center gap-1" key={i}>
                       <span>
                         <IoMdTime size={24} color="#413B35" />
-                      </span>{" "}
+                      </span>
                       <p className="text-[#413B35] text-base font-normal">
                         {el?.head}{" "}
                         <span className="font-semibold">{el?.subhead}</span>
@@ -272,9 +272,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                   {courseData?.course_tab !== "Free" && (
                     <>
                       {courseData?.course_tab === "Premium" &&
-                      data?.sub_status ? (
-                        ""
-                      ) : (
+                      data?.sub_status ? null : (
                         <Button
                           variant="primary"
                           className="w-full"
@@ -325,7 +323,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                   </div>
                 ) : (
                   <div className="overflow-x-auto scrollbar-hide">
-                    <div className="flex gap-x-3 justify-between items-center min-w-max">
+                    <div className="flex xl:gap-x-3 justify-between items-center min-w-max">
                       {premiumFreeTab.map((el, i) => (
                         <button
                           className={`${
