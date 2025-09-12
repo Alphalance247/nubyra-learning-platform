@@ -78,23 +78,40 @@ export const getAllCourses = create<allCourseStore>((set) => ({
   filterCourses: async (filters, sort, page) => {
     set({ loading: true, error: null });
     try {
-      const filterString = Array.isArray(filters)
-        ? filters.filter(Boolean).join(",")
-        : String(filters ?? "");
       const params = new URLSearchParams();
+
+      // sort
       if (sort) params.set("sort", sort);
-      if (filterString) params.set("filter", filterString);
+
+      // filters (allow multiple values)
+      if (Array.isArray(filters)) {
+        filters.filter(Boolean).forEach((f) => {
+          params.append("filter", f);
+        });
+      } else if (filters) {
+        params.append("filter", String(filters));
+      }
+
+      // page
       if (page) params.set("page", String(page));
 
-      const url = `${environment?.baseUrl}/allCoursesList/${params.toString() ? `?${params.toString()}` : ""}`;
-      const res = await axios.post(url, { filter: filterString, sort, page }, {
-        headers: { "Content-Type": "application/json" },
-      });
+      // build URL with query string
+      const url = `${environment?.baseUrl}/allCoursesList/${params.toString() ? `?${params.toString()}` : ""
+        }`;
+
+      // send raw array in body instead of joined string
+      const res = await axios.post(
+        url,
+        { filter: Array.isArray(filters) ? filters : [filters].filter(Boolean), sort, page },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       const raw = res.data;
 
-      // Client-side fallback filtering if backend returns unfiltered results
-      const selectedTerms = (Array.isArray(filters) ? filters : [filterString])
+      // fallback client-side filtering
+      const selectedTerms = (Array.isArray(filters) ? filters : [filters])
         .filter(Boolean)
         .map((s) => String(s).toLowerCase());
 
@@ -106,7 +123,11 @@ export const getAllCourses = create<allCourseStore>((set) => ({
       };
 
       type TrainingSoftware = { name?: string };
-      type GenericCourse = { title?: string; category?: string; training_software?: TrainingSoftware[] };
+      type GenericCourse = {
+        title?: string;
+        category?: string;
+        training_software?: TrainingSoftware[];
+      };
 
       const arrayMatches = (arr?: TrainingSoftware[]) => {
         if (!Array.isArray(arr)) return false;
@@ -119,8 +140,11 @@ export const getAllCourses = create<allCourseStore>((set) => ({
 
       const filterCoursesArray = <T extends GenericCourse>(courses: T[]): T[] => {
         if (!selectedTerms.length) return courses;
-        return courses.filter((c) =>
-          termMatches(c.title) || termMatches(c.category) || arrayMatches(c.training_software)
+        return courses.filter(
+          (c) =>
+            termMatches(c.title) ||
+            termMatches(c.category) ||
+            arrayMatches(c.training_software)
         );
       };
 
@@ -157,4 +181,5 @@ export const getAllCourses = create<allCourseStore>((set) => ({
       }
     }
   },
+  
 }));

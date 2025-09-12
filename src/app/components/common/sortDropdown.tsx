@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Button from "./buttons";
-import { useFilterSortStore } from "@/stores/courses/sortFilterStore";
+import { useFilterSortStore } from "@/stores/courses/filterSortStore";
 
 interface SortDropdownProps {
   currentSort: string;
@@ -16,12 +16,7 @@ export default function SortDropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchFilterOptions } = useFilterSortStore();
-
-  // fetch sort/filter options on mount
-  useEffect(() => {
-    fetchFilterOptions();
-  }, [fetchFilterOptions]);
+  const { data } = useFilterSortStore();
 
   const sortOptions = data?.sorts?.length
     ? data.sorts

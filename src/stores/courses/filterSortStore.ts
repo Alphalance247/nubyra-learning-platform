@@ -11,12 +11,12 @@ export interface FilterOption {
 export type FilterValue = string[] | FilterOption[];
 
 export interface FilterGroup {
-  [key: string]: FilterValue; // e.g. { "Engineering Field": [ {label, value}, ... ] }
+  [key: string]: FilterValue; 
 }
 
 export interface FilterResponse {
   filters: FilterGroup[];
-  sorts: string[];
+  sorts: { label: string, value: string }[];
 }
 
 

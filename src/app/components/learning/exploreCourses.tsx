@@ -17,6 +17,9 @@ import { useCheckout } from "@/app/utils/checkoutUtility";
 import FilterModal from "../common/filterModal";
 import SortDropdown from "../common/sortDropdown";
 import Pagination from "../common/pagination";
+import {
+  useFilterSortStore,
+} from "@/stores/courses/filterSortStore";
 
 type WebinarCourse =
   import("@/stores/courses/getAllCourses").webinarCourseData["courses"][number];
@@ -27,6 +30,7 @@ type FreeCourse =
 
 const ExploreCourses = () => {
   const { fetchCourseList } = getCourseListStore();
+  const { fetchFilterOptions } = useFilterSortStore();
   const {
     data: fetchAllCoursedata,
     fetchAllCourses,
@@ -41,10 +45,11 @@ const ExploreCourses = () => {
   const { handleCheckOut } = useCheckout();
 
   useEffect(() => {
+    fetchSubscriptionStatus();
     fetchCourseList();
     fetchAllCourses();
-    fetchSubscriptionStatus();
-  }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
+    fetchFilterOptions();
+  }, []);
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const [showFilterModal, setShowFilterModal] = useState(false);

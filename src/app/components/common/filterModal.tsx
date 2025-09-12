@@ -17,19 +17,14 @@ export default function FilterModal({
   onClose,
   onChange,
 }: FilterModalProps) {
-  const { data, fetchFilterOptions, loading } = useFilterSortStore();
+  const { data, loading } = useFilterSortStore();
+  console.log("data modal", data);
   const modalRef = useRef<HTMLDivElement>(null);
   const didMountRef = useRef(false);
 
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, string[]>
   >({});
-
-  useEffect(() => {
-    if (isOpen && !data) {
-      fetchFilterOptions();
-    }
-  }, [isOpen, data, fetchFilterOptions]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
