@@ -19,7 +19,7 @@ const RelatedCourses = () => {
         Other Courses to learn
       </h5>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
         {data?.Webinar?.courses?.slice(0, 3).map((course, index) => (
           <CourseCard
             key={index}

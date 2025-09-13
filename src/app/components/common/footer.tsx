@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Button from "./buttons";
 import Image from "next/image";
@@ -5,10 +6,16 @@ import Image from "next/image";
 const Footer = () => {
   const quickLinks = [
     { link: "/home", name: "Home" },
-    { link: "/about", name: "About" },
+    { link: "/about", name: "About Us" },
     { link: "/blog", name: "Blog" },
+    { link: "/learning", name: "Learning" },
+    { link: "/project", name: "Projects" },
   ];
 
+  const handleNavClick = (name: string) => {
+    const faqSection = document.getElementById(name);
+    faqSection?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <footer className="bg-[#FDFDFE]">
       <div className="max-w-[1400px] mx-auto py-7 px-4  lg:px-[26px]">
@@ -22,14 +29,18 @@ const Footer = () => {
                 height={160}
                 className=""
               />
-              <Link href={"/project/submit"}>
+              <a
+                href="https://wa.me/message/WABZJFRNPMNYL1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button
                   variant="secondary"
                   className="mt-6 sm:mt-10 w-full sm:w-[275px] lg:w-fit"
                 >
                   Contact Us
                 </Button>
-              </Link>
+              </a>
             </div>
 
             {/* Support */}
@@ -41,8 +52,17 @@ const Footer = () => {
                 <li>
                   <a href="tel:+2349024514039">+234 9024514039</a>
                 </li>
-                <li>
-                  <a href="">Frequently Asked Questions</a>
+                <li
+                  onClick={() => handleNavClick("faq")}
+                  className="cursor-pointer"
+                >
+                  Frequently Asked Questions
+                </li>
+                <li
+                  onClick={() => handleNavClick("review")}
+                  className="cursor-pointer"
+                >
+                  Reviews
                 </li>
               </ul>
             </div>
@@ -55,12 +75,12 @@ const Footer = () => {
               <ul className="flex flex-col gap-y-3 sm:gap-y-4">
                 {quickLinks.map((link) => (
                   <li key={link.link}>
-                    <a
+                    <Link
                       href={link.link}
                       className="text-[#ECE8F1] text-base sm:text-lg"
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -71,11 +91,36 @@ const Footer = () => {
               <h4 className="text-[#FDFDFE] font-bold text-xl sm:text-2xl lg:text-3xl mb-4">
                 Social Links
               </h4>
-              <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-4 gap-4 max-w-[250px]">
-                {[...Array(4)].map((_, i) => (
-                  <a href="" key={i}>
+              <div className="grid grid-cols-6 sm:grid-cols-6 lg:grid-cols-3 gap-2 max-w-full md:max-w-[200px]">
+                {[
+                  {
+                    src: "/assets/footer/telegram.svg",
+                    link: "https://t.me/nubyira",
+                  },
+                  {
+                    src: "/assets/footer/facebook.svg",
+                    link: "https://facebook.com/nubyira",
+                  },
+                  {
+                    src: "/assets/footer/linkedIn.svg",
+                    link: "https://linkedin.com/company/nubyira",
+                  },
+                  {
+                    src: "/assets/footer/youtube.svg",
+                    link: "https://youtube.com/channel/UCl-2WpvWW1D0pG4fx5SYewg",
+                  },
+                  {
+                    src: "/assets/footer/mail.svg",
+                    link: "mailto://nubyira@gmail.com",
+                  },
+                  {
+                    src: "/assets/footer/whatsapp.svg",
+                    link: "https://wa.me/message/WABZJFRNPMNYL1",
+                  },
+                ].map((el, i) => (
+                  <a href={el?.link} target="_blank" key={i}>
                     <Image
-                      src="/assets/home/telegram.svg"
+                      src={el?.src}
                       alt="social"
                       width={40}
                       height={40}

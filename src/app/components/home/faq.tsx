@@ -21,7 +21,7 @@ const FAQ = () => {
   }, [fetchFaq]);
 
   return (
-    <section className="bg-[#FBFAF9] py-10 md:py-16">
+    <section className="bg-[#FBFAF9] py-10 md:py-16" id="faq">
       <Container>
         <HeadingSubhead
           heading="Your Questions Answered"

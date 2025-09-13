@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios, { AxiosError } from "axios";
 import { environment } from "@/app/env/env.local";
 
-interface freeCourseData {
+export interface freeCourseData {
   courses: {
     course_tab: string;
     duration: string;
@@ -14,7 +14,7 @@ interface freeCourseData {
   total_pages: number;
 }
 
-interface premiumCourseData {
+export interface premiumCourseData {
   courses: {
     course_tab: string;
     duration: string;
@@ -26,7 +26,7 @@ interface premiumCourseData {
   total_pages: number;
 }
 
-interface webinarCourseData {
+export interface webinarCourseData {
   courses: {
     id: string;
     title: string;
@@ -36,6 +36,8 @@ interface webinarCourseData {
     cid: string;
     duration: string;
   }[];
+  current_page: number;
+  total_pages: number;
 }
 
 interface allCourseDataStore {
@@ -49,6 +51,11 @@ interface allCourseStore {
   loading: boolean;
   error: string | null;
   fetchAllCourses: () => Promise<void>;
+  filterCourses: (
+    filters: string[],
+    sort: string,
+    page?: number
+  ) => Promise<void>;
 }
 
 export const getAllCourses = create<allCourseStore>((set) => ({
@@ -67,4 +74,112 @@ export const getAllCourses = create<allCourseStore>((set) => ({
       }
     }
   },
+
+  filterCourses: async (filters, sort, page) => {
+    set({ loading: true, error: null });
+    try {
+      const params = new URLSearchParams();
+
+      // sort
+      if (sort) params.set("sort", sort);
+
+      // filters (allow multiple values)
+      if (Array.isArray(filters)) {
+        filters.filter(Boolean).forEach((f) => {
+          params.append("filter", f);
+        });
+      } else if (filters) {
+        params.append("filter", String(filters));
+      }
+
+      // page
+      if (page) params.set("page", String(page));
+
+      // build URL with query string
+      const url = `${environment?.baseUrl}/allCoursesList/${params.toString() ? `?${params.toString()}` : ""
+        }`;
+
+      // send raw array in body instead of joined string
+      const res = await axios.post(
+        url,
+        { filter: Array.isArray(filters) ? filters : [filters].filter(Boolean), sort, page },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      const raw = res.data;
+
+      // fallback client-side filtering
+      const selectedTerms = (Array.isArray(filters) ? filters : [filters])
+        .filter(Boolean)
+        .map((s) => String(s).toLowerCase());
+
+      const termMatches = (text?: unknown) => {
+        if (!selectedTerms.length) return true;
+        if (typeof text !== "string") return false;
+        const lower = text.toLowerCase();
+        return selectedTerms.some((t) => lower.includes(t));
+      };
+
+      type TrainingSoftware = { name?: string };
+      type GenericCourse = {
+        title?: string;
+        category?: string;
+        training_software?: TrainingSoftware[];
+      };
+
+      const arrayMatches = (arr?: TrainingSoftware[]) => {
+        if (!Array.isArray(arr)) return false;
+        const joined = arr
+          .map((x) => (typeof x?.name === "string" ? x.name : ""))
+          .filter(Boolean)
+          .join(" ");
+        return termMatches(joined);
+      };
+
+      const filterCoursesArray = <T extends GenericCourse>(courses: T[]): T[] => {
+        if (!selectedTerms.length) return courses;
+        return courses.filter(
+          (c) =>
+            termMatches(c.title) ||
+            termMatches(c.category) ||
+            arrayMatches(c.training_software)
+        );
+      };
+
+      const filteredData: allCourseDataStore | null = raw
+        ? {
+          ...(raw as allCourseDataStore),
+          Webinar: raw?.Webinar
+            ? {
+              ...(raw.Webinar as webinarCourseData),
+              courses: filterCoursesArray(raw.Webinar.courses || []),
+            }
+            : (raw?.Webinar as webinarCourseData),
+          Premium: raw?.Premium
+            ? {
+              ...(raw.Premium as premiumCourseData),
+              courses: filterCoursesArray(raw.Premium.courses || []),
+            }
+            : (raw?.Premium as premiumCourseData),
+          Free: raw?.Free
+            ? {
+              ...(raw.Free as freeCourseData),
+              courses: filterCoursesArray(raw.Free.courses || []),
+            }
+            : (raw?.Free as freeCourseData),
+        }
+        : null;
+
+      set({ data: filteredData, loading: false });
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        set({ error: err.message, loading: false });
+      } else {
+        set({ error: "Unexpected error", loading: false });
+      }
+    }
+  },
+  
 }));

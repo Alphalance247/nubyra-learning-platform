@@ -84,17 +84,19 @@ const SignUpPage = () => {
         toast.error(errorMessage);
       });
   };
-  
-  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+
+  const handleGoogleSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
     const idToken = credentialResponse.credential;
 
     try {
       const res = await fetch(
         "https://api.nubyira.com/api/v1/auth/social/google/",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             access_token: idToken,
@@ -104,20 +106,20 @@ const SignUpPage = () => {
 
       if (!res.ok) {
         const errorText = await res.text(); // log actual body of the error
-        console.error('Non-OK response:', res.status, errorText);
+        console.error("Non-OK response:", res.status, errorText);
         throw new Error(`Backend error: ${res.status}`);
       }
 
       const data = await res.json();
 
       // Store your custom DRF token
-      localStorage.setItem('authToken', data.token);
+      localStorage.setItem("authToken", data.token);
 
       // Redirect to dashboard
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error) {
-      console.error('Google login failed:', error);
-      alert('Something went wrong logging in with Google.');
+      console.error("Google login failed:", error);
+      alert("Something went wrong logging in with Google.");
     }
   };
 
@@ -129,30 +131,34 @@ const SignUpPage = () => {
         description="Dive into real-world projects and collaborate on innovative solutions that will shape the future of our industry."
       />
 
-        {/* Form Section */}
-        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
-          {/* Heading */}
-          <div className="w-full max-w-[450px]">
-            <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
-            Let’s Get Started! <span role="img" aria-label="rocket">🚀</span>
-            </h2>
-            <p className="text-center text-gray-500 mb-6">Create an account to get started</p>
-          </div>
+      {/* Form Section */}
+      <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
+        {/* Heading */}
+        <div className="w-full max-w-[450px]">
+          <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
+            Let’s Get Started!{" "}
+            <span role="img" aria-label="rocket">
+              🚀
+            </span>
+          </h2>
+          <p className="text-center text-gray-500 mb-6">
+            Create an account to get started
+          </p>
+        </div>
 
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={() => console.log("Login Failed")}
+          type="standard"
+          theme="outline"
+          size="large"
+          shape="rectangular"
+          text="signin_with"
+          logo_alignment="left"
+        />
 
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => console.log('Login Failed')}
-            type="standard"
-            theme="outline"
-            size="large"
-            shape="rectangular"
-            text="signin_with"
-            logo_alignment="left"
-          />
-
-          {/* Divider */}
-          {/* <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
+        {/* Divider */}
+        {/* <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
             <div className="w-full h-px bg-gradient-to-r from-[#F2F2F3] to-[#B3BABF]" />
               <span className="min-w-[57px] h-[36px] px-[10px] py-[5px] text-[#34474E] text-sm flex items-center justify-center">
                 Or
@@ -264,7 +270,7 @@ const SignUpPage = () => {
           <Button
             variant="secondary"
             type="submit"
-            className="text-[#413B35] m-5 hover:bg-[#95704C] hover:text-white hover:border-[#A78769]"
+            className="text-[#413B35] w-full mt-3 hover:bg-[#95704C] hover:text-white hover:border-[#A78769]"
             disabled={loading}
           >
             {loading ? "Creating Account..." : "Create Account"}
