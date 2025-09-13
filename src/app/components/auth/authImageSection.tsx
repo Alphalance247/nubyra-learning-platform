@@ -114,7 +114,7 @@ const HeroImageSection: React.FC<HeroImageSectionProps> = ({
   description,
 }) => {
   return (
-    <div className="relative w-[720px] h-[1161px] overflow-hidden">
+    <div className="relative w-[720px] h-[1161px] hidden overflow-hidden lg:block">
       {/* Flipped Background */}
       <div
         className="absolute inset-0 scale-x-[-1] brightness-[0.75] bg-cover bg-center"

@@ -33,7 +33,7 @@ axiosInstance.interceptors.response.use(
         // const currentPath = window.location.pathname + window.location.search;
         // Clear cookies
         document.cookie =
-          "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
         // Clear localStorage
         localStorage.removeItem("first_name");

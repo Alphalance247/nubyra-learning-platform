@@ -47,7 +47,7 @@ const OurProjects = () => {
               <ProjectCard
                 key={index}
                 image={project?.images[0]?.image}
-                title={project?.field?.label}
+                title={project?.project_title}
                 type={project?.project_type}
                 clientLocation={project?.country}
                 projectScope={project?.project_scope}

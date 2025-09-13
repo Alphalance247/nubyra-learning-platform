@@ -193,7 +193,7 @@ const LoginPage = () => {
             </form>
 
             <div>
-              <p className="text-center text-sm text-gray-600 mt-6">
+              <p className="text-center text-sm text-gray-600 mt-6 w-full">
                 Don&apos;t have an account?{" "}
                 <span
                   onClick={() => router.push("sign-up")}

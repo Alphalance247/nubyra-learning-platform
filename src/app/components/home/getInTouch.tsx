@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Button from "../common/buttons";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
@@ -27,14 +26,18 @@ const GetInTouch = () => {
             />
 
             <div className="mt-8 sm:mt-10 flex  justify-center ">
-              <Link href="/project/submit">
+              <a
+                href="https://wa.me/message/WABZJFRNPMNYL1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button
                   variant="secondary"
                   className="!w-[289px]  text-sm sm:text-base"
                 >
                   Contact Us
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

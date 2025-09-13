@@ -36,7 +36,7 @@ const Testimonial = () => {
   };
 
   return (
-    <section className="bg-[#FEFEFD] py-12 md:py-20">
+    <section className="bg-[#FEFEFD] py-12 md:py-20" id="review">
       <Container>
         <HeadingSubhead
           heading="What they are saying about us"
