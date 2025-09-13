@@ -19,19 +19,19 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { login } = useAuth();
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    };
     const searchParams = useSearchParams();
-    // Get the redirect URL from query params
+
     const redirectTo =
       searchParams.get("redirect") ||
       (typeof window !== "undefined"
         ? sessionStorage.getItem("redirectAfterLogin")
         : null) ||
       "/dashboard";
-    // const redirectTo = searchParams.get("redirect") || "/dashboard";
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -40,18 +40,12 @@ const LoginPage = () => {
         .post("/api/login", { ...formData })
         .then((response) => {
           setLoading(false);
-          console.log("Login response:", response);
-          console.log("Status:", response.status);
           if (response.status >= 200 && response.status < 300) {
-            // Store in localStorage
             const { first_name, middle_name, last_name, image } =
               response?.data;
             toast.success(`Login Successful Welcome back ${first_name}`);
-
             login({ first_name, middle_name, last_name, image });
-
             setFormData({ email: "", password: "" });
-            // Clear the stored redirect path after successful login
             if (typeof window !== "undefined") {
               sessionStorage.removeItem("redirectAfterLogin");
             }
@@ -62,14 +56,11 @@ const LoginPage = () => {
         })
         .catch((err) => {
           setLoading(false);
-          // Extract the error message from the response
           let errorMessage =
             "An error occurred please try again or contact Admin";
           if (err instanceof AxiosError) {
-            // Check if err is an instance of AxiosError
             errorMessage = err.response?.data?.message || errorMessage;
           }
-
           toast.error(errorMessage);
         });
     };
@@ -78,54 +69,40 @@ const LoginPage = () => {
       credentialResponse: CredentialResponse
     ) => {
       const idToken = credentialResponse.credential;
-
       try {
         const res = await fetch(
           "https://api.nubyira.com/api/v1/auth/social/google/",
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              access_token: idToken,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ access_token: idToken }),
           }
         );
-
-        if (!res.ok) {
-          throw new Error(`Backend error: ${res.status}`);
-        }
-
+        if (!res.ok) throw new Error(`Backend error: ${res.status}`);
         const data = await res.json();
-
-        // Store your custom DRF token
         localStorage.setItem("authToken", data.token);
-
-        // Redirect to dashboard
         router.push("/dashboard");
       } catch (error) {
         console.error("Google login failed:", error);
-        // alert('Something went wrong logging in with Google.');
       }
     };
+
     return (
       <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
-        {/* Left Side: Image + Welcome */}
-        <HeroImageSection
-          imageSrc="/assets/general/sign-up.png"
-          title="👋 Hey There! We're So Glad To See You Again!"
-          description="Log in to continue learning, building, and transforming your ideas into real-world impact."
-        />
+        {/* Left Side: Image */}
+        <div className="w-full lg:w-1/2">
+          <HeroImageSection
+            imageSrc="/assets/general/sign-up.png"
+            title="👋 Hey There! We're So Glad To See You Again!"
+            description="Log in to continue learning, building, and transforming your ideas into real-world impact."
+          />
+        </div>
 
         {/* Right Side: Form */}
         <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
           <div className="w-full max-w-[450px]">
             <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
-              Welcome Back!{" "}
-              <span role="img" aria-label="rocket">
-                🚀
-              </span>
+              Welcome Back! 🚀
             </h2>
             <p className="text-center text-gray-500 mb-6">
               We&apos;re so glad to see you again <span>😊</span>
@@ -159,7 +136,6 @@ const LoginPage = () => {
                 placeholder="Enter email"
                 required
               />
-
               <InputField
                 label="Password"
                 name="password"
@@ -170,21 +146,20 @@ const LoginPage = () => {
                 isPassword
               />
 
+              {/* Save password + Forgot */}
               <div className="flex justify-between items-center text-sm text-[#34474E] m-3">
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     checked={savePassword}
                     onChange={() => setSavePassword(!savePassword)}
-                    className="w-[16px] h-[16px] rounded-[2px] border border-[#7B4C1F] bg-white accent-[#7B4C1F]"
+                    className="w-4 h-4 rounded border border-[#7B4C1F] bg-white accent-[#7B4C1F]"
                   />
-                  <span className="font-inter font-normal text-[14px] leading-[22px] tracking-normal align-middle text-[#413B35]">
-                    Save Password
-                  </span>
+                  <span className="text-[#413B35]">Save Password</span>
                 </label>
                 <span
                   onClick={() => router.push("forget-password")}
-                  className="font-inter font-semibold text-[14px] leading-[22px] tracking-normal text-center capitalize text-[#7B4C1F] hover:underline transition-none cursor-pointer"
+                  className="text-[#7B4C1F] font-semibold hover:underline cursor-pointer"
                 >
                   Forgot Password?
                 </span>
@@ -199,12 +174,13 @@ const LoginPage = () => {
               </Button>
             </form>
 
+            {/* Footer links */}
             <div>
               <p className="text-center text-sm text-gray-600 mt-6">
                 Don&apos;t have an account?{" "}
                 <span
                   onClick={() => router.push("sign-up")}
-                  className="font-[inter] font-semibold text-[14px] leading-[22px] tracking-normal text-center capitalize text-[#7B4C1F] hover:underline transition-none cursor-pointer"
+                  className="text-[#7B4C1F] font-semibold hover:underline cursor-pointer"
                 >
                   Create Account
                 </span>
@@ -212,11 +188,9 @@ const LoginPage = () => {
               <div className="text-center">
                 <Link
                   href={"/resend-verification-link"}
-                  className="text-sm text-[#7B4C1F] font-semibold"
+                  className="text-sm text-[#7B4C1F] font-semibold hover:underline"
                 >
-                  <button className="cursor-pointer  hover:underline">
-                    Resend verification link
-                  </button>
+                  Resend verification link
                 </Link>
               </div>
             </div>

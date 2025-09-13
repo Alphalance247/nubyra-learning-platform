@@ -1,6 +1,3 @@
-
-  
-
 import React from "react";
 import { GoChevronRight } from "react-icons/go";
 
@@ -10,20 +7,33 @@ interface BreadcrumbProps {
   className?: string;
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ className = '', previousStep, currentStep }) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({
+  className = "",
+  previousStep,
+  currentStep,
+}) => {
   return (
-    <p className={`flex items-center space-x-2 text-sm text-gray-500 ${className}`}>
-      <span className="font-poppins font-normal text-[18px] leading-[26px] text-[#928E8B]">
+    <nav
+      aria-label="Breadcrumb"
+      className={`flex items-center flex-wrap gap-1 md:gap-2 ${className}`}
+    >
+      {/* Previous Step */}
+      <span className="font-poppins text-xs sm:text-sm md:text-base lg:text-lg leading-tight text-[#928E8B]">
         {previousStep}
       </span>
-      <span className="text-[#928E8B]">
-        <GoChevronRight size={18} />
-      </span>
-      <span className="font-poppins font-normal text-[18px] leading-[26px] text-[#928E8B]">
+
+      {/* Chevron */}
+      <GoChevronRight
+        size={18}
+        className="text-[#928E8B] flex-shrink-0"
+      />
+
+      {/* Current Step */}
+      <span className="font-poppins text-xs sm:text-sm md:text-base lg:text-lg leading-tight text-[#928E8B] font-medium">
         {currentStep}
       </span>
-    </p>
+    </nav>
   );
-}
+};
 
 export default Breadcrumb;
