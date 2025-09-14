@@ -47,7 +47,9 @@ const PaymentMethodSelector = () => {
 
       if (res.status === 200) {
         router.push(res?.data?.authorization_url);
-        toast.success("Payment Initiated successfully Redirecting....");
+        toast.success(
+          res.data.message || "Payment Initiated successfully Redirecting...."
+        );
       }
       setLoading(false);
     } catch (err) {
@@ -63,58 +65,60 @@ const PaymentMethodSelector = () => {
   };
 
   return (
-    <div className="w-[580px] h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
-      <div className="w-[322px] h-[36px] font-montserrat font-bold text-[20px] leading-[28px] text-[#120A02] capitalize align-middle">
+    <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-6">
+      {/* Title */}
+      <h2 className="font-montserrat font-bold text-lg sm:text-xl md:text-2xl text-[#120A02] capitalize">
         Choose Payment Method
-      </div>
-      <div className="w-[360px] h-[24px] font-inter font-semibold text-[16px] leading-[24px] tracking-normal align-middle capitalize text-[#413B35]">
-        Pay with
-      </div>
+      </h2>
 
-      <div className="w-[532px] h-[44px] gap-3 flex">
+      {/* Subtitle */}
+      <p className="font-inter font-semibold text-sm sm:text-base text-[#413B35] capitalize">
+        Pay with
+      </p>
+
+      {/* Payment buttons */}
+      <div className="flex flex-col sm:flex-row gap-3 w-full">
         {(["paystack"] as PaymentMethod[]).map((method) => (
           <button
             key={method}
             onClick={() => setSelected(method)}
             className={`
-                flex items-center justify-center gap-2 cursor-pointer
-                w-[260px] h-[44px] p-[6px]
-                rounded-lg border bg-[#FEFEFD]
-                ${selected === method ? "border-blue-500" : "border-[#E7E7E6]"}
+              flex items-center justify-center gap-2
+              flex-1 h-11 p-2 rounded-lg border bg-[#FEFEFD]
+              ${selected === method ? "border-blue-500" : "border-[#E7E7E6]"}
             `}
           >
             <Image
               src={logos[method]}
               alt={`${method} logo`}
-              className="w-[16px] h-[16px]"
-              width={16}
-              height={16}
+              width={18}
+              height={18}
+              className="w-4 h-4 sm:w-5 sm:h-5"
             />
-            {/* Text */}
-            <span className="font-semibold text-[14px] leading-[22px] capitalize text-[#413B35] font-inter">
+            <span className="font-inter font-semibold text-sm sm:text-base capitalize text-[#413B35]">
               {method}
             </span>
           </button>
         ))}
       </div>
-      <div className="w-[532px] border-t my-6 border-[#D6C8BA]" />
-      <div className="w-[532px] h-[192px] flex flex-col gap-[48px]">
-        <p className="w-[532px] h-[88px] font-inter font-normal text-[14px] leading-[22px] text-[#413B35] align-middle">
+
+      {/* Divider */}
+      <div className="border-t border-[#D6C8BA] my-4" />
+
+      {/* Description + Button */}
+      <div className="flex flex-col gap-6">
+        <p className="font-inter text-sm sm:text-base text-[#413B35]">
           This is a one-time payment for your course enrollment. You will be
           redirected to the payment service website. After payment, you’ll
           access the course from your dashboard.
         </p>
 
-        {/* <button onClick={() => setShowOverlay(true)}
-      className="w-[532px] h-[56px] flex items-center justify-center gap-[6px] rounded-[16px] border border-[#A78769] bg-[#95704C] pt-[16px] pr-[32px] pb-[16px] pl-[32px] transition-opacity duration-300 ease-out">
-        Choose Payment
-      </button> */}
         <Button
           onClick={
             selected === "paystack" ? handlePayStackIntegration : () => {}
           }
           variant="primary"
-          className="w-[532px] h-[56px] flex items-center justify-center gap-[6px]"
+          className="w-full h-14 flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           {loading
             ? "Processing....."

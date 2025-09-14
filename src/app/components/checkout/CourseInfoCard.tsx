@@ -7,38 +7,49 @@ type CourseDetails = {
 
 const CourseInfoCard = ({ course }: { course: CourseDetails }) => {
   return (
-    <div className="w-[580px] rounded-[8px] border border-[#F2EDE9] bg-[#FBFAF9] p-6 flex flex-col gap-6 h-fit">
-      <div className="w-[532px] h-[50px] gap-3 flex justify-between pb-4 border-b border-[#F2EDE9]">
-        <p className="w-[176px] h-[26px] font-inter font-normal text-[18px] leading-[26px] tracking-normal text-[#413B35]">
+    <div className="w-full max-w-[580px] rounded-lg border border-[#F2EDE9] bg-[#FBFAF9] p-4 sm:p-6 flex flex-col gap-4 sm:gap-6">
+      {/* Row: Course */}
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
+        <span className="font-inter text-base sm:text-lg text-[#413B35]">
           Course
-        </p>
-        <p className="w-[344px] h-[26px] font-inter font-semibold text-[18px] leading-[26px] capitalize text-[#120A02]">
+        </span>
+        <span className="font-inter font-semibold text-base sm:text-lg text-[#120A02] capitalize">
           {course.title}
-        </p>
+        </span>
       </div>
-      <div className="w-[532px] h-[26px] gap-3 flex justify-between items-center">
-        <p className="w-[176px] h-[26px] font-inter font-normal text-[18px] leading-[26px] tracking-normal text-[#413B35]">
+
+      <div className="border-t border-[#B69791]/20" />
+
+      {/* Row: Total Amount */}
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
+        <span className="font-inter text-base sm:text-lg text-[#413B35]">
           Total Amount
-        </p>
-        <p className="not-first:w-[344px] h-[26px] font-inter font-semibold text-[18px] leading-[26px] capitalize text-[#120A02]">
-          $ {course?.price}
-        </p>
+        </span>
+        <span className="font-inter font-semibold text-base sm:text-lg text-[#120A02]">
+          ${course.price}
+        </span>
       </div>
-      <div className="w-[532px] border-t-[1.5px] border-t-[#B69791]/20"></div>
-      <div className="w-[532px] h-[26px] flex justify-between">
-        <span className="w-[176px] h-[26px] font-inter font-normal text-[18px] leading-[26px] tracking-normal text-[#413B35]">
+
+      <div className="border-t border-[#B69791]/20" />
+
+      {/* Row: Duration */}
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
+        <span className="font-inter text-base sm:text-lg text-[#413B35]">
           Course Duration
         </span>
-        <span className="w-[344px] h-[26px] font-inter font-semibold text-[18px] leading-[26px] capitalize text-[#120A02]">
+        <span className="font-inter font-semibold text-base sm:text-lg text-[#120A02] capitalize">
           {course.duration}
         </span>
       </div>
-      <div className="w-[532px] border-t-[1.5px] border-t-[#B69791]/20"></div>
-      <div className="w-[532px] h-[26px] flex gap-[14px]">
-        <span className="w-[176px] h-[26px] font-inter font-normal text-[18px] leading-[26px] tracking-normal text-[#413B35]">
+
+      <div className="border-t border-[#B69791]/20" />
+
+      {/* Row: Venue */}
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
+        <span className="font-inter text-base sm:text-lg text-[#413B35]">
           Course Venue
         </span>
-        <span className="w-[344px] h-[26px] font-inter font-semibold text-[18px] leading-[26px] capitalize text-[#120A02]">
+        <span className="font-inter font-semibold text-base sm:text-lg text-[#120A02] capitalize">
           {course.venue}
         </span>
       </div>

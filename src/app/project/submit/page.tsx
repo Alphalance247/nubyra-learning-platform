@@ -196,7 +196,7 @@ const ContactForm: React.FC = () => {
   return (
     <ProtectedRoute>
       <Layout>
-        <section className="bg-[#FEFEFD] w-full overflow-x-hidden py-8 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[#FEFEFD] w-full overflow-x-hidden px-0 md:py-8 md:px-4 lg:px-8">
           <Container>
             <div className="flex flex-col gap-4 sm:gap-6">
               <NavigateArrow
@@ -210,20 +210,21 @@ const ContactForm: React.FC = () => {
                 currentStep="Project Request Submission"
               />
             </div>
-            <div className="w-full max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-8">
-              <div className="w-full max-w-3xl mx-auto gap-8">
-                <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
+            <div className="w-full mx-auto flex flex-col gap-8">
+              <div className="w-full mx-auto gap-8">
+                <div className="relative max-w-[1200px] w-full mx-auto gap-8">
                   <SectionHeader
                     title="Project Request Submission"
                     subtitle="Please fill out the form below to submit your project request"
-                    className="mb-4"
+                    className="mb-0"
                   />
-                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
+                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-4 sm:p-6 bg-[#FBFAF9] flex flex-col">
                     <form
                       onSubmit={handleSubmit}
                       className="w-full flex flex-col gap-4"
                     >
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px] h-[82px]">
+                      {/* First + Last Name */}
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="First Name"
                           name="first_name"
@@ -244,7 +245,7 @@ const ContactForm: React.FC = () => {
                         />
                       </div>
 
-                      {/* Email & Phone */}
+                      {/* Email + Phone */}
                       <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="Email"
@@ -254,73 +255,89 @@ const ContactForm: React.FC = () => {
                           onChange={handleChange}
                           required
                           placeholder="Enter email"
-                          className="flex-1"
+                          className="w-full"
                         />
                         <PhoneInput
                           value={phone}
                           onChange={setPhone}
-                          className="flex-1"
+                          className="w-full"
                         />
                       </div>
 
-                      <div className="w-[648px] h-[82px] flex gap-2">
+                      {/* Company/University */}
+                      <div className="w-full">
                         <InputField
                           label="Company/University"
                           name="company_university"
                           value={formData.company_university}
                           onChange={handleChange}
-                          required={true}
+                          required
                           placeholder="Enter name"
-                          className="w-[648px]"
+                          className="w-full"
                         />
                       </div>
-                      <div className="w-[648px] h-[82px] flex gap-3">
-                        {/* <SelectField
-                          label="Project Type"
-                          name="projectType"
-                          value={formData.projectType}
-                          onChange={handleChange}
-                          required={true}
-                          options={[
-                            { label: "Select", value: "" },
-                            { label: "Power Plant", value: "power" },
-                            { label: "Manufacturing", value: "Manufacturing" },
-                            { label: "Industrial Design", value: "industrial" },
-                          ]}
-                        /> */}
+
+                      {/* Project Nature  + Engineering Field*/}
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <SelectField
                           label="Project Nature"
                           name="project_type"
                           value={formData.project_type}
                           onChange={handleChange}
-                          required={true}
+                          required
                           options={[
                             { label: "Select", value: "" },
-                            { label: "Full Excution", value: "full" },
+                            { label: "Full Execution", value: "full" },
                             {
                               label: "Project Assistance",
                               value: "assistance",
                             },
                           ]}
+                          className="w-full"
+                        />
+
+                        <InputField
+                          label="Engineering Field"
+                          name="professional_academic_field"
+                          value={formData.professional_academic_field}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter engineering field"
+                          className="w-full"
                         />
                       </div>
 
                       {/* Address */}
-                      <InputField
-                        label="Address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter address"
-                      />
+                      <div className="w-full">
+                        <InputField
+                          label="Address"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter address"
+                          className="w-full"
+                        />
+                      </div>
 
-                      {/* Country/State */}
+                      {/* Country + State */}
                       <CountryStateSelect
                         value={location}
                         onChange={setLocation}
                       />
 
+                      {/* Project Title */}
+                      <div className="w-full">
+                        <InputField
+                          label="Project Title"
+                          name="project_title"
+                          value={formData.project_title}
+                          onChange={handleChange}
+                          required
+                          placeholder="Enter project title"
+                          className="w-full"
+                        />
+                      </div>
                       {/* Engineering Field & Project Title */}
                       <InputField
                         label="Engineering Field"
@@ -339,16 +356,18 @@ const ContactForm: React.FC = () => {
                         placeholder="Enter project title"
                       />
 
+                      {/* File Upload */}
                       <FileUpload
                         label="Project Document"
                         name="file"
-                        className="w-[648px]"
-                        required={true}
+                        className="w-full"
+                        required
                         onChange={(file) =>
                           setFormData({ ...formData, project_file: file })
                         }
                       />
 
+                      {/* Project Description */}
                       <div className="w-full">
                         <TextArea
                           label="Project Description"
@@ -356,26 +375,31 @@ const ContactForm: React.FC = () => {
                           value={formData.comment}
                           onChange={handleChange}
                           placeholder="Describe your project"
-                          className="w-[646px] h-[148px]"
+                          className="w-full min-h-[120px]"
                         />
                       </div>
-                      <div className="w-full max-w-[648px] text-[#413B35]">
-                        <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-[20px] capitalize">
+
+                      {/* Terms & Conditions */}
+                      <div className="w-full text-[#413B35]">
+                        <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-lg sm:text-xl capitalize">
                           Term and Condition
                         </h3>
-                        <div className="flex flex-row">
+
+                        <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
-                            Effective Date:
+                            Effective Date:{" "}
+                            <span className="font-normal">{fullDate}</span>
                           </h4>
-                          <span>{fullDate}</span>
                         </div>
-                        <div className="flex flex-row">
+
+                        <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">
-                            Company Name:
+                            Company Name:{" "}
+                            <span className="font-normal">Nubyira LTD</span>
                           </h4>
-                          <span>Nubyira LTD</span>
                         </div>
-                        <ul className="pl-5 font-[Inter] text-sm flex flex-col gap-2">
+
+                        <ul className="pl-5 font-[Inter] text-sm sm:text-base flex flex-col gap-2">
                           {termsAndConditions.map((term, i) => (
                             <li key={term.id} className="mb-3">
                               <strong>
@@ -391,7 +415,7 @@ const ContactForm: React.FC = () => {
                             </li>
                           ))}
 
-                          <div className="mr-2 my-5 text-[#7B4C1F]">
+                          <div className="my-5 text-[#7B4C1F] flex items-center">
                             <input
                               type="checkbox"
                               checked={acceptedTerms}
@@ -405,14 +429,17 @@ const ContactForm: React.FC = () => {
                           </div>
                         </ul>
                       </div>
+
+                      {/* Submit */}
                       <Button
                         type="submit"
                         variant="primary"
                         className="w-full mt-4"
                       >
-                        Submit
+                        Submit Project
                       </Button>
                     </form>
+
                     {showOverlay && (
                       <SuccessOverlay
                         onClose={() => setShowOverlay(false)}

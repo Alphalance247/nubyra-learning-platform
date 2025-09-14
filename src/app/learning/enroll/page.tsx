@@ -208,20 +208,21 @@ const EnrollmentForm: React.FC = () => {
                 currentStep="Enrollment Form"
               />
             </div>
-            <div className="w-full max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-8">
+            <div className="w-full max-w-screen-xl mx-auto flex flex-col gap-8">
               <div className="w-full max-w-3xl mx-auto gap-8">
-                <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
+                <div className="relative max-w-[1200px] w-full mx-auto gap-8">
                   <SectionHeader
                     title={courseTitle + " Registration" || "Not Available"}
                     subtitle="Please ensure that all fields in the form are completed to register for this webinar."
                     className=""
                   />
-                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
+                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-4 sm:p-6 bg-[#FBFAF9] flex flex-col">
                     <form
                       onSubmit={handleSubmit}
                       className="w-full flex flex-col gap-4"
                     >
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px]">
+                      {/* First + Last Name */}
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="First Name"
                           name="first_name"
@@ -243,6 +244,7 @@ const EnrollmentForm: React.FC = () => {
                         />
                       </div>
 
+                      {/* Middle Name */}
                       <InputField
                         label="Middle Name"
                         name="middle_name"
@@ -253,7 +255,7 @@ const EnrollmentForm: React.FC = () => {
                       />
 
                       {/* Email + Phone */}
-                      <div className="w-full max-w-[648px] flex gap-3">
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="Email"
                           type="email"
@@ -271,7 +273,7 @@ const EnrollmentForm: React.FC = () => {
                         />
                       </div>
 
-                      {/* Company/Institution */}
+                      {/* Company */}
                       <InputField
                         label="Company/Institution"
                         name="company_institution"
@@ -279,7 +281,7 @@ const EnrollmentForm: React.FC = () => {
                         onChange={handleChange}
                         required
                         placeholder="Enter company or institution"
-                        className="w-full max-w-[648px]"
+                        className="w-full"
                       />
 
                       {/* Address */}
@@ -290,17 +292,17 @@ const EnrollmentForm: React.FC = () => {
                         onChange={handleChange}
                         required
                         placeholder="Enter your address"
-                        className="w-full max-w-[648px]"
+                        className="w-full"
                       />
 
-                      {/* Country & State */}
+                      {/* Country + State */}
                       <CountryStateSelect
                         value={location}
                         onChange={setLocation}
                       />
 
                       {/* Zip + Academic Field */}
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px]">
+                      <div className="flex flex-col sm:flex-row gap-3 w-full">
                         <InputField
                           label="Zip/Postal Code"
                           name="zip_number"
@@ -321,30 +323,34 @@ const EnrollmentForm: React.FC = () => {
                         />
                       </div>
 
-                      <div className="w-full max-w-[648px] text-[#413B35]">
-                        <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-[20px] capitalize">
+                      {/* Terms */}
+                      <div className="w-full text-[#413B35]">
+                        <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-lg sm:text-xl capitalize">
                           Term and Condition
                         </h3>
-                        <div className="flex flex-row">
+
+                        <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
-                            Effective Date:
+                            Effective Date:{" "}
+                            <span className="font-normal">{fullDate}</span>
                           </h4>
-                          <span>{fullDate}</span>
                         </div>
-                        <div className="flex flex-row">
+
+                        <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">
-                            Company Name:
+                            Company Name:{" "}
+                            <span className="font-normal">Nubyira LTD</span>
                           </h4>
-                          <span>Nubyira LTD</span>
                         </div>
-                        <ul className="list-disc pl-5 font-[Inter] text-sm flex flex-col gap-2">
+
+                        <ul className="list-disc pl-5 font-[Inter] text-sm sm:text-base flex flex-col gap-2">
                           {termsAndConditions.map((term) => (
                             <li key={term.id}>
                               <strong>{term.title}:</strong> {term.text}
                             </li>
                           ))}
 
-                          <div className="mr-2 my-5 text-[#7B4C1F]">
+                          <div className="mr-2 my-5 text-[#7B4C1F] flex items-center">
                             <input
                               type="checkbox"
                               checked={acceptedTerms}
@@ -352,7 +358,6 @@ const EnrollmentForm: React.FC = () => {
                                 setAcceptedTerms(e.target.checked)
                               }
                             />
-
                             <span className="pl-2">
                               I agree to the terms and conditions.
                             </span>
@@ -360,6 +365,7 @@ const EnrollmentForm: React.FC = () => {
                         </ul>
                       </div>
 
+                      {/* Button */}
                       <Button
                         type="submit"
                         variant="primary"
@@ -369,6 +375,7 @@ const EnrollmentForm: React.FC = () => {
                         {loading ? "Submitting..." : "Proceed to Payment"}
                       </Button>
                     </form>
+
                     {showOverlay && (
                       <SuccessOverlay
                         onClose={() => setShowOverlay(false)}

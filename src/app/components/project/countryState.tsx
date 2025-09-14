@@ -83,25 +83,30 @@ const CountryStateSelect: React.FC<Props> = ({ value, onChange }) => {
   };
 
   return (
-    <div className="w-[648px] h-[82px] flex gap-3">
-      <SelectField
-        label="Country"
-        name="country"
-        value={value.country}
-        onChange={handleCountryChange}
-        required
-        options={countries}
-      />
+    <div className="flex flex-col sm:flex-row gap-3 w-full">
+        <SelectField
+          label="Country"
+          name="country"
+          value={value.country}
+          onChange={handleCountryChange}
+          required
+          options={countries}
+          className="w-full"
+        />
+      
 
-      <SelectField
-        label="State"
-        name="state"
-        value={value.state}
-        onChange={handleStateChange}
-        required
-        options={states}
-      />
+        <SelectField
+          label="State"
+          name="state"
+          value={value.state}
+          onChange={handleStateChange}
+          required
+          options={states}
+          className="w-full"
+        />
+      
     </div>
+
   );
 };
 
