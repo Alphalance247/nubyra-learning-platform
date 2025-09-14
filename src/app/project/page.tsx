@@ -29,7 +29,7 @@ const Project = () => {
               A comprehensive list of completed process engineering projects
             </p>
             <div className="flex justify-start lg:justify-start items-center gap-x-4">
-              <Link href={"/"}>
+              <Link href={"/project/submit"}>
                 <Button
                   className="w-fit flex items-center gap-x-2"
                   variant="primary"
