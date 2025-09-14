@@ -212,13 +212,15 @@ const CourseDetails = ({ id }: { id: string }) => {
               {courseData?.course_tab === "Premium" ? (
                 <>
                   {data?.sub_status ? (
-                    <div
-                      key={`video-${courseData?.id}`}
-                      dangerouslySetInnerHTML={{
-                        __html: courseData?.video_link || "",
-                      }}
-                      className="rounded-2xl aspect-video"
-                    />
+                    <div className="w-full">
+                      <div
+                        key={`video-${courseData?.id}`}
+                        dangerouslySetInnerHTML={{
+                          __html: courseData?.video_link || "",
+                        }}
+                        className="rounded-2xl aspect-video w-full relative responsive-video-container [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:rounded-2xl"
+                      />
+                    </div>
                   ) : (
                     <div
                       onClick={handlePremiumCheckOut}
@@ -234,13 +236,15 @@ const CourseDetails = ({ id }: { id: string }) => {
                   )}
                 </>
               ) : (
-                <div
-                  key={`video-${courseData?.id}`}
-                  dangerouslySetInnerHTML={{
-                    __html: courseData?.video_link || "",
-                  }}
-                  className="rounded-2xl aspect-video"
-                />
+                <div className="w-full">
+                  <div
+                    key={`video-${courseData?.id}`}
+                    dangerouslySetInnerHTML={{
+                      __html: courseData?.video_link || "",
+                    }}
+                    className="rounded-2xl aspect-video w-full relative responsive-video-container [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:rounded-2xl"
+                  />
+                </div>
               )}
 
               {/* Right Column */}
