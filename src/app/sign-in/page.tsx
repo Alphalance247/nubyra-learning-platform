@@ -47,7 +47,8 @@ const LoginPage = () => {
             // Clear the stored redirect path after successful login
             localStorage.setItem("user_email_checkout", formData?.email);
 
-            router.push(redirectTo);
+            // Instead of router.push(redirectTo)
+            window.location.href = redirectTo;
           } else {
             toast.error("Error login please try again or contact Admin");
           }
@@ -94,8 +95,12 @@ const LoginPage = () => {
         // Store your custom DRF token
         localStorage.setItem("authToken", data.token);
 
-        // Redirect to dashboard
-        router.push("/dashboard");
+        // Small delay to ensure cookie is set before redirect
+        // setTimeout(() => {
+        //   router.push(redirectTo);
+        // }, 200);
+        // Instead of router.push(redirectTo)
+        window.location.href = redirectTo;
       } catch (error) {
         console.error("Google login failed:", error);
         // alert('Something went wrong logging in with Google.');
