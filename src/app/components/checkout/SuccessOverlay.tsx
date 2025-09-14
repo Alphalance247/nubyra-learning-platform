@@ -24,48 +24,51 @@ export default function SuccessOverlay({
 }: SuccessOverlayProps) {
   return (
     <div
-      className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 animate-fadeIn"
+      className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 animate-fadeIn px-4"
       onClick={onClose}
     >
       <div
-        className="text-center bg-white rounded-[20px] mt-[86px] ml-[59px] p-[40px] w-[610px] h-[440.33px]"
+        className="mt-20 text-center bg-white rounded-2xl p-6 sm:p-10 w-full max-w-lg sm:max-w-2xl"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Check icon */}
         <div className="flex justify-center items-center mb-6">
-          <div className="w-[149.03px] h-[144.33px] rounded-[40px] p-[7.52px] bg-[#F3F0EC] flex items-center justify-center">
+          <div className="w-24 h-24 sm:w-36 sm:h-36 rounded-3xl p-2 bg-[#F3F0EC] flex items-center justify-center">
             <Image
               src="/assets/general/check.png"
               alt="Check"
-              className="w-[134px] h-[129px] object-contain"
-              width={134}
-              height={134}
+              className="object-contain"
+              width={120}
+              height={120}
             />
           </div>
         </div>
 
-        <div className="w-[530px] h-[176px] gap-[38px] flex flex-col">
-          <div className="w-[530px] h-[80px] gap-[16px] flex flex-col">
-            <h2 className="w-[530px] h-[38px] font-montserrat font-bold text-[30px] leading-[38px] text-[#120A02] text-center capitalize">
+        {/* Text */}
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap- justify-center items-center">
+            <h2 className="font-montserrat max-w-[530px] font-bold text-2xl sm:text-3xl text-[#120A02] text-center capitalize">
               {heading}
             </h2>
-            <p className="w-[530px] text-[18px] leading-[26px] text-[#413B35] font-inter">
+            <p className="max-w-[530px] text-base sm:text-lg text-[#413B35] font-inter">
               <span className="font-normal">{description}</span>
               <span className="font-bold"> {courseTitle}</span>
             </p>
           </div>
 
-          <div className="w-[530px] h-[56px] gap-[12px] flex">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Button
               onClick={onSecondaryClick}
               variant="secondary"
-              className="w-[289px] px-6 py-3"
+              className="w-full sm:w-1/2 px-6 py-3"
             >
               {secondaryButtonText}
             </Button>
             <Button
               onClick={onPrimaryClick}
               variant="primary"
-              className="w-[289px] px-6 py-3"
+              className="w-full sm:w-1/2 px-6 py-3"
             >
               {primaryButtonText}
             </Button>

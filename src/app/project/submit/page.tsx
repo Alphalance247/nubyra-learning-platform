@@ -205,200 +205,213 @@ const handleSubmit = async (e: React.FormEvent) => {
                     subtitle="Please fill out the form below to submit your project"
                     className="mb-4"
                   />
-                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
-                    <form
-                      onSubmit={handleSubmit}
-                      className="w-full flex flex-col gap-4"
+                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-4 sm:p-6 bg-[#FBFAF9] flex flex-col">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="w-full flex flex-col gap-4"
+                  >
+                    {/* First + Last Name */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <InputField
+                        label="First Name"
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter first name"
+                        className="w-full"
+                      />
+                      <InputField
+                        label="Last Name"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter last name"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Email + Phone */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <InputField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter email"
+                        className="w-full"
+                      />
+                      <PhoneInput
+                        value={phone}
+                        onChange={setPhone}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Company/University */}
+                    <div className="w-full">
+                      <InputField
+                        label="Company/University"
+                        name="company_university"
+                        value={formData.company_university}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter name"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Project Nature  + Engineering Field*/}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <SelectField
+                        label="Project Nature"
+                        name="project_type"
+                        value={formData.project_type}
+                        onChange={handleChange}
+                        required
+                        options={[
+                          { label: "Select", value: "" },
+                          { label: "Full Execution", value: "full" },
+                          { label: "Project Assistance", value: "assistance" },
+                        ]}
+                        className="w-full"
+                      />
+                      
+                      <InputField
+                        label="Engineering Field"
+                        name="professional_academic_field"
+                        value={formData.professional_academic_field}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter engineering field"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Address */}
+                    <div className="w-full">
+                      <InputField
+                        label="Address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter address"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Country + State */}
+                    <CountryStateSelect
+                      value={location}
+                      onChange={setLocation}
+                    />
+
+                    {/* Project Title */}
+                    <div className="w-full">
+                      <InputField
+                        label="Project Title"
+                        name="project_title"
+                        value={formData.project_title}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter project title"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* File Upload */}
+                    <FileUpload
+                      label="Project Document"
+                      name="file"
+                      className="w-full"
+                      required
+                      onChange={(file) =>
+                        setFormData({ ...formData, project_file: file })
+                      }
+                    />
+
+                    {/* Project Description */}
+                    <div className="w-full">
+                      <TextArea
+                        label="Project Description"
+                        name="comment"
+                        value={formData.comment}
+                        onChange={handleChange}
+                        placeholder="Describe your project"
+                        className="w-full min-h-[120px]"
+                      />
+                    </div>
+
+                    {/* Terms & Conditions */}
+                    <div className="w-full text-[#413B35]">
+                      <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-lg sm:text-xl capitalize">
+                        Term and Condition
+                      </h3>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
+                        <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
+                          Effective Date: <span className="font-normal">{fullDate}</span>
+                        </h4>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
+                        <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">
+                          Company Name: <span className="font-normal">Nubyira LTD</span>
+                        </h4>
+                      </div>
+
+                      <ul className="pl-5 font-[Inter] text-sm sm:text-base flex flex-col gap-2">
+                        {termsAndConditions.map((term, i) => (
+                          <li key={term.id} className="mb-3">
+                            <strong>{i + 1}. {term.title}</strong>
+                            <ul className="pl-5 mt-2 space-y-1">
+                              {term.clauses.map((clause, j) => (
+                                <li key={`${term.id}-${j}`}>
+                                  {i + 1}.{j + 1} {clause}
+                                </li>
+                              ))}
+                            </ul>
+                          </li>
+                        ))}
+
+                        <div className="my-5 text-[#7B4C1F] flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={acceptedTerms}
+                            onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          />
+                          <span className="pl-2">I agree to the terms and conditions.</span>
+                        </div>
+                      </ul>
+                    </div>
+
+                    {/* Submit */}
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full mt-4"
                     >
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px] h-[82px]">
-                        <InputField
-                          label="First Name"
-                          name="first_name"
-                          value={formData.first_name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter first name"
-                          className="w-full"
-                        />
-                        <InputField
-                          label="Last Name"
-                          name="last_name"
-                          value={formData.last_name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter last name"
-                          className="w-full"
-                        />
-                      </div>
+                      Submit Project
+                    </Button>
+                  </form>
 
-                      <div className="w-full max-w-[648px] h-[82px] flex gap-3">
-                        <InputField
-                          label="Email"
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter email"
-                          className="w-full"
-                        />
-                        <PhoneInput
-                          value={phone}
-                          onChange={setPhone}
-                          className="w-full"
-                        />
-                      </div>
+                  {showOverlay && (
+                    <SuccessOverlay
+                      onClose={() => setShowOverlay(false)}
+                      heading="Project Submitted Successfully!"
+                      description="Thank you for reaching out! Our team will review your project details and contact you within 24 hours."
+                      primaryButtonText="Go To HomePage"
+                      secondaryButtonText="Submit another project"
+                      onPrimaryClick={() => router.push("/")}
+                      onSecondaryClick={() => setShowOverlay(false)}
+                    />
+                  )}
+                </div>
 
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Company/University"
-                          name="company_university"
-                          value={formData.company_university}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter name"
-                          className="w-[648px]"
-                        />
-                      </div>
-                      <div className="w-[648px] h-[82px] flex gap-3">
-                        {/* <SelectField
-                          label="Project Type"
-                          name="projectType"
-                          value={formData.projectType}
-                          onChange={handleChange}
-                          required={true}
-                          options={[
-                            { label: "Select", value: "" },
-                            { label: "Power Plant", value: "power" },
-                            { label: "Manufacturing", value: "Manufacturing" },
-                            { label: "Industrial Design", value: "industrial" },
-                          ]}
-                        /> */}
-                        <SelectField
-                          label="Project Nature"
-                          name="project_type"
-                          value={formData.project_type}
-                          onChange={handleChange}
-                          required={true}
-                          options={[
-                            { label: "Select", value: "" },
-                            { label: "Full Excution", value: "full" },
-                            { label: "Project Assistance", value: "assistance" },
-                          ]}
-                        />
-                      </div>
-
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Address"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter address"
-                          className="w-[648px]"
-                        />
-                      </div>
-
-                      <CountryStateSelect
-                        value={location}
-                        onChange={setLocation}
-                      />
-
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Engineering Field"
-                          name="professional_academic_field"
-                          value={formData.professional_academic_field}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter engineering field"
-                          className="w-[648px]"
-                        />
-                      </div>
-
-                      <div className="w-[648px] h-[82px] flex gap-2">
-                        <InputField
-                          label="Project Title"
-                          name="project_title"
-                          value={formData.project_title}
-                          onChange={handleChange}
-                          required={true}
-                          placeholder="Enter project title"
-                          className="w-[648px]"
-                        />
-                      </div>
-
-                      <FileUpload
-                        label="Project Document"
-                        name="file"
-                        className="w-[648px]"
-                        required={true}
-                        onChange={(file) => setFormData({ ...formData, project_file: file })}
-                      />
-
-                      <div className="w-full">
-                        <TextArea
-                          label="Project Description"
-                          name="comment"
-                          value={formData.comment}
-                          onChange={handleChange}
-                          placeholder="Describe your project"
-                          className="w-[646px] h-[148px]"
-                        />
-                      </div>
-                      <div className="w-full max-w-[648px] text-[#413B35]">
-                          <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-[20px] capitalize">Term and Condition</h3>
-                          <div className="flex flex-row">
-                            <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">Effective Date:</h4><span>{fullDate}</span>
-                          </div>
-                          <div className="flex flex-row">
-                            <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">Company Name:</h4><span>Nubyira LTD</span>
-                          </div>
-                          <ul className="pl-5 font-[Inter] text-sm flex flex-col gap-2">
-                            {termsAndConditions.map((term, i) => (
-                              <li key={term.id} className="mb-3">
-                                <strong>{i + 1}. {term.title}</strong>
-                                <ul className="pl-5 mt-2 space-y-1">
-                                  {term.clauses.map((clause, j) => (
-                                    <li key={`${term.id}-${j}`}>
-                                      {i + 1}.{j + 1} {clause}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </li>
-                            ))}
-
-                            <div className="mr-2 my-5 text-[#7B4C1F]">
-                              <input
-                                type="checkbox"
-                                checked={acceptedTerms}
-                                onChange={(e) => setAcceptedTerms(e.target.checked)}
-                              />
-                              <span className="pl-2">I agree to the terms and conditions.</span>
-                            </div>
-                          </ul>
-                      </div>
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="w-full mt-4"
-                      >
-                        Submit Project
-                      </Button>
-                    </form>
-                    {showOverlay && (
-                      <SuccessOverlay
-                        onClose={() => setShowOverlay(false)}
-                        heading="Project Submitted Successfully!"
-                        description="Thank you for reaching out! Our team will review your project details and contact you within 24 hours."
-                        primaryButtonText="Go To HomePage"
-                        secondaryButtonText="Submit another project"
-                        onPrimaryClick={() => router.push("/")}
-                        onSecondaryClick={() => setShowOverlay(false)}
-                      />
-                    )}
-                  </div>
                 </div>
               </div>
             </div>

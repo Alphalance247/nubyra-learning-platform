@@ -183,152 +183,169 @@ const EnrollmentForm: React.FC = () => {
                     subtitle="Please ensure that all fields in the form are completed to register for this webinar."
                     className=""
                   />
-                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-6 bg-[#FBFAF9] flex flex-col">
-                    <form
-                      onSubmit={handleSubmit}
-                      className="w-full flex flex-col gap-4"
+                  <div className="w-full max-w-3xl mx-auto gap-6 rounded-[12px] border border-[#D6C8BA] p-4 sm:p-6 bg-[#FBFAF9] flex flex-col">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="w-full flex flex-col gap-4"
+                  >
+                    {/* First + Last Name */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <InputField
+                        label="First Name"
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter first name"
+                        className="w-full"
+                      />
+
+                      <InputField
+                        label="Last Name"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter last name"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Middle Name */}
+                    <InputField
+                      label="Middle Name"
+                      name="middle_name"
+                      value={formData.middle_name}
+                      onChange={handleChange}
+                      placeholder="Enter middle name"
+                      className="w-full"
+                    />
+
+                    {/* Email + Phone */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <InputField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter email"
+                        className="w-full"
+                      />
+                      <PhoneInput
+                        value={phone}
+                        onChange={setPhone}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Company */}
+                    <InputField
+                      label="Company/Institution"
+                      name="company_institution"
+                      value={formData.company_institution}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter company or institution"
+                      className="w-full"
+                    />
+
+                    {/* Address */}
+                    <InputField
+                      label="Address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      required
+                      placeholder="Enter your address"
+                      className="w-full"
+                    />
+
+                    {/* Country + State */}
+                    <CountryStateSelect value={location} onChange={setLocation} />
+
+                    {/* Zip + Academic Field */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <InputField
+                        label="Zip/Postal Code"
+                        name="zip_number"
+                        value={formData.zip_number}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter zip/Postal Code"
+                        className="w-full"
+                      />
+                      <InputField
+                        label="Professional/Academic Field"
+                        name="professional_academic_field"
+                        value={formData.professional_academic_field}
+                        onChange={handleChange}
+                        required
+                        placeholder="Enter professional/academic field"
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Terms */}
+                    <div className="w-full text-[#413B35]">
+                      <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-lg sm:text-xl capitalize">
+                        Term and Condition
+                      </h3>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
+                        <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
+                          Effective Date: <span className="font-normal">{fullDate}</span>
+                        </h4>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
+                        <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">
+                          Company Name: <span className="font-normal">Nubyira LTD</span>
+                        </h4>
+                      </div>
+
+                      <ul className="list-disc pl-5 font-[Inter] text-sm sm:text-base flex flex-col gap-2">
+                        {termsAndConditions.map((term) => (
+                          <li key={term.id}>
+                            <strong>{term.title}:</strong> {term.text}
+                          </li>
+                        ))}
+
+                        <div className="mr-2 my-5 text-[#7B4C1F] flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={acceptedTerms}
+                            onChange={(e) => setAcceptedTerms(e.target.checked)}
+                          />
+                          <span className="pl-2">I agree to the terms and conditions.</span>
+                        </div>
+                      </ul>
+                    </div>
+
+                    {/* Button */}
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full mt-4"
+                      disabled={loading}
                     >
-                    
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px]">
-                        <InputField
-                          label="First Name"
-                          name="first_name"
-                          value={formData.first_name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter first name"
-                          className="w-full"
-                        />
+                      {loading ? "Submitting..." : "Proceed to Payment"}
+                    </Button>
+                  </form>
 
-                        <InputField
-                          label="Last Name"
-                          name="last_name"
-                          value={formData.last_name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter last name"
-                          className="w-full"
-                        />
-                      </div>
-
-                      <InputField
-                          label="Middle Name"
-                          name="middle_name"
-                          value={formData.middle_name}
-                          onChange={handleChange}
-                          placeholder="Enter middle name"
-                          className="w-full"
-                        />
-
-                      {/* Email + Phone */}
-                      <div className="w-full max-w-[648px] flex gap-3">
-                        <InputField
-                          label="Email"
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter email"
-                          className="w-full"
-                        />
-                        <PhoneInput
-                          value={phone}
-                          onChange={setPhone}
-                          className="w-full"
-                        />
-                      </div>
-
-                      {/* Company/Institution */}
-                      <InputField
-                        label="Company/Institution"
-                        name="company_institution"
-                        value={formData.company_institution}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter company or institution"
-                        className="w-full max-w-[648px]"
-                      />
-
-                      {/* Address */}
-                      <InputField
-                        label="Address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        required
-                        placeholder="Enter your address"
-                        className="w-full max-w-[648px]"
-                      />
-
-                      {/* Country & State */}
-                      <CountryStateSelect value={location} onChange={setLocation} />
-
-                      {/* Zip + Academic Field */}
-                      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[648px]">
-                        <InputField
-                          label="Zip/Postal Code"
-                          name="zip_number"
-                          value={formData.zip_number}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter zip/Postal Code"
-                          className="w-full"
-                        />
-                        <InputField
-                          label="Professional/Academic Field"
-                          name="professional_academic_field"
-                          value={formData.professional_academic_field}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter professional/academic field"
-                          className="w-full"
-                        />
-                      </div>
-
-
-                      <div className="w-full max-w-[648px] text-[#413B35]">
-                          <h3 className="text-[#0F0918] p-3 font-[Montserrat] font-bold text-[20px] capitalize">Term and Condition</h3>
-                          <div className="flex flex-row">
-                            <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">Effective Date:</h4><span>{fullDate}</span>
-                          </div>
-                          <div className="flex flex-row">
-                            <h4 className="text-[#0F0918] px-3 pb-4 font-[Montserrat] font-semibold capitalize">Company Name:</h4><span>Nubyira LTD</span>
-                          </div>
-                          <ul className="list-disc pl-5 font-[Inter] text-sm flex flex-col gap-2">
-                            {termsAndConditions.map((term) => (
-                              <li key={term.id}>
-                                <strong>{term.title}:</strong> {term.text}
-                              </li>
-                            ))}
-
-                            <div className="mr-2 my-5 text-[#7B4C1F]">
-                              <input type="checkbox" checked={acceptedTerms}
-                              onChange={(e) => setAcceptedTerms(e.target.checked)} />
-                              
-                              <span className="pl-2">I agree to the terms and conditions.</span>
-                            </div>
-                          </ul>
-                      </div>
-
-                      <Button type="submit" variant="primary"
-                      className="w-full mt-4" disabled={loading}>
-                        {loading ? "Submitting..." : "Proceed to Payment"}
-                      </Button>
-
-                    </form>
-                    {showOverlay && (
-                      <SuccessOverlay
-                        onClose={() => setShowOverlay(false)}
-                        heading="Enrollment Submitted Successfully!"
-                        description="Thank you enrollment! Our team will contact you within 24 hours."
-                        primaryButtonText="Go To HomePage"
-                        secondaryButtonText="Go To Courses"
-                        onPrimaryClick={() => router.push("/")}
-                        onSecondaryClick={() => router.push("/learning")}
-                      />
-                    )}
-                  </div>
+                  {showOverlay && (
+                    <SuccessOverlay
+                      onClose={() => setShowOverlay(false)}
+                      heading="Enrollment Submitted Successfully!"
+                      description="Thank you enrollment! Our team will contact you within 24 hours."
+                      primaryButtonText="Go To HomePage"
+                      secondaryButtonText="Go To Courses"
+                      onPrimaryClick={() => router.push("/")}
+                      onSecondaryClick={() => router.push("/learning")}
+                    />
+                  )}
+                </div>
                 </div>
               </div>
             </div>
