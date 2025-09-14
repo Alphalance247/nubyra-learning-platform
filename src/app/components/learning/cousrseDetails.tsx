@@ -204,48 +204,51 @@ const CourseDetails = ({ id }: { id: string }) => {
           </div>
         ) : (
           <>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#120A02] mb-6">
+            <h3 className="text-3xl w-[95%] md:w-[50%] sm:text-4xl md:text-5xl font-bold text-[#120A02] mb-10">
               {courseData?.title}
             </h3>
 
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16 xl:gap-20 mb-14">
-              {courseData?.course_tab === "Premium" ? (
-                <>
-                  {data?.sub_status ? (
-                    <div className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-10 md:gap-16 xl:gap-20 mb-14">
+              <>
+                {courseData?.course_tab === "Premium" ? (
+                  <>
+                    {data?.sub_status ? (
+                      <div className="w-full">
+                        <div
+                          key={`video-${courseData?.id}`}
+                          dangerouslySetInnerHTML={{
+                            __html: courseData?.video_link || "",
+                          }}
+                          className="rounded-2xl aspect-video w-full relative  [&>iframe]:w-full [&>iframe]:h-full xl:[&>iframe]:w-[600px] xl:[&>iframe]:h-[600px] [&>iframe]:rounded-2xl"
+                        />
+                      </div>
+                    ) : (
                       <div
-                        key={`video-${courseData?.id}`}
-                        dangerouslySetInnerHTML={{
-                          __html: courseData?.video_link || "",
-                        }}
-                        className="rounded-2xl aspect-video w-full relative responsive-video-container [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:rounded-2xl"
-                      />
-                    </div>
-                  ) : (
+                        onClick={handlePremiumCheckOut}
+                        className="cursor-pointer rounded-xl"
+                      >
+                        <Image
+                          src="/assets/learning/youtube-image.webp"
+                          width={600}
+                          height={700}
+                          className="rounded-xl w-[]"
+                          alt="youtube"
+                        />
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="w-full">
                     <div
-                      onClick={handlePremiumCheckOut}
-                      className="cursor-pointer  aspect-video  rounded-xl"
-                    >
-                      <Image
-                        src="/assets/learning/youtube-image.webp"
-                        fill
-                        className="object-cover rounded-xl"
-                        alt="youtube"
-                      />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="w-full">
-                  <div
-                    key={`video-${courseData?.id}`}
-                    dangerouslySetInnerHTML={{
-                      __html: courseData?.video_link || "",
-                    }}
-                    className="rounded-2xl aspect-video w-full relative responsive-video-container [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:rounded-2xl"
-                  />
-                </div>
-              )}
+                      key={`video-${courseData?.id}`}
+                      dangerouslySetInnerHTML={{
+                        __html: courseData?.video_link || "",
+                      }}
+                      className="rounded-2xl aspect-video w-full relative  [&>iframe]:w-full [&>iframe]:h-full xl:[&>iframe]:w-[600px] xl:[&>iframe]:h-[600px] [&>iframe]:rounded-2xl"
+                    />
+                  </div>
+                )}
+              </>
 
               {/* Right Column */}
               <div className="shadow-2xl rounded-xl p-6 bg-white h-fit">
