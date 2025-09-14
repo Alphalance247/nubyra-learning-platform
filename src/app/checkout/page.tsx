@@ -54,9 +54,9 @@ export default function CheckoutPage() {
   return (
     <ProtectedRoute>
       <Layout>
-        <div className="bg-[#FEFEFD] pb-6">
+        <div className="bg-[#FEFEFD] pb-0 md:pb-6">
           <Container>
-            <div className=" bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 px-4 py-6 space-y-6">
+            <div className=" bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 md:px-4 md:py-6 space-y-6">
               {/* Back navigation */}
               <NavigateArrow
                 icon={<ArrowLeft size={16} />}

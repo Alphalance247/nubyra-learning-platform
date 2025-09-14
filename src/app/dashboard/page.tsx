@@ -23,6 +23,7 @@ interface RegisteredCourse {
   id: number;
   course_title: string;
   status: string;
+  imageUrl: string;
   postponed: boolean;
 }
 
@@ -79,9 +80,9 @@ export default function Dashboard() {
   const realCourses: Course[] =
     userData?.course_info?.registered_courses?.map(
       (course: RegisteredCourse) => ({
-        id: course.id, // 👈 this fixes the error
+        id: course.id,
         title: course.course_title,
-        imageUrl: "/assets/dashboard/courseimage.png",
+        imageUrl: course.imageUrl,
         progress: course.status === "Completed" ? 100 : 50,
         status:
           course.status === "Completed"
@@ -191,7 +192,7 @@ export default function Dashboard() {
                     />
                     <div className="w-full p-[24px] bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto">
                       {filteredCourses.length > 0 ? (
-                        <div className="grid grid-cols-2 gap-[8px]">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 sm:gap-4 md:grid-cols-2 md:gap-6">
                           {filteredCourses.map((course, idx) => (
                             <CourseCard key={idx} course={course} />
                           ))}

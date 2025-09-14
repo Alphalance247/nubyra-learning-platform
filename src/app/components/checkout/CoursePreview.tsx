@@ -1,16 +1,22 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const CoursePreview = () => {
   return (
-    <div className="relative w-full h-64 rounded-xl overflow-hidden">
+    <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+      {/* Background image fills parent */}
       <Image
         src="/assets/general/checkout.png"
         alt="Course preview"
-        width={580}
-        height={213}
+        fill
+        className="object-cover"
+        priority
       />
+
+      {/* Play button overlay */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <button className="bg-white p-3 rounded-full shadow-md">▶️</button>
+        <button className="bg-white p-3 sm:p-4 md:p-5 rounded-full shadow-md hover:scale-105 transition">
+          ▶️
+        </button>
       </div>
     </div>
   );

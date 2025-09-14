@@ -19,11 +19,10 @@ const SignUpPage = () => {
     password: "",
     confirmPassword: "",
   });
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
   const [phone_number, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,63 +32,58 @@ const SignUpPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+
     const { password, confirmPassword } = formData;
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters long.");
+      setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
+      setLoading(false);
       return;
     }
 
-    await axios
-      .post(environment.baseUrl + environment.registerUrl, {
-        ...formData,
-        phone_number,
-      })
-      .then((response) => {
-        setLoading(false);
-        if (response.status >= 200 && response.status < 300) {
-          toast.success(
-            "Registration successful, kindly check your mailbox for confirmation"
-          );
+    try {
+      const response = await axios.post(
+        environment.baseUrl + environment.registerUrl,
+        { ...formData, phone_number }
+      );
 
-          setFormData((prev) => ({
-            ...prev,
-            first_name: "",
-            middle_name: "",
-            last_name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          }));
-          setPhoneNumber("");
-        } else {
-          toast.error("Registration failed");
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        // Extract the error message from the response
-        let errorMessage =
-          "An error occurred please try again or contact Admin";
-        if (err instanceof AxiosError) {
-          // Check if err is an instance of AxiosError
-          errorMessage = err.response?.data?.email || errorMessage;
-        }
-
-        toast.error(errorMessage);
-      });
+      if (response.status >= 200 && response.status < 300) {
+        toast.success(
+          "Registration successful, kindly check your mailbox for confirmation"
+        );
+        setFormData({
+          first_name: "",
+          middle_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setPhoneNumber("");
+      } else {
+        toast.error("Registration failed");
+      }
+    } catch (err) {
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        errorMessage = err.response?.data?.email || errorMessage;
+      }
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSuccess = async (
     credentialResponse: CredentialResponse
   ) => {
     const idToken = credentialResponse.credential;
-
     try {
       const res = await fetch(
         "https://api.nubyira.com/api/v1/auth/social/google/",
@@ -104,6 +98,7 @@ const SignUpPage = () => {
         }
       );
 
+      if (!res.ok) throw new Error(`Backend error: ${res.status}`);
       if (!res.ok) {
         const errorText = await res.text(); // log actual body of the error
         console.error("Non-OK response:", res.status, errorText);
@@ -125,66 +120,43 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">
-      <HeroImageSection
-        imageSrc="/assets/general/sign-up.png"
-        title="🌟 Discover Process Engineering! Create the Innovations of Tomorrow Together"
-        description="Dive into real-world projects and collaborate on innovative solutions that will shape the future of our industry."
-      />
+      {/* Left Section (Hero) */}
+      <div className="w-full lg:w-1/2">
+        <HeroImageSection
+          imageSrc="/assets/general/sign-up.png"
+          title="🌟 Discover Process Engineering! Create the Innovations of Tomorrow Together"
+          description="Dive into real-world projects and collaborate on innovative solutions that will shape the future of our industry."
+        />
+      </div>
 
-      {/* Form Section */}
+      {/* Right Section (Form) */}
       <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center justify-center">
         {/* Heading */}
         <div className="w-full max-w-[450px]">
           <h2 className="text-2xl font-bold text-center text-[#1D1D1F] mb-1">
-            Let’s Get Started!{" "}
-            <span role="img" aria-label="rocket">
-              🚀
-            </span>
+            Let’s Get Started! 🚀
           </h2>
           <p className="text-center text-gray-500 mb-6">
             Create an account to get started
           </p>
         </div>
 
+        {/* Google Login */}
         <GoogleLogin
           onSuccess={handleGoogleSuccess}
-          onError={() => console.log("Login Failed")}
+          onError={() => console.log("signup Failed")}
           type="standard"
           theme="outline"
           size="large"
           shape="rectangular"
-          text="signin_with"
+          text="signup_with"
           logo_alignment="left"
         />
 
         {/* Divider */}
-        {/* <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
-            <div className="w-full h-px bg-gradient-to-r from-[#F2F2F3] to-[#B3BABF]" />
-              <span className="min-w-[57px] h-[36px] px-[10px] py-[5px] text-[#34474E] text-sm flex items-center justify-center">
-                Or
-              </span>
-              <p className="text-center text-gray-500 mb-6">
-                Create an account to get started
-              </p>
-          </div> */}
-
-        {/* Google Sign Up */}
-        {/* <button className="w-full h-[44px] mb-4 flex items-center justify-center gap-2 rounded-lg border border-[#E4E4E7] bg-[#F3F0EC] text-[14px] font-[500] font-[Onset] leading-[135%] tracking-[-0.02em] text-[#5C6C71] cursor-pointer">
-          <Image
-            src="/assets/general/google-logo.svg"
-            alt="Google"
-            width={18}
-            height={18}
-          />
-          Sign Up with Google
-        </button> */}
-
-        {/* Divider */}
         <div className="flex items-center justify-center w-full max-w-[550px] h-[36px] gap-6 my-4">
           <div className="w-full h-px bg-gradient-to-r from-[#F2F2F3] to-[#B3BABF]" />
-          <span className="min-w-[57px] h-[36px] px-[10px] py-[5px] text-[#34474E] text-sm flex items-center justify-center">
-            Or
-          </span>
+          <span className="min-w-[57px] px-2 text-[#34474E] text-sm">Or</span>
           <div className="w-full h-px bg-gradient-to-r from-[#B3BABF] to-[#F2F2F3]" />
         </div>
 
@@ -196,7 +168,7 @@ const SignUpPage = () => {
           {/* First Row */}
           <div className="flex flex-col sm:flex-row gap-4">
             <InputField
-              label="Full Name"
+              label="First Name"
               name="first_name"
               value={formData.first_name}
               onChange={handleChange}
@@ -266,6 +238,7 @@ const SignUpPage = () => {
               {error}
             </div>
           )}
+
           {/* Submit Button */}
           <Button
             variant="secondary"
@@ -278,35 +251,31 @@ const SignUpPage = () => {
         </form>
 
         {/* Footer Text */}
-        <div className="w-full max-w-[550px] h-[22px] m-5 justify-center flex flex-row gap-1">
-          <p className="w-[171px] h-[22px] text-center font-inter font-normal text-[14px] leading-[22px] tracking-normal text-[#413B35]">
-            Already have an account?{" "}
-          </p>
+        <div className="w-full max-w-[550px] flex justify-center gap-1 mt-5">
+          <p className="text-sm text-[#413B35]">Already have an account?</p>
           <span
-            className="w-[38px] h-[22px] font-inter font-semibold text-[14px] leading-[22px] tracking-normal text-center capitalize text-[#7B4C1F] hover:underline transition-none cursor-pointer"
+            className="font-semibold text-sm text-[#7B4C1F] hover:underline cursor-pointer"
             onClick={() => router.push("sign-in")}
           >
             Login
           </span>
         </div>
 
-        <div className="w-[550px] h-[44px] gap-1">
-          <p className="w-full max-w-[550px] h-auto text-center text-[#413B35] font-inter font-normal text-[14px] leading-[22px] px-4 sm:px-0">
-            By clicking Submit, you agree to the Nubyira{" "}
-            <span className="underline text-[#7B4C1F] cursor-pointer">
-              Terms and Conditions
-            </span>
-            ,{" "}
-            <span className="underline text-[#7B4C1F] cursor-pointer">
-              Privacy Policy
-            </span>
-            , and{" "}
-            <span className="underline text-[#7B4C1F] cursor-pointer">
-              Cookie Policy
-            </span>
-            .
-          </p>
-        </div>
+        <p className="w-full max-w-[550px] text-center text-[#413B35] text-sm mt-4 px-4 sm:px-0">
+          By clicking Submit, you agree to the Nubyira{" "}
+          <span className="underline text-[#7B4C1F] cursor-pointer">
+            Terms and Conditions
+          </span>
+          ,{" "}
+          <span className="underline text-[#7B4C1F] cursor-pointer">
+            Privacy Policy
+          </span>
+          , and{" "}
+          <span className="underline text-[#7B4C1F] cursor-pointer">
+            Cookie Policy
+          </span>
+          .
+        </p>
       </div>
     </div>
   );
