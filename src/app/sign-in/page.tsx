@@ -95,10 +95,6 @@ const LoginPage = () => {
         // Store your custom DRF token
         localStorage.setItem("authToken", data.token);
 
-        // Small delay to ensure cookie is set before redirect
-        // setTimeout(() => {
-        //   router.push(redirectTo);
-        // }, 200);
         // Instead of router.push(redirectTo)
         window.location.href = redirectTo;
       } catch (error) {
