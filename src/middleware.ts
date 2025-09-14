@@ -5,12 +5,17 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
+  // Add this for debugging
+  console.log("Middleware - pathname:", pathname);
+  console.log("Middleware - token exists:", !!token);
+
   // List of protected routes
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/checkout") ||
     pathname.startsWith("/learning/enroll") ||
-    pathname.startsWith("/project/submit");
+    pathname.startsWith("/project/submit") ||
+    pathname.startsWith("/learning/premium-subscription");
 
   if (isProtectedRoute && !token) {
     // Create login URL with redirect parameter
@@ -29,6 +34,7 @@ export const config = {
     "/dashboard/:path*",
     "/checkout",
     "/learning/enroll",
+    "/learning/premium-subscription",
     "/project/submit",
   ],
 };

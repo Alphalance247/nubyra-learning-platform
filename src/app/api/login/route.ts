@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     });
 
     response.cookies.set("token", token, {
-      httpOnly: false,
+      httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       path: "/",
