@@ -7,9 +7,9 @@ const Footer = () => {
   const quickLinks = [
     { link: "/home", name: "Home" },
     { link: "/about", name: "About Us" },
-    { link: "/blog", name: "Blog" },
     { link: "/learning", name: "Learning" },
     { link: "/project", name: "Projects" },
+    { link: "/blog", name: "Blogs" },
   ];
 
   const handleNavClick = (name: string) => {
@@ -53,16 +53,16 @@ const Footer = () => {
                   <a href="tel:+2349024514039">+234 9024514039</a>
                 </li>
                 <li
-                  onClick={() => handleNavClick("faq")}
-                  className="cursor-pointer"
-                >
-                  Frequently Asked Questions
-                </li>
-                <li
                   onClick={() => handleNavClick("review")}
                   className="cursor-pointer"
                 >
                   Reviews
+                </li>
+                <li
+                  onClick={() => handleNavClick("faq")}
+                  className="cursor-pointer"
+                >
+                  Frequently Asked Questions
                 </li>
               </ul>
             </div>

@@ -59,7 +59,7 @@ const Testimonial = () => {
             <TestimonialCard
               name="Djafer Nasr Eddine"
               profession="Chemical Process Engineer"
-              country="USA"
+              country="Algeria"
               stars="5/5"
               withEmptyStar={false}
               arr={["", "", "", "", ""]}
