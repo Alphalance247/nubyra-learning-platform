@@ -127,16 +127,6 @@ const ExploreCourses = () => {
                 )
               </h4>
               <div className="flex flex-wrap gap-2">
-                <Button
-                  variant="secondary"
-                  className="flex items-center gap-2"
-                  onClick={() => setShowFilterModal(true)}
-                >
-                  <BsFilterLeft className="text-[#7B4C1F]" />
-                  Filter by
-                  <FaChevronDown className="text-[#7B4C1F]" />
-                </Button>
-
                 <SortDropdown
                   currentSort={currentSort}
                   onSortChange={(sort) => {
@@ -153,6 +143,15 @@ const ExploreCourses = () => {
                     filterCourses(flatFilters, apiSort);
                   }}
                 />
+                <Button
+                  variant="secondary"
+                  className="flex items-center gap-2"
+                  onClick={() => setShowFilterModal(true)}
+                >
+                  <BsFilterLeft className="text-[#7B4C1F]" />
+                  Filter by
+                  <FaChevronDown className="text-[#7B4C1F]" />
+                </Button>
               </div>
             </div>
 
