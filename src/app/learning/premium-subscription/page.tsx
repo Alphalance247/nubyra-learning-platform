@@ -56,33 +56,22 @@ export default function CheckoutPage() {
       <Layout>
         <div className="bg-[#FEFEFD] pb-6">
           <Container>
-            <div className=" bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 px-4 py-6 space-y-6">
-              {/* Back navigation */}
+            <div className=" bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 lg:px-4 py-6 space-y-6">
               <NavigateArrow
                 icon={<ArrowLeft size={16} />}
                 label={<span className="text-sm font-medium">Back</span>}
               />
-
-              {/* Breadcrumb trail */}
               <Breadcrumb
                 previousStep="Dashboard"
                 currentStep="Premium Subscription"
               />
-
-              {/* Page heading */}
-              <h1 className="text-3xl text-center text-[#5F5F5F] font-bold px-2 py-4">
+              <h1 className="lg:text-3xl text-2xl text-left lg:text-center text-[#5F5F5F] font-bold px-2 py-4">
                 Premium Subscription
               </h1>
-
-              {/* Two-column layout */}
-              <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-                {/* Left column: Preview + course info */}
+              <div className="grid grid-cols-1  gap-6">
                 <div className="space-y-4">
-                  {/* <CoursePreview /> */}
                   <PremiumCourseInfo />
                 </div>
-
-                {/* Right column: Payment options */}
                 <PaymentMethodPremium />
               </div>
             </div>

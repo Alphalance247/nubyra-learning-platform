@@ -64,25 +64,25 @@ const PaymentMethodPremium = () => {
   };
 
   return (
-    <div className="w-[694px] mx-auto h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
-      <div className="w-[322px] h-[36px] font-montserrat font-bold text-[20px] leading-[28px] text-[#120A02] capitalize align-middle">
+    <div className="w-full md:w-[694px] mx-auto h-auto md:h-[444px] p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-4">
+      <div className="font-montserrat font-bold text-lg md:text-[20px] leading-[28px] text-[#120A02] capitalize">
         Choose Payment Method
       </div>
-      <div className="w-[360px] h-[24px] font-inter font-semibold text-[16px] leading-[24px] tracking-normal align-middle capitalize text-[#413B35]">
+
+      <div className="font-inter font-semibold text-base md:text-[16px] leading-[24px] capitalize text-[#413B35]">
         Pay with
       </div>
 
-      <div className="w-[full] h-[44px] gap-3 flex">
+      <div className="flex flex-col sm:flex-row gap-3">
         {(["paystack"] as PaymentMethod[]).map((method) => (
           <button
             key={method}
             onClick={() => setSelected(method)}
-            className={`
-                flex items-center justify-center gap-2 cursor-pointer
-                w-[260px] h-[44px] p-[6px]
-                rounded-lg border bg-[#FEFEFD]
-                ${selected === method ? "border-blue-500" : "border-[#E7E7E6]"}
-            `}
+            className={`flex items-center justify-center gap-2 cursor-pointer
+          w-full sm:w-[260px] h-[44px] p-[6px]
+          rounded-lg border bg-[#FEFEFD]
+          ${selected === method ? "border-blue-500" : "border-[#E7E7E6]"}
+        `}
           >
             <Image
               src={logos[method]}
@@ -91,26 +91,22 @@ const PaymentMethodPremium = () => {
               width={16}
               height={16}
             />
-            {/* Text */}
             <span className="font-semibold text-[14px] leading-[22px] capitalize text-[#413B35] font-inter">
               {method}
             </span>
           </button>
         ))}
       </div>
-      <div className="w-[full] border-t my-6 border-[#D6C8BA]" />
-      <div className="w-[full] h-[192px] flex flex-col gap-[48px]">
-        <p className="w-[full] h-[88px] font-inter font-normal text-[14px] leading-[22px] text-[#413B35] align-middle">
+
+      <div className="border-t my-6 border-[#D6C8BA]" />
+
+      <div className="flex flex-col gap-6">
+        <p className="text-sm md:text-[14px] leading-[22px] text-[#413B35]">
           This is a one-time payment for premium subscription. You will be
           redirected to the payment service website to make your payment. Once
-          your payment is complete, you will be directed to your dashboard and
-          you will have access to the course on your dashboard .
+          complete, you’ll be taken to your dashboard with course access.
         </p>
 
-        {/* <button onClick={() => setShowOverlay(true)}
-      className="w-[532px] h-[56px] flex items-center justify-center gap-[6px] rounded-[16px] border border-[#A78769] bg-[#95704C] pt-[16px] pr-[32px] pb-[16px] pl-[32px] transition-opacity duration-300 ease-out">
-        Choose Payment
-      </button> */}
         <Button
           onClick={
             selected === "paystack"
@@ -118,13 +114,13 @@ const PaymentMethodPremium = () => {
               : handlePayPalIntegration
           }
           variant="primary"
-          className="w-[full] h-[56px] flex items-center justify-center gap-[6px]"
+          className="w-full h-[56px] flex items-center justify-center gap-[6px]"
         >
           {loading
             ? "Processing....."
             : selected === "paystack"
-            ? `Pay with paystack`
-            : "Pay with paypal"}
+            ? "Pay with Paystack"
+            : "Pay with PayPal"}
         </Button>
       </div>
     </div>
