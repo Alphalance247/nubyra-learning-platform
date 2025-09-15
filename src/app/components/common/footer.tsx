@@ -5,11 +5,11 @@ import Image from "next/image";
 
 const Footer = () => {
   const quickLinks = [
-    { link: "/home", name: "Home" },
-    { link: "/about", name: "About Us" },
+    { link: "/", name: "Home" },
+    { link: "/about-us", name: "About Us" },
     { link: "/learning", name: "Learning" },
     { link: "/project", name: "Projects" },
-    { link: "/blog", name: "Blogs" },
+    { link: "/blogs", name: "Blogs" },
   ];
 
   const handleNavClick = (name: string) => {
