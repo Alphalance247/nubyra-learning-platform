@@ -22,8 +22,8 @@ const Project = () => {
         <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 pt-10 sm:pt-16 xl:pt-32 pb-10 sm:pb-16 xl:pb-32 relative z-20">
           <div className="w-full lg:w-[60%] text-center lg:text-left">
             <h1 className="text-white text-left text-3xl sm:text-4xl md:text-5xl  lg:text-6xl font-bold mb-6 font-montserrat leading-tight">
-              Our
-              <span className="text-[#120A02] bg-white px-1">projects</span>
+              Our{" "}
+              <span className="text-[#120A02] bg-white px-1"> projects</span>
             </h1>
             <p className="text-base text-left sm:text-lg md:text-xl font-medium mb-10 text-white w-full sm:w-[80%] lg:w-[70%] mx-auto lg:mx-0">
               A comprehensive list of completed process engineering projects
