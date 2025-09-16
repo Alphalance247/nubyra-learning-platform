@@ -154,13 +154,13 @@ const Footer = () => {
             {/* Right links */}
             <ul className="flex flex-wrap justify-center lg:justify-end gap-3 text-[#ECE8F1] font-medium text-sm sm:text-base lg:text-lg">
               <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
-                <a href="/privacy-policy">Privacy Policy</a>
+                <Link href="/privacy-policy">Privacy Policy</Link>
               </li>
               <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
-                <a href="/terms-of-service">Terms of Service</a>
+                <Link href="/terms-of-service">Terms of Service</Link>
               </li>
               <li>
-                <a href="/cookie-policy">Cookie Policy</a>
+                <Link href="/cookie-policy">Cookie Policy</Link>
               </li>
             </ul>
           </div>

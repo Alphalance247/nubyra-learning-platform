@@ -312,7 +312,7 @@ const CourseDetails = ({ id }: { id: string }) => {
               <div className="">
                 {courseData?.course_tab === "Webinar" ? (
                   <div className="overflow-x-auto scrollbar-hide">
-                    <div className="flex gap-x-3 justify-between items-center  min-w-max">
+                    <div className="flex gap-x-7  items-center  min-w-max">
                       {tabs.map((el, i) => (
                         <button
                           className={`${
@@ -330,7 +330,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                   </div>
                 ) : (
                   <div className="overflow-x-auto scrollbar-hide">
-                    <div className="flex xl:gap-x-3 justify-between items-center min-w-max">
+                    <div className="flex gap-x-7 items-center min-w-max">
                       {premiumFreeTab.map((el, i) => (
                         <button
                           className={`${
