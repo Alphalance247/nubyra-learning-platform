@@ -62,7 +62,7 @@ const FAQ = () => {
             {activeBtn === "Projects" && (
               <FaqComponent
                 results={
-                  data?.filter((find) => find?.option === "project") || []
+                  data?.filter((find) => find?.option === "projects") || []
                 }
               />
             )}
