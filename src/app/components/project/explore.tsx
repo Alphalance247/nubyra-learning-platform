@@ -5,32 +5,15 @@ import HeadingSubhead from "../common/headingSubhead";
 import ProjectCard from "../common/projectCard";
 import { FaChevronDown } from "react-icons/fa";
 import { BsFilterLeft } from "react-icons/bs";
-import axios, { AxiosError } from "axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "../common/spinner/spinner";
-import { environment } from "@/app/env/env.local";
 import Pagination from "../common/pagination";
 import ProjectFilterModal from "../common/projectFilterModal";
 import SortDropdown from "../common/sortDropdown";
 import { useFilterSortStore } from "@/stores/courses/filterSortStore";
-
-interface Project {
-  images: { image: string }[];
-  project_title: string;
-  project_type: string;
-  country: string;
-  project_scope: string;
-  project_duration: string;
-  prid: string;
-}
+import { getAllProjects } from "@/stores/projects/getAllProjects";
 
 const Explore = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentSort, setCurrentSort] = useState<string>("");
   const [appliedFilters, setAppliedFilters] = useState<
@@ -38,94 +21,22 @@ const Explore = () => {
   >({});
 
   const { fetchFilterOptions } = useFilterSortStore();
-  console.log(projects);
-
-  const errrMesaage =
-    "An error occurred while fetching the projects. Please try again later.";
-
-  const fetchProjects = useCallback(
-    async (page: number = currentPage) => {
-      setLoading(true);
-      try {
-        const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
-          page,
-        });
-
-        if (res.status === 200 && Array.isArray(res.data.projects)) {
-          setProjects(res.data.projects);
-          setFilteredProjects(res.data.projects);
-
-          // backend pagination values
-          setTotalPages(res.data.total_pages || 1);
-          setCurrentPage(res.data.current_page || 1);
-
-          // if backend doesn't send total_items, use current page length
-          // setTotalItems(res.data.total_items ?? res.data.projects.length);
-        } else {
-          setError(errrMesaage);
-        }
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          setError(err.message || errrMesaage);
-        } else {
-          setError("An unexpected error occurred");
-        }
-      } finally {
-        setLoading(false);
-      }
-    },
-    [currentPage]
-  );
+  const {
+    data: projectData,
+    fetchAllProjects,
+    filterProjects,
+    error,
+    loading,
+  } = getAllProjects();
 
   useEffect(() => {
-    fetchProjects();
+    fetchAllProjects();
     fetchFilterOptions();
-  }, [fetchFilterOptions, fetchProjects]);
+  }, [fetchAllProjects, fetchFilterOptions]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    fetchProjects(page);
-  };
-
-  const filterProjects = (filters: string[], sort: string) => {
-    let filtered = [...projects];
-
-    // Apply filters
-    if (filters.length > 0) {
-      filtered = filtered.filter((project) => {
-        return filters.some((filter) => {
-          // Check if filter matches project type (for Type field)
-          // and project scope (for Engineering Field)
-          return (
-            project.project_type.toLowerCase().includes(filter.toLowerCase()) ||
-            project.project_scope.toLowerCase().includes(filter.toLowerCase())
-          );
-        });
-      });
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (sort) {
-        case "newest-first":
-          return (
-            new Date(b.project_duration).getTime() -
-            new Date(a.project_duration).getTime()
-          );
-        case "oldest-first":
-          return (
-            new Date(a.project_duration).getTime() -
-            new Date(b.project_duration).getTime()
-          );
-        default:
-          return (
-            new Date(b.project_duration).getTime() -
-            new Date(a.project_duration).getTime()
-          );
-      }
-    });
-
-    setFilteredProjects(filtered);
+    const flatFilters = Object.values(appliedFilters).flat();
+    filterProjects(flatFilters, currentSort || "newest-first", page);
   };
 
   return (
@@ -137,10 +48,10 @@ const Explore = () => {
         />
 
         <div className="mt-10 sm:mt-12 lg:mt-16">
-          {/* Header + Filters - Exact copy from explore courses */}
+          {/* Header + Filters */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0">
             <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-              All Projects ({filteredProjects.length})
+              All Projects ({projectData?.projects?.length || 0})
             </h4>
             <div className="flex flex-wrap gap-2">
               <SortDropdown
@@ -177,10 +88,7 @@ const Explore = () => {
               <Button
                 variant="primary"
                 className="mt-4"
-                onClick={() => {
-                  setError("");
-                  fetchProjects();
-                }}
+                onClick={() => fetchAllProjects()}
               >
                 <span className="text-white">Retry</span>
               </Button>
@@ -195,7 +103,7 @@ const Explore = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 gap-y-4 gap-x-4 mt-10 md:grid-cols-2 lg:grid-cols-3">
-                {filteredProjects.map((project, i) => (
+                {projectData?.projects?.map((project, i) => (
                   <ProjectCard
                     image={project?.images[0]?.image}
                     title={project.project_title}
@@ -210,11 +118,13 @@ const Explore = () => {
                 ))}
               </div>
 
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              {projectData && projectData.total_pages > 1 && (
+                <Pagination
+                  currentPage={projectData.current_page}
+                  totalPages={projectData.total_pages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </>
           )}
         </div>
@@ -225,7 +135,6 @@ const Explore = () => {
         isOpen={showFilterModal}
         onClose={() => setShowFilterModal(false)}
         onChange={(filters) => {
-          // only refetch when filters actually change
           const prevFlat = Object.values(appliedFilters).flat().join(",");
           const nextFlat = Object.values(filters).flat().join(",");
           if (prevFlat === nextFlat) return;

@@ -155,22 +155,6 @@ export default function BlogFilterModal({
             </div>
           )}
         </div>
-
-        {/* Footer */}
-        <div className="p-6 border-t flex justify-between">
-          <button
-            onClick={() => setSelectedFilters({})}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            Clear All
-          </button>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-[#7B4C1F] text-white rounded-lg hover:bg-[#5a3a1a] transition-colors"
-          >
-            Apply Filters
-          </button>
-        </div>
       </div>
     </div>
   );
