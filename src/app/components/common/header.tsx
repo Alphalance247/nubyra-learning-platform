@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Button from "./buttons";
@@ -9,6 +9,8 @@ import { FaAngleDown, FaEdit, FaSignOutAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
 import { useAuth } from "@/app/context/authContext";
+import { MdVerifiedUser } from "react-icons/md";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState("Home");
@@ -17,6 +19,11 @@ const Header = () => {
   const router = useRouter();
   const { isAuthenticated, user, isLoggingOut, logout } = useAuth();
   const pathname = usePathname();
+  const { data, fetchSubscriptionStatus } = getSubscriotionStatusStore();
+
+  useEffect(() => {
+    fetchSubscriptionStatus();
+  }, [fetchSubscriptionStatus]);
 
   const navs = [
     { id: 1, name: "Home", link: "/" },
@@ -75,9 +82,17 @@ const Header = () => {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <p className="text-sm font-semibold capitalize text-[#5F5F5F]">
-                  {user?.first_name}
+                <p
+                  className={`text-sm font-semibold capitalize text-[#5F5F5F]  ${
+                    data?.sub_status && "flex gap-x-2 items-center"
+                  }`}
+                >
+                  {user?.first_name}{" "}
+                  {data?.sub_status && (
+                    <MdVerifiedUser size={16} fill="#7B4C1F" />
+                  )}
                 </p>
+
                 <FaAngleDown size={16} className="text-[#7C7C7C]" />
               </div>
 

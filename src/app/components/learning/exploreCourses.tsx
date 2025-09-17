@@ -17,9 +17,7 @@ import { useCheckout } from "@/app/utils/checkoutUtility";
 import FilterModal from "../common/filterModal";
 import SortDropdown from "../common/sortDropdown";
 import Pagination from "../common/pagination";
-import {
-  useFilterSortStore,
-} from "@/stores/courses/filterSortStore";
+import { useFilterSortStore } from "@/stores/courses/filterSortStore";
 
 type WebinarCourse =
   import("@/stores/courses/getAllCourses").webinarCourseData["courses"][number];
@@ -158,20 +156,28 @@ const ExploreCourses = () => {
             {/* Webinars */}
             {activeBtn === "Webinars" && fetchAllCoursedata?.Webinar && (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {webinars.map((course) => (
-                    <CourseCard
-                      key={course.cid}
-                      image={course.image}
-                      title={course.title}
-                      price={course.price}
-                      time={course.duration}
-                      duration={course.number_of_days}
-                      link={`/learning/${course.cid}`}
-                      onClickEnroll={() => handleCheckOut(course)}
-                    />
-                  ))}
-                </div>
+                {webinars?.length === 0 ? (
+                  <p className="text-center">
+                    No results
+                    <br />
+                    You may want to try adjusting your filters.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {webinars.map((course) => (
+                      <CourseCard
+                        key={course.cid}
+                        image={course.image}
+                        title={course.title}
+                        price={course.price}
+                        time={course.duration}
+                        duration={course.number_of_days}
+                        link={`/learning/${course.cid}`}
+                        onClickEnroll={() => handleCheckOut(course)}
+                      />
+                    ))}
+                  </div>
+                )}
                 {fetchAllCoursedata.Webinar.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination
@@ -191,30 +197,38 @@ const ExploreCourses = () => {
             {/* Premium */}
             {activeBtn === "Premium Courses" && fetchAllCoursedata?.Premium && (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {premium.map((course) => (
-                    <PremiumCourseCard
-                      key={course.cid}
-                      image={course.image}
-                      title={course.title}
-                      type={course.course_tab}
-                      link={`/learning/${course.cid}`}
-                      onClickWatch={() => {
-                        if (subStatus?.sub_status) {
-                          router.push(`/learning/${course.cid}`);
-                        } else {
-                          router.push("/learning/premium-subscription");
+                {premium?.length === 0 ? (
+                  <p className="text-center">
+                    No results
+                    <br />
+                    You may want to try adjusting your filters.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {premium.map((course) => (
+                      <PremiumCourseCard
+                        key={course.cid}
+                        image={course.image}
+                        title={course.title}
+                        type={course.course_tab}
+                        link={`/learning/${course.cid}`}
+                        onClickWatch={() => {
+                          if (subStatus?.sub_status) {
+                            router.push(`/learning/${course.cid}`);
+                          } else {
+                            router.push("/learning/premium-subscription");
+                          }
+                        }}
+                        subcribeText={
+                          subStatus?.sub_status ? "Watch" : "Subscribe to watch"
                         }
-                      }}
-                      subcribeText={
-                        subStatus?.sub_status ? "Watch" : "Subscribe to watch"
-                      }
-                      btnName={
-                        subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
-                      }
-                    />
-                  ))}
-                </div>
+                        btnName={
+                          subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
+                        }
+                      />
+                    ))}
+                  </div>
+                )}
                 {fetchAllCoursedata.Premium.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination
@@ -234,22 +248,30 @@ const ExploreCourses = () => {
             {/* Free */}
             {activeBtn === "Free Courses" && fetchAllCoursedata?.Free && (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                  {free.map((course) => (
-                    <PremiumCourseCard
-                      key={course.cid}
-                      image={course.image}
-                      title={course.title}
-                      type={course.course_tab}
-                      link={`/learning/${course.cid}`}
-                      onClickWatch={() =>
-                        router.push(`/learning/${course.cid}`)
-                      }
-                      subcribeText="Watch for free"
-                      btnName="Watch Now"
-                    />
-                  ))}
-                </div>
+                {free?.length === 0 ? (
+                  <p className="text-center">
+                    No results
+                    <br />
+                    You may want to try adjusting your filters.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {free.map((course) => (
+                      <PremiumCourseCard
+                        key={course.cid}
+                        image={course.image}
+                        title={course.title}
+                        type={course.course_tab}
+                        link={`/learning/${course.cid}`}
+                        onClickWatch={() =>
+                          router.push(`/learning/${course.cid}`)
+                        }
+                        subcribeText="Watch for free"
+                        btnName="Watch Now"
+                      />
+                    ))}
+                  </div>
+                )}
                 {fetchAllCoursedata.Free.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
                     <Pagination

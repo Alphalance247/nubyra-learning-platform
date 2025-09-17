@@ -116,18 +116,26 @@ const Blogs = () => {
               </div>
             ) : (
               <>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {blogData?.blogs?.map((blog, i) => (
-                    <BlogCard
-                      key={i}
-                      image={blog?.blog_images[0]?.image}
-                      blogTitle={blog?.title}
-                      author_name={blog?.post_meta?.author_name[0]}
-                      datePosted={blog?.post_meta?.date}
-                      blogUrl={`/blogs/${blog.id}-${slugify(blog.title)}`}
-                    />
-                  ))}
-                </div>
+                {blogData?.blogs?.length === 0 ? (
+                  <p className="text-center">
+                    No results
+                    <br />
+                    You may want to try adjusting your filters.
+                  </p>
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {blogData?.blogs?.map((blog, i) => (
+                      <BlogCard
+                        key={i}
+                        image={blog?.blog_images[0]?.image}
+                        blogTitle={blog?.title}
+                        author_name={blog?.post_meta?.author_name[0]}
+                        datePosted={blog?.post_meta?.date}
+                        blogUrl={`/blogs/${blog.id}-${slugify(blog.title)}`}
+                      />
+                    ))}
+                  </div>
+                )}
 
                 {blogData && blogData.total_pages > 1 && (
                   <div className="mt-10 flex justify-center">
