@@ -6,19 +6,18 @@ import {
   useFilterSortStore,
 } from "@/stores/courses/filterSortStore";
 
-interface FilterModalProps {
+interface BlogFilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onChange?: (filters: Record<string, string[]>) => void;
 }
 
-export default function FilterModal({
+export default function BlogFilterModal({
   isOpen,
   onClose,
   onChange,
-}: FilterModalProps) {
+}: BlogFilterModalProps) {
   const { data, loading } = useFilterSortStore();
-  console.log("data modal", data);
   const modalRef = useRef<HTMLDivElement>(null);
   const didMountRef = useRef(false);
 
@@ -51,13 +50,14 @@ export default function FilterModal({
       didMountRef.current = true;
       return;
     }
-    // Exclude hidden categories from emitted filters
+    // Only include authors and engineering field filters for blogs
     const cleaned = Object.fromEntries(
       Object.entries(selectedFilters).filter(([key]) => {
         const lowered = key.toLowerCase().trim();
-        const isExcluded =
-          lowered.includes("authors") || lowered.includes("type");
-        return !isExcluded;
+        const isIncluded =
+          lowered.includes("authors") ||
+          lowered.includes("engineering field");
+        return isIncluded;
       })
     );
     if (onChange) onChange(cleaned);
@@ -75,19 +75,17 @@ export default function FilterModal({
     });
   };
 
-  // Footer removed; applying filters on each change
-
   return (
-    <div className="fixed px-4 inset-0 mt-10 flex items-center justify-center z-50">
+    <div className="fixed inset-0 mt-10 flex items-center justify-center z-50">
       <div
         ref={modalRef}
-        className="bg-white  rounded-xl w-[300px] shadow-2xl md:w-[900px] max-h-[70vh] overflow-hidden flex flex-col"
+        className="bg-white rounded-xl w-[300px] shadow-2xl md:w-[600px] max-h-[70vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
         <div className="p-6 border-b">
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-semibold text-gray-800">
-              Filter Courses
+              Filter Blogs
             </h3>
             <button
               onClick={onClose}
@@ -105,16 +103,15 @@ export default function FilterModal({
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7B4C1F]"></div>
             </div>
           ) : (
-            <div className="flex flex-col md:flex-row justify-between md:gap-2 lg:gap-8  gap-8 w-full">
+            <div className="flex flex-col lg:flex-row justify-between gap-8 w-full">
               {(data?.filters || [])
                 .filter((filterObj) => {
                   const key = Object.keys(filterObj)[0];
                   const lowered = key?.toLowerCase().trim();
-                  const isExcluded =
+                  const isIncluded =
                     lowered.includes("authors") ||
-                    // lowered.includes("engineering field") ||
-                    lowered.includes("type");
-                  return !isExcluded;
+                    lowered.includes("engineering field");
+                  return isIncluded;
                 })
                 .map((filterObj, idx) => {
                   const key = Object.keys(filterObj)[0];
@@ -158,8 +155,6 @@ export default function FilterModal({
             </div>
           )}
         </div>
-
-        {/* Footer removed: filters apply on change */}
       </div>
     </div>
   );

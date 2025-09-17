@@ -3,73 +3,40 @@ import Button from "../common/buttons";
 import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
 import ProjectCard from "../common/projectCard";
-import { FaChevronDown } from "react-icons/fa6";
-import axios, { AxiosError } from "axios";
+import { FaChevronDown } from "react-icons/fa";
+import { BsFilterLeft } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Spinner from "../common/spinner/spinner";
-import { environment } from "@/app/env/env.local";
 import Pagination from "../common/pagination";
-
-interface Project {
-  images: { image: string }[];
-  project_title: string;
-  project_type: string;
-  country: string;
-  project_scope: string;
-  project_duration: string;
-  prid: string;
-}
+import ProjectFilterModal from "../common/projectFilterModal";
+import SortDropdown from "../common/sortDropdown";
+import { useFilterSortStore } from "@/stores/courses/filterSortStore";
+import { getAllProjects } from "@/stores/projects/getAllProjects";
 
 const Explore = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  console.log(projects);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [currentSort, setCurrentSort] = useState<string>("");
+  const [appliedFilters, setAppliedFilters] = useState<
+    Record<string, string[]>
+  >({});
 
-  const errrMesaage =
-    "An error occurred while fetching the projects. Please try again later.";
-
-    const fetchProjects = async (page: number = currentPage) => {
-      setLoading(true);
-      try {
-        const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
-          page,
-        });
-
-        if (res.status === 200 && Array.isArray(res.data.projects)) {
-          setProjects(res.data.projects);
-
-          // backend pagination values
-          setTotalPages(res.data.total_pages || 1);
-          setCurrentPage(res.data.current_page || 1);
-
-          // if backend doesn’t send total_items, use current page length
-          setTotalItems(res.data.total_items ?? res.data.projects.length);
-        } else {
-          setError(errrMesaage);
-        }
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          setError(err.message || errrMesaage);
-        } else {
-          setError("An unexpected error occurred");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    
+  const { fetchFilterOptions } = useFilterSortStore();
+  const {
+    data: projectData,
+    fetchAllProjects,
+    filterProjects,
+    error,
+    loading,
+  } = getAllProjects();
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    fetchAllProjects();
+    fetchFilterOptions();
+  }, [fetchAllProjects, fetchFilterOptions]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    fetchProjects(page);
+    const flatFilters = Object.values(appliedFilters).flat();
+    filterProjects(flatFilters, currentSort || "newest-first", page);
   };
 
   return (
@@ -81,14 +48,38 @@ const Explore = () => {
         />
 
         <div className="mt-10 sm:mt-12 lg:mt-16">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
-            <h4 className="text-xl sm:text-2xl font-semibold text-[#120A02]">
-              All Projects ({totalItems || projects.length})
+          {/* Header + Filters */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0">
+            <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
+              All Projects ({projectData?.projects?.length || 0})
             </h4>
-            <Button variant="secondary" className="flex items-center gap-x-2">
-              Most Recent
-              <FaChevronDown className="text-[#7B4C1F]" />
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <SortDropdown
+                currentSort={currentSort}
+                onSortChange={(sort) => {
+                  const mapSort = (s: string) => {
+                    if (!s) return "newest-first";
+                    if (s === "recent") return "newest-first";
+                    if (s === "newest") return "newest-first";
+                    if (s === "oldest") return "oldest-first";
+                    return s;
+                  };
+                  const apiSort = mapSort(sort);
+                  setCurrentSort(apiSort);
+                  const flatFilters = Object.values(appliedFilters).flat();
+                  filterProjects(flatFilters, apiSort);
+                }}
+              />
+              <Button
+                variant="secondary"
+                className="flex items-center gap-2"
+                onClick={() => setShowFilterModal(true)}
+              >
+                <BsFilterLeft className="text-[#7B4C1F]" />
+                Filter by
+                <FaChevronDown className="text-[#7B4C1F]" />
+              </Button>
+            </div>
           </div>
 
           {error && (
@@ -97,10 +88,7 @@ const Explore = () => {
               <Button
                 variant="primary"
                 className="mt-4"
-                onClick={() => {
-                  setError("");
-                  fetchProjects();
-                }}
+                onClick={() => fetchAllProjects()}
               >
                 <span className="text-white">Retry</span>
               </Button>
@@ -115,7 +103,7 @@ const Explore = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 gap-y-4 gap-x-4 mt-10 md:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project, i) => (
+                {projectData?.projects?.map((project, i) => (
                   <ProjectCard
                     image={project?.images[0]?.image}
                     title={project.project_title}
@@ -130,15 +118,32 @@ const Explore = () => {
                 ))}
               </div>
 
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              {projectData && projectData.total_pages > 1 && (
+                <Pagination
+                  currentPage={projectData.current_page}
+                  totalPages={projectData.total_pages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </>
           )}
         </div>
       </Container>
+
+      {/* Project Filter Modal */}
+      <ProjectFilterModal
+        isOpen={showFilterModal}
+        onClose={() => setShowFilterModal(false)}
+        onChange={(filters) => {
+          const prevFlat = Object.values(appliedFilters).flat().join(",");
+          const nextFlat = Object.values(filters).flat().join(",");
+          if (prevFlat === nextFlat) return;
+
+          setAppliedFilters(filters);
+          const flatFilters = Object.values(filters).flat();
+          filterProjects(flatFilters, currentSort || "newest-first");
+        }}
+      />
     </section>
   );
 };

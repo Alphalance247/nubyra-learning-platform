@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import Button from '../common/buttons';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Button from "../common/buttons";
+import { useEffect } from "react";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
+import { MdVerifiedUser } from "react-icons/md";
 
 export default function ProfileBanner({
   fullName,
   email,
   avatarUrl,
-  
-  
 }: {
   fullName: string;
   email: string;
@@ -18,15 +19,24 @@ export default function ProfileBanner({
   const router = useRouter();
 
   const handleEditProfile = () => {
-    router.push('/dashboard/edit-profile');
+    router.push("/dashboard/edit-profile");
   };
 
+  const { data, fetchSubscriptionStatus } = getSubscriotionStatusStore();
+
+  useEffect(() => {
+    fetchSubscriptionStatus();
+  }, [fetchSubscriptionStatus]);
+
   const handleChangePassword = () => {
-    router.push('/dashboard/edit-profile');
+    router.push("/dashboard/edit-profile");
   };
 
   return (
-    <div className="relative w-full h-auto md:h-[217px] rounded-lg overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/assets/dashboard/banner.png')" }}>
+    <div
+      className="relative w-full h-full rounded-2xl overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/assets/dashboard/banner.png')" }}
+    >
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-center md:items-start p-6 md:px-6 md:py-10 h-full gap-4">
         {/* Profile Info */}
@@ -42,8 +52,23 @@ export default function ProfileBanner({
             <span className="w-[18px] h-[18px] md:w-[34.5px] md:h-[34.5px] absolute bottom-0 right-0 md:bottom-1 md:right-0 bg-green-500 border-2 border-white rounded-full" />
           </div>
           <div className="text-white text-center md:text-left flex flex-col gap-2 md:gap-6">
-            <p className="text-lg md:text-[30px] font-Montserrat font-bold capitalize">{fullName}</p>
+            <p
+              className={`text-lg md:text-[30px] font-Montserrat font-bold capitalize    ${
+                data?.sub_status && "flex gap-x-2 items-center"
+              }`}
+            >
+              {fullName}{" "}
+              {data?.sub_status && <MdVerifiedUser size={25} fill="#D6C8BA" />}
+            </p>
             <p className="text-sm md:text-[18px] font-inter">{email}</p>
+            {data?.sub_status && (
+              <div>
+                <button className="border border-[#D6C8BA] w-fit text-base px-3 py-2 rounded-[20px] text-[white] bg-transparent flex gap-x-2 items-center hover:opacity-[0.8] hover:transition-all hover:duration-500">
+                  <MdVerifiedUser size={16} fill="#D6C8BA" />
+                  Premium
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

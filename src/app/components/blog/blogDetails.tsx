@@ -11,7 +11,7 @@ import Button from "../common/buttons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { environment } from "@/app/env/env.local";
-import { GoChevronRight } from "react-icons/go";
+import { GoChevronRight, GoChevronLeft } from "react-icons/go";
 import axiosInstance from "@/app/utils/axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/app/context/authContext";
@@ -65,6 +65,8 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
   const morePost = blogDetailsData?.more_posts;
   const response = blogDetailsData?.response;
   const [loadingSaveBlog, setLoadingSavBlog] = useState(false);
+  const [currentBlogId, setCurrentBlogId] = useState(blogTitle);
+  const [currentBlogIndex, setCurrentBlogIndex] = useState(0);
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
@@ -77,11 +79,18 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
       setLoading(true);
       try {
         const res = await axios.post(`${environment?.baseUrl}/blog-detail/`, {
-          bid: blogTitle,
+          bid: currentBlogId,
         });
         if (res.status === 200) {
           setBlogDetailsData(res?.data);
           setLoading(false);
+
+          // Find current blog index in more_posts (which has full blog data)
+          const morePosts = res?.data?.more_posts || [];
+          const currentIndex = morePosts.findIndex(
+            (post: { id: number }) => post.id.toString() === currentBlogId
+          );
+          setCurrentBlogIndex(currentIndex >= 0 ? currentIndex : 0);
         } else {
           setError(errrMesaage);
           setLoading(false);
@@ -99,7 +108,14 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
     };
 
     fetchBlogDetails();
-  }, [blogTitle]);
+  }, [currentBlogId]);
+
+  // Update currentBlogId when blogTitle prop changes (from URL navigation)
+  useEffect(() => {
+    if (blogTitle !== currentBlogId) {
+      setCurrentBlogId(blogTitle);
+    }
+  }, [blogTitle, currentBlogId]);
 
   function slugify(title: string) {
     return title
@@ -137,7 +153,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
       const res = await axiosInstance.post(
         `${environment?.baseUrl}/dashboard/`,
         {
-          bid: blogTitle,
+          bid: currentBlogId,
         }
       );
 
@@ -156,6 +172,36 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
 
       toast.error(errorMessage);
       setLoadingSavBlog(false);
+    }
+  };
+
+  const handleNextPost = () => {
+    const morePosts = blogDetailsData?.more_posts || [];
+    const nextIndex = currentBlogIndex + 1;
+
+    if (nextIndex < morePosts.length) {
+      const nextPost = morePosts[nextIndex];
+      setCurrentBlogId(nextPost.id.toString());
+      setCurrentBlogIndex(nextIndex);
+
+      // Update URL without page reload
+      const newSlug = `${nextPost.id}-${slugify(nextPost.title)}`;
+      router.push(`/blogs/${newSlug}`, { scroll: false });
+    }
+  };
+
+  const handlePreviousPost = () => {
+    const morePosts = blogDetailsData?.more_posts || [];
+    const prevIndex = currentBlogIndex - 1;
+
+    if (prevIndex >= 0) {
+      const prevPost = morePosts[prevIndex];
+      setCurrentBlogId(prevPost.id.toString());
+      setCurrentBlogIndex(prevIndex);
+
+      // Update URL without page reload
+      const newSlug = `${prevPost.id}-${slugify(prevPost.title)}`;
+      router.push(`/blogs/${newSlug}`, { scroll: false });
     }
   };
 
@@ -285,17 +331,39 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
               </div>
 
               {response && <AboutAuthor response={response} />}
+
+              {/* Navigation Buttons */}
               <div className="my-10">
-                <Button
-                  className="w-[298px] flex gap-x-3 justify-center items-center mx-auto"
-                  variant="primary"
-                >
-                  Next Post
-                  <span>
-                    <GoChevronRight />
-                  </span>
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Button
+                    className="w-[298px] flex gap-x-3 justify-center items-center"
+                    variant="secondary"
+                    onClick={handlePreviousPost}
+                    disabled={currentBlogIndex <= 0}
+                  >
+                    <span>
+                      <GoChevronLeft />
+                    </span>
+                    Previous Post
+                  </Button>
+
+                  <Button
+                    className="w-[298px] flex gap-x-3 justify-center items-center"
+                    variant="primary"
+                    onClick={handleNextPost}
+                    disabled={
+                      currentBlogIndex >=
+                      (blogDetailsData?.more_posts?.length || 0) - 1
+                    }
+                  >
+                    Next Post
+                    <span>
+                      <GoChevronRight />
+                    </span>
+                  </Button>
+                </div>
               </div>
+
               {morePost && <RelatedBlog moreBlogs={morePost} />}
             </div>
           )}

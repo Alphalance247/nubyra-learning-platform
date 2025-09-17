@@ -96,29 +96,41 @@ const Footer = () => {
                   {
                     src: "/assets/footer/telegram.svg",
                     link: "https://t.me/nubyira",
+                    label: "Telegram",
                   },
                   {
                     src: "/assets/footer/facebook.svg",
                     link: "https://facebook.com/nubyira",
+                    label: "Facebook",
                   },
                   {
                     src: "/assets/footer/linkedIn.svg",
                     link: "https://linkedin.com/company/nubyira",
+                    label: "LinkedIn",
                   },
                   {
                     src: "/assets/footer/youtube.svg",
                     link: "https://youtube.com/channel/UCl-2WpvWW1D0pG4fx5SYewg",
+                    label: "YouTube",
                   },
                   {
                     src: "/assets/footer/mail.svg",
                     link: "mailto://nubyira@gmail.com",
+                    label: "Email",
                   },
                   {
                     src: "/assets/footer/whatsapp.svg",
                     link: "https://wa.me/message/WABZJFRNPMNYL1",
+                    label: "WhatsApp",
                   },
                 ].map((el, i) => (
-                  <a href={el?.link} target="_blank" key={i}>
+                  <a
+                    href={el?.link}
+                    target="_blank"
+                    key={i}
+                    aria-label={el?.label}
+                    title={el?.label}
+                  >
                     <Image
                       src={el?.src}
                       alt="social"
@@ -142,13 +154,13 @@ const Footer = () => {
             {/* Right links */}
             <ul className="flex flex-wrap justify-center lg:justify-end gap-3 text-[#ECE8F1] font-medium text-sm sm:text-base lg:text-lg">
               <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
-                <a href="">Privacy Policy</a>
+                <Link href="/privacy-policy">Privacy Policy</Link>
               </li>
               <li className="lg:border-r border-[#FFFFFF] lg:pr-3">
-                <a href="">Terms of Service</a>
+                <Link href="/terms-of-service">Terms of Service</Link>
               </li>
               <li>
-                <a href="">Cookie Policy</a>
+                <Link href="/cookie-policy">Cookie Policy</Link>
               </li>
             </ul>
           </div>
