@@ -142,7 +142,7 @@ export default function Dashboard() {
       <DashLayout>
         <div className="bg-[#FEFEFD] pb-6">
           <Container>
-            <div className="bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 px-4 py-6 space-y-6">
+            <div className="bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 py-6 space-y-6">
               <NavigateArrow
                 icon={<BsArrowLeft size={16} />}
                 label={<span className="text-sm font-medium">Back</span>}
@@ -151,7 +151,7 @@ export default function Dashboard() {
             </div>
 
             <div className="w-full flex flex-col gap-6">
-              <div className="p-4">
+              <div className="lg:p-4">
                 <ProfileBanner
                   fullName={userData?.primary_info?.full_name ?? "Unknown"}
                   email={userData?.primary_info?.email ?? "Unknown"}
@@ -175,7 +175,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="p-6 mb-4">
+              <div className="lg:p-6 mb-4">
                 {activeTab === "learning" && (
                   <>
                     <SectionHeader
@@ -190,7 +190,7 @@ export default function Dashboard() {
                         { label: "Completed Course", count: completedCount },
                       ]}
                     />
-                    <div className="w-full p-[24px] bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto">
+                    <div className="w-full  bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto md:p-6">
                       {filteredCourses.length > 0 ? (
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 sm:gap-4 md:grid-cols-2 md:gap-6">
                           {filteredCourses.map((course, idx) => (

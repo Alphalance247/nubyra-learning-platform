@@ -11,7 +11,7 @@ type Tab = {
   
   export const Tabs: React.FC<TabsProps> = ({ selected, onSelect, tabs }) => {
     return (
-      <div className="flex space-x-4 mt-4 mb-5">
+      <div className="flex flex-col space-x-4 mt-4 mb-5 lg:flex-row">
         {tabs.map(({ label, count }) => {
           const isActive = selected === label;
           return (

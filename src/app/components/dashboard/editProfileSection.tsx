@@ -104,7 +104,7 @@ export default function EditProfileSection() {
 
   return (
     <div
-      className={`relative mx-auto mt-10 p-6 bg-[#FEFEFD] items-center ${
+      className={`relative mx-auto mt-10 bg-[#FEFEFD] items-center ${
         activeTab === "password" ? "max-w-[615px]" : "max-w-[996px]"
       }`}
     >
@@ -153,30 +153,32 @@ export default function EditProfileSection() {
 
       {/* MAIN FORM */}
       {activeTab === "profile" ? (
-        <form onSubmit={handleSubmitAll} className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row gap-10">
-            <div className="flex-1 flex flex-col items-center">
-              <ProfilePhotoCard
-                imagePreview={imagePreview}
-                setImagePreview={setImagePreview}
-                setImageFile={setImageFile}
-              />
-            </div>
-            <div className="flex-1">
-              <ProfileForm
-                formData={formData}
-                setFormData={setFormData}
-                phone= {phone}
-                setPhone={setPhone}
-              />
+        <form onSubmit={handleSubmitAll} >
+          <div className="w-full flex flex-col gap-6">
+            <div className="flex flex-col md:flex-row gap-10">
+              <div className="flex-1 flex flex-col items-center">
+                <ProfilePhotoCard
+                  imagePreview={imagePreview}
+                  setImagePreview={setImagePreview}
+                  setImageFile={setImageFile}
+                />
+              </div>
+              <div className="flex-1">
+                <ProfileForm
+                  formData={formData}
+                  setFormData={setFormData}
+                  phone= {phone}
+                  setPhone={setPhone}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex mt-6 mb-10 sm:justify-center md:justify-end">
             {/* <Button type="submit" variant="primary" className="max-w-[299px]">
               Save All Changes
             </Button> */}
-            <Button type="submit" variant="primary" className="max-w-[299px]" disabled={loading}>
+            <Button type="submit" variant="primary" className="w-full md:w-[299px]" disabled={loading}>
             {loading ? 'Saving...' : 'Save All Changes'}
           </Button>
           </div>

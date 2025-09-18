@@ -99,8 +99,8 @@ export default function ChangePasswordForm() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {success && <p className="text-green-500 text-sm">{success}</p>}
 
-        <div className="flex justify-center">
-          <Button type="submit" variant="primary" className="max-w-[299px]" disabled={loading}>
+        <div className="flex mt-6 mb-10 justify-center">
+          <Button type="submit" variant="primary" className="w-full md:w-[299px]" disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
