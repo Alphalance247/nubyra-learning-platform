@@ -4,18 +4,24 @@
 // import Image from "next/image";
 
 // type Props = {
-//   image: string | null;
-//   setImage: (value: string | null) => void;
+//   imagePreview: string | null;
+//   setImagePreview: (value: string | null) => void;
+//   setImageFile: (value: File | null) => void;
 // };
 
-// export default function ProfilePhotoCard({ image, setImage }: Props) {
+// export default function ProfilePhotoCard({
+//   imagePreview,
+//   setImagePreview,
+//   setImageFile,
+// }: Props) {
 //   const router = useRouter();
 
 //   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 //     const file = e.target.files?.[0];
 //     if (file) {
 //       const url = URL.createObjectURL(file);
-//       setImage(url);
+//       setImagePreview(url); // preview image
+//       setImageFile(file);   // actual file for upload
 //     }
 //   };
 
@@ -36,12 +42,12 @@
 //       </div>
 
 //       <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shadow">
-//         {image ? (
+//         {imagePreview ? (
 //           <Image
-//             src={image}
+//             src={imagePreview}
 //             alt="Profile"
-//             width={24}
-//             height={24}
+//             width={96}
+//             height={96}
 //             className="w-full h-full object-cover"
 //           />
 //         ) : (
@@ -82,19 +88,23 @@ import { useRouter } from "next/navigation";
 import { FaSignOutAlt } from "react-icons/fa";
 import { PictureInPictureIcon } from "lucide-react";
 import Image from "next/image";
+import { useAuth } from "@/app/context/authContext";
 
 type Props = {
   imagePreview: string | null;
   setImagePreview: (value: string | null) => void;
   setImageFile: (value: File | null) => void;
+  defaultImage?: string | null; // <-- add default image from backend
 };
 
 export default function ProfilePhotoCard({
   imagePreview,
   setImagePreview,
   setImageFile,
+  defaultImage,
 }: Props) {
   const router = useRouter();
+  const { updateUser } = useAuth();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -102,6 +112,7 @@ export default function ProfilePhotoCard({
       const url = URL.createObjectURL(file);
       setImagePreview(url); // preview image
       setImageFile(file);   // actual file for upload
+      updateUser({ image: url });
     }
   };
 
@@ -109,6 +120,7 @@ export default function ProfilePhotoCard({
     console.log("Logging out...");
     router.push("/auth/sign-in");
   };
+  const displayedImage = imagePreview || defaultImage;
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -122,9 +134,9 @@ export default function ProfilePhotoCard({
       </div>
 
       <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center shadow">
-        {imagePreview ? (
+        {displayedImage ? (
           <Image
-            src={imagePreview}
+            src={displayedImage}
             alt="Profile"
             width={96}
             height={96}

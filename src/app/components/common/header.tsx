@@ -72,6 +72,7 @@ const Header = () => {
                 <div className="w-10 h-10 rounded-full overflow-hidden border border-white bg-[#FFE7CC]">
                   <Image
                     src={
+                      user?.image?.startsWith("blob:") ||
                       user?.image?.startsWith("https")
                         ? user.image
                         : "/assets/dashboard/userprofile.png"
