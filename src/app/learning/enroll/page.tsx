@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast"; 
+import toast from "react-hot-toast";
 import InputField from "@/app/components/project/InputField";
 import Button from "@/app/components/common/buttons";
 import Layout from "@/app/components/common/layout";
@@ -15,10 +15,12 @@ import PhoneInput from "@/app/components/project/phoneNumber";
 import CountryStateSelect from "../../components/project/countryState";
 import axiosInstance from "@/app/utils/axios";
 import ProtectedRoute from "@/app/components/common/protectedRoute";
+import { AxiosError } from "axios";
 
 const EnrollmentForm: React.FC = () => {
-  const [location, setLocation] = useState({ country: '', state: '' });
+  const [location, setLocation] = useState({ country: "", state: "" });
   const [loading, setLoading] = useState(false);
+  const [courseTitle, setCourseTitle] = useState("");
   const [formData, setFormData] = useState({
     // course_id: "",
     first_name: "",
@@ -34,133 +36,161 @@ const EnrollmentForm: React.FC = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [phone, setPhone] = useState("");
+  const [courseId, setCourseId] = useState("");
   const router = useRouter();
   const today = new Date();
-  const fullDate = today.getUTCFullYear() + "-" +
-                 String(today.getUTCMonth() + 1).padStart(2, "0") + "-" +
-                 String(today.getUTCDate()).padStart(2, "0");
+  const fullDate =
+    today.getUTCFullYear() +
+    "-" +
+    String(today.getUTCMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getUTCDate()).padStart(2, "0");
 
   const termsAndConditions = [
     {
       id: 1,
       title: "Access to Course Materials",
-      text: "Participants will receive access to recorded sessions for personal and future reference only. The content is intended solely for private individual use. Copying, recording, reproduction, distribution, resale, public display, or commercial use of the recordings is strictly prohibited without written permission."
+      text: "Participants will receive access to recorded sessions for personal and future reference only. The content is intended solely for private individual use. Copying, recording, reproduction, distribution, resale, public display, or commercial use of the recordings is strictly prohibited without written permission.",
     },
     {
       id: 2,
       title: "Intellectual Property",
-      text: "All course content, including videos, slides, handouts, and supporting materials, remains the intellectual property of the company or its licensors. Nothing in these terms grants you any rights to use the content except for personal, and non-commercial purposes."
+      text: "All course content, including videos, slides, handouts, and supporting materials, remains the intellectual property of the company or its licensors. Nothing in these terms grants you any rights to use the content except for personal, and non-commercial purposes.",
     },
     {
       id: 3,
       title: "Internet Connectivity and Technical Requirements",
-      text: "Participants must ensure they have access to a stable internet connection and compatible device (PC/laptop/tablet) with necessary software (e.g. Google Meet, Zoom, Microsoft Team, Team Viewer, Anydesk). Participants must also ensure they have a quiet, and distraction-free environment suitable for learning while attending the course. The company will not be held liable for any disruptions or missed sessions caused by the participant’s failure to meet these conditions, and no compensation will be provided."
+      text: "Participants must ensure they have access to a stable internet connection and compatible device (PC/laptop/tablet) with necessary software (e.g. Google Meet, Zoom, Microsoft Team, Team Viewer, Anydesk). Participants must also ensure they have a quiet, and distraction-free environment suitable for learning while attending the course. The company will not be held liable for any disruptions or missed sessions caused by the participant’s failure to meet these conditions, and no compensation will be provided.",
     },
     {
       id: 4,
       title: "Cancellation and Refund Policy",
-      text: "Before Course Commencement: Full refunds are available for cancellations made prior to the start of the course. After Course Commencement: Participants who cancel after the course has started may receive a 70% refund. A 30% cancellation fee will be retained. Non-attendance: No refunds will be issued for failure to attend without prior notice."
+      text: "Before Course Commencement: Full refunds are available for cancellations made prior to the start of the course. After Course Commencement: Participants who cancel after the course has started may receive a 70% refund. A 30% cancellation fee will be retained. Non-attendance: No refunds will be issued for failure to attend without prior notice.",
     },
     {
       id: 5,
       title: "Course Cancellation by the Company",
-      text: "In the event that a course is canceled by the company for any reason, participants will have the option to receive: A full refund of all fees paid, or a credit toward a future course (valid for 3 months from the original registration date)."
+      text: "In the event that a course is canceled by the company for any reason, participants will have the option to receive: A full refund of all fees paid, or a credit toward a future course (valid for 3 months from the original registration date).",
     },
     {
       id: 6,
       title: "Course Validity and Expiry",
-      text: "Course sessions must be completed within one (1) month of registration. Failure to participate within this period will result in forfeiture of the course fee. No extensions will be granted unless under exceptional, pre-approved circumstances."
+      text: "Course sessions must be completed within one (1) month of registration. Failure to participate within this period will result in forfeiture of the course fee. No extensions will be granted unless under exceptional, pre-approved circumstances.",
     },
     {
       id: 7,
       title: "Pricing and Payment",
-      text: "Course fees are subject to change at any time without prior notice. It is the participant’s responsibility to retain proof of payment (including transaction ID and receipt). The company is not liable for disputes arising from undocumented transactions."
+      text: "Course fees are subject to change at any time without prior notice. It is the participant’s responsibility to retain proof of payment (including transaction ID and receipt). The company is not liable for disputes arising from undocumented transactions.",
     },
     {
       id: 8,
       title: "Code of Conduct",
-      text: "Participants are expected to maintain respectful and professional behavior throughout the course. Disruptive behavior, harassment, abuse, or inappropriate conduct toward instructors or other participants may result in immediate removal from the course without refund."
+      text: "Participants are expected to maintain respectful and professional behavior throughout the course. Disruptive behavior, harassment, abuse, or inappropriate conduct toward instructors or other participants may result in immediate removal from the course without refund.",
     },
     {
       id: 9,
       title: "Privacy and Data Protection",
-      text: "By registering, you consent to the collection and use of your personal data for course administration, communication, and support. We are committed to protecting your privacy and will not share your information with third parties without your consent, except as required by law."
+      text: "By registering, you consent to the collection and use of your personal data for course administration, communication, and support. We are committed to protecting your privacy and will not share your information with third parties without your consent, except as required by law.",
     },
     {
       id: 10,
       title: "Certification",
-      text: "Certificates of completion will be issued only to participants who complete the course in full and meet all assessment or attendance requirements specified during registration."
+      text: "Certificates of completion will be issued only to participants who complete the course in full and meet all assessment or attendance requirements specified during registration.",
     },
     {
       id: 11,
       title: "Amendments to Terms",
-      text: "We reserve the right to update or modify these terms at any time without prior notice. Continued participation in the course after such changes will constitute your acceptance of the revised terms."
-    }
+      text: "We reserve the right to update or modify these terms at any time without prior notice. Continued participation in the course after such changes will constitute your acceptance of the revised terms.",
+    },
   ];
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedTitle = localStorage.getItem("courseTitle");
+      const storedId = localStorage.getItem("courseId");
+
+      if (storedTitle && storedId) {
+        setCourseTitle(storedTitle);
+        setCourseId(storedId);
+      }
+    }
+  }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const target = e.target;
-  
-    if (target instanceof HTMLInputElement && target.type === 'file' && target.files) {
+
+    if (
+      target instanceof HTMLInputElement &&
+      target.type === "file" &&
+      target.files
+    ) {
       setFormData({ ...formData, [target.name]: target.files[0] });
     } else {
       setFormData({ ...formData, [target.name]: target.value });
     }
   };
-  
-
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (!acceptedTerms) {
-  //     toast.error("You must agree to the terms and conditions before proceeding.");
-  //     return;
-  //   }
-  //   setShowOverlay(true);
-  //   console.log(formData);
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (!acceptedTerms) {
-        toast.error("You must agree to the terms and conditions before proceeding.");
-        return;
+    if (!acceptedTerms) {
+      toast.error(
+        "You must agree to the terms and conditions before proceeding."
+      );
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const data = new FormData();
+      // data.append("course_id", course.id) send course id from props
+      data.append("first_name", formData.first_name);
+      data.append("middle_name", formData.middle_name);
+      data.append("last_name", formData.last_name);
+      data.append("company_institution", formData.company_institution);
+      data.append("phone_number", phone);
+      data.append("email", formData.email);
+      data.append("zip_number", formData.zip_number);
+      data.append(
+        "professional_academic_field",
+        formData.professional_academic_field
+      );
+      data.append("address", formData.address);
+      data.append("country", location.country);
+      data?.append("course_id", courseId);
+
+      const response = await axiosInstance.post("/course-register/", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response?.status === 201 || response?.status === 200) {
+        toast.success(
+          response.data?.message || "Enrollment submitted successfully!"
+        );
+        router.push("/checkout");
       }
+      setLoading(false);
 
-      setLoading(true);
-
-      try {
-        const data = new FormData();
-        // data.append("course_id", course.id) send course id from props
-          data.append("first_name", formData.first_name);
-          data.append("middle_name", formData.middle_name);
-          data.append("last_name", formData.last_name);
-          data.append("company_institution", formData.company_institution);
-          data.append("phone_number", formData.phone_number);
-          data.append("email", formData.email);
-          data.append("zip_number", formData.zip_number);
-          data.append("professional_academic_field", formData.professional_academic_field);
-          data.append("address", formData.address);
-          data.append("country", location.country);
-          
-        const response = await axiosInstance.post("/course-register/", data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        toast.success(response.data?.message || "Enrollment submitted successfully!");
-        // reset state etc...
-        setAcceptedTerms(false);
-
-      } catch (err: unknown) {
-        console.error(err);
-        toast.error("Something went wrong. Please try again.");
-      } finally {
-        setLoading(false);
+      // reset state etc...
+      setAcceptedTerms(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.error || errorMessage;
       }
-    };
+      toast.error(errorMessage);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <ProtectedRoute>
       <Layout>
@@ -173,13 +203,16 @@ const EnrollmentForm: React.FC = () => {
                 label={<span className="text-sm font-medium">Back</span>}
               />
 
-              <Breadcrumb previousStep="ASPEN HYSYS basic course webinar" currentStep="Enrollment Form" />
+              <Breadcrumb
+                previousStep={courseTitle || "Not Available"}
+                currentStep="Enrollment Form"
+              />
             </div>
             <div className="w-full max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-8">
               <div className="w-full max-w-3xl mx-auto gap-8">
                 <div className="relative max-w-[1200px] w-full mx-auto gap-8 pt-[20px] px-[24px]">
                   <SectionHeader
-                    title="Aspen HYSYS Basic Course Webinar Registration"
+                    title={courseTitle + " Registration" || "Not Available"}
                     subtitle="Please ensure that all fields in the form are completed to register for this webinar."
                     className=""
                   />
@@ -357,4 +390,3 @@ const EnrollmentForm: React.FC = () => {
 };
 
 export default EnrollmentForm;
-

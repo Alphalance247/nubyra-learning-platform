@@ -1,5 +1,5 @@
-import axiosInstance from "@/app/utils/axios";
-import { AxiosError } from "axios";
+import { environment } from "@/app/env/env.local";
+import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 
 interface blogListDataStore {
@@ -29,7 +29,7 @@ export const getBlogListStore = create<blogListStore>((set) => ({
   fetchBlogList: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await axiosInstance.get("/blogs/");
+      const res = await axios.get(`${environment?.baseUrl}/blogs/`);
       set({ data: res.data, loading: false });
     } catch (err) {
       if (err instanceof AxiosError) {

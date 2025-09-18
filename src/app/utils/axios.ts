@@ -30,20 +30,19 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
-        const currentPath = window.location.pathname + window.location.search;
+        // const currentPath = window.location.pathname + window.location.search;
         // Clear cookies
         document.cookie =
           "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
         // Clear localStorage
         localStorage.removeItem("first_name");
-        localStorage.removeItem("userData");
-
-        // // Dispatch custom event for other components to listen to
-        // window.dispatchEvent(new CustomEvent("sessionConflict"));
+        localStorage.removeItem("middle_name");
+        localStorage.removeItem("last_name");
+        localStorage.removeItem("image");
 
         // Store the redirect path in sessionStorage (persists during the session)
-        sessionStorage.setItem("redirectAfterLogin", currentPath);
+        // sessionStorage.setItem("redirectAfterLogin", currentPath);
       }
     }
 

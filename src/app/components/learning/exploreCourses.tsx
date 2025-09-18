@@ -10,15 +10,43 @@ import CourseCard from "../common/coursesCard";
 import { getCourseListStore } from "@/stores/courses/getCourseList";
 import { getAllCourses } from "@/stores/courses/getAllCourses";
 import PremiumCourseCard from "../common/premiumCourseCard";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
+import { useRouter } from "next/navigation";
+import Spinner from "../common/spinner/spinner";
+import { useCheckout } from "@/app/utils/checkoutUtility";
 
 const ExploreCourses = () => {
   const { data, fetchCourseList } = getCourseListStore();
-  const { data: fetchAllCoursedata, fetchAllCourses } = getAllCourses();
+  const {
+    data: fetchAllCoursedata,
+    fetchAllCourses,
+    error,
+    loading,
+  } = getAllCourses();
+  const { data: subStatus, fetchSubscriptionStatus } =
+    getSubscriotionStatusStore();
+  const router = useRouter();
+  const { handleCheckOut } = useCheckout();
 
   useEffect(() => {
     fetchCourseList();
     fetchAllCourses();
-  }, [fetchCourseList, fetchAllCourses]);
+    fetchSubscriptionStatus();
+  }, [fetchCourseList, fetchAllCourses, fetchSubscriptionStatus]);
+
+  // const handleCheckOut = (course: {
+  //   title?: string;
+  //   price?: string;
+  //   duration?: string;
+  //   cid?: string;
+  //   id: string;
+  // }) => {
+  //   localStorage.setItem("courseTitle", course?.title || "");
+  //   localStorage.setItem("courseDuration", course?.duration || "");
+  //   localStorage.setItem("coursePrice", course?.price || "");
+  //   localStorage.setItem("courseId", course?.id || "");
+  //   router?.push("/learning/enroll");
+  // };
 
   const [activeBtn, setActiveBtn] = useState<string>("Webinars");
   const tabs: { id: number; name: string }[] = [
@@ -57,78 +85,116 @@ const ExploreCourses = () => {
           ))}
         </div>
 
-        <div className="flex items-center justify-between mt-14">
-          <h4 className="text-2xl font-semibold text-[#120A02]">
-            All Courses ({data?.courses?.length})
-          </h4>
-          <div className=" flex gap-x-2">
-            <Button variant="secondary" className="flex items-center gap-x-2">
-              <span>
-                <BsFilterLeft className="text-[#7B4C1F]" />
-              </span>
-              Filter by
-              <span>
-                {" "}
-                <FaChevronDown className="text-[#7B4C1F]" />
-              </span>
-            </Button>
-
-            <Button variant="secondary" className="flex items-center gap-x-2">
-              Sort by
-              <span>
-                {" "}
-                <FaChevronDown className="text-[#7B4C1F]" />
-              </span>
+        {loading ? (
+          <Spinner />
+        ) : error ? (
+          <div className="mt-8 text-center text-red-600 text-lg font-semibold flex flex-col items-center justify-center">
+            <p> {error}</p>
+            <Button
+              variant="primary"
+              className="mt-4"
+              onClick={() => {
+                fetchAllCourses();
+              }}
+            >
+              <span className="text-white">Retry</span>
             </Button>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between mt-14">
+              <h4 className="text-2xl font-semibold text-[#120A02]">
+                All Courses ({data?.courses?.length})
+              </h4>
+              <div className=" flex gap-x-2">
+                <Button
+                  variant="secondary"
+                  className="flex items-center gap-x-2"
+                >
+                  <span>
+                    <BsFilterLeft className="text-[#7B4C1F]" />
+                  </span>
+                  Filter by
+                  <span>
+                    {" "}
+                    <FaChevronDown className="text-[#7B4C1F]" />
+                  </span>
+                </Button>
 
-        {activeBtn === "Webinars" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-6">
-            {fetchAllCoursedata?.Webinar?.courses?.map((course, index) => (
-              <CourseCard
-                key={index}
-                image={course?.image}
-                title={course?.title}
-                price={course?.price}
-                time={course?.number_of_days}
-                duration={course?.duration}
-                link={`/learning/${course?.cid}`}
-              />
-            ))}
-          </div>
-        )}
+                <Button
+                  variant="secondary"
+                  className="flex items-center gap-x-2"
+                >
+                  Sort by
+                  <span>
+                    {" "}
+                    <FaChevronDown className="text-[#7B4C1F]" />
+                  </span>
+                </Button>
+              </div>
+            </div>
 
-        {activeBtn === "Premium Courses" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-6">
-            {fetchAllCoursedata?.Premium?.courses?.map((el, i) => (
-              <PremiumCourseCard
-                key={i}
-                title={el?.title}
-                type={el?.course_tab}
-                link={`/learning/${el?.cid}`}
-                watchNowLink={`/learning/${el?.cid}`}
-                subcribeText="Subscribe to watch"
-                btnName="Subscribe Now"
-              />
-            ))}
-          </div>
-        )}
+            {activeBtn === "Webinars" && (
+              <div className="grid md:grid-cols-3 gap-8 mt-6">
+                {fetchAllCoursedata?.Webinar?.courses?.map((course, index) => (
+                  <CourseCard
+                    key={index}
+                    image={course?.image}
+                    title={course?.title}
+                    price={course?.price}
+                    time={course?.duration}
+                    duration={course?.number_of_days}
+                    link={`/learning/${course?.cid}`}
+                    onClickEnroll={() => handleCheckOut(course)}
+                  />
+                ))}
+              </div>
+            )}
 
-        {activeBtn === "Free Courses" && (
-          <div className="grid md:grid-cols-3 gap-8 mt-6">
-            {fetchAllCoursedata?.Free?.courses?.map((el, i) => (
-              <PremiumCourseCard
-                key={i}
-                title={el?.title}
-                type={el?.course_tab}
-                link={`/learning/${el?.cid}`}
-                watchNowLink={`/learning/${el?.cid}`}
-                subcribeText="Watch for free"
-                btnName="Watch Now"
-              />
-            ))}
-          </div>
+            {activeBtn === "Premium Courses" && (
+              <div className="grid md:grid-cols-3 gap-8 mt-6">
+                {fetchAllCoursedata?.Premium?.courses?.map((el, i) => (
+                  <PremiumCourseCard
+                    image={el?.image}
+                    key={i}
+                    title={el?.title}
+                    type={el?.course_tab}
+                    link={`/learning/${el?.cid}`}
+                    onClickWatch={() => {
+                      if (subStatus?.sub_status) {
+                        router.push(`/learning/${el?.cid}`);
+                      } else {
+                        router?.push("/learning/premium-subscription");
+                      }
+                    }}
+                    subcribeText={
+                      subStatus?.sub_status ? "Watch" : "Subscribe to watch"
+                    }
+                    btnName={
+                      subStatus?.sub_status ? "Watch Now" : "Subscribe Now"
+                    }
+                  />
+                ))}
+              </div>
+            )}
+
+            {activeBtn === "Free Courses" && (
+              <div className="grid md:grid-cols-3 gap-8 mt-6">
+                {fetchAllCoursedata?.Free?.courses?.map((el, i) => (
+                  <PremiumCourseCard
+                    key={i}
+                    image={el?.image}
+                    title={el?.title}
+                    type={el?.course_tab}
+                    link={`/learning/${el?.cid}`}
+                    onClickWatch={() => router.push(`/learning/${el?.cid}`)}
+                    subcribeText="Watch for free"
+                    btnName="Watch Now"
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </Container>
     </section>

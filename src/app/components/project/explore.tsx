@@ -4,10 +4,10 @@ import Container from "../common/container";
 import HeadingSubhead from "../common/headingSubhead";
 import ProjectCard from "../common/projectCard";
 import { FaChevronDown } from "react-icons/fa6";
-import axiosInstance from "@/app/utils/axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import Spinner from "../common/spinner/spinner";
+import { environment } from "@/app/env/env.local";
 
 // Define the Project type based on the properties used in ProjectCard
 interface Project {
@@ -27,13 +27,15 @@ const Explore = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  console.log(projects);
+
   const errrMesaage =
     "An error occurred while fetching the projects. Please try again later.";
 
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/project-list/`, {
+      const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
         page: 1,
       });
       if (res.status === 200 && Array.isArray(res.data.projects)) {
@@ -68,8 +70,8 @@ const Explore = () => {
         />
 
         <div className="mt-16">
-          <div className="flex items-center justify-between">
-            <h4 className="text-2xl font-semibold text-[#120A02]">
+          <div className="flex flex-col md:flex-row  items-start md:items-center justify-between">
+            <h4 className="text-2xl font-semibold text-[#120A02] mb-4 md:mb-0">
               All Projects ({projects.length})
             </h4>
             <div className="">
@@ -105,7 +107,7 @@ const Explore = () => {
               <p className="text-lg text-gray-500 mt-4">Loading projects...</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-y-4 gap-x-4 mt-10">
+            <div className="grid grid-cols-1 gap-y-4 gap-x-4 mt-10 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, i) => (
                 <ProjectCard
                   image={project?.images[0]?.image}

@@ -34,25 +34,25 @@ const services: servcesProps[] = [
       "Get personalized guidance, technical support, and hands-on help to transform your academic projects into outstanding achievements.",
   },
 ];
+
 const Services = () => {
   return (
     <section className="bg-[#FEFEFD]">
       <Container>
-        <div className="mb-10">
+        <div className="mb-10 text-center md:text-start">
           <HeadingSubhead
             heading="Services we provide"
-            subheading="Engineering innovation, learning, and hands-on reseach support. all in one place."
+            subheading="Engineering innovation, learning, and hands-on research support. All in one place."
             headingClassName="text-[#120A02]"
             subheadingClassName="text-[#413B35]"
           />
         </div>
-
-        <div className="grid md:grid-cols-2 gap-x-16">
+        <div className="grid gap-y-10 xl:grid-cols-2 xl:gap-x-16 xl:gap-y-0 items-center">
           <div className="flex flex-col gap-y-6">
             {services.map((service) => (
               <div
                 key={service.id}
-                className="bg-[#F2EDE9] p-6 rounded-xl border-b border-b-[#7B4C1F] border-image-source-gradient"
+                className="bg-[#F2EDE9] p-6 rounded-xl border-b border-b-[#7B4C1F]"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <Image
@@ -60,32 +60,32 @@ const Services = () => {
                     alt={service.title}
                     width={40}
                     height={40}
+                    className="w-10 h-10 object-contain"
                   />
-                  <h3 className="text-[#70451C] text-2xl font-semibold font-montserrat">
+                  <h3 className="text-[#70451C] text-lg sm:text-xl md:text-2xl font-semibold font-montserrat">
                     {service?.title}
                   </h3>
                 </div>
-                <p className="text-[#5E5A64] text-lg font-inter">
+                <p className="text-[#5E5A64] text-sm sm:text-base md:text-lg font-inter">
                   {service.description}
                 </p>
               </div>
             ))}
           </div>
-
-          <div>
+          <div className="flex justify-center md:justify-end">
             <Image
               src="/assets/home/services.png"
               width={570}
               height={646}
               alt="service-3"
+              className="w-full xl:max-w-[570px] h-auto object-contain"
             />
           </div>
         </div>
-
         <div className="mt-10 flex flex-col justify-center items-center">
           <Link href={"/project/submit"}>
-            <Button variant="primary" className="w-[298px]">
-              Contact Us
+            <Button variant="primary" className="w-full sm:w-[298px]">
+              Submit Project Request
             </Button>
           </Link>
         </div>

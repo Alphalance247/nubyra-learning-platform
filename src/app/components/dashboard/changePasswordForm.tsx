@@ -63,7 +63,7 @@ export default function ChangePasswordForm() {
     <div className="w-full flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-md shadow flex flex-col gap-5 w-full max-w-xl"
+        className="flex flex-col gap-6 "
       >
         <InputField
           label="Current Password"
@@ -99,7 +99,7 @@ export default function ChangePasswordForm() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
         {success && <p className="text-green-500 text-sm">{success}</p>}
 
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <Button type="submit" variant="primary" className="max-w-[299px]" disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>

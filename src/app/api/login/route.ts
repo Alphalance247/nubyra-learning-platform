@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 3, // 3 days
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3),
     });
 
     return response;

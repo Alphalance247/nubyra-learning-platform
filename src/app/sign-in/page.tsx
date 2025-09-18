@@ -21,17 +21,13 @@ const LoginPage = () => {
     const { login } = useAuth();
     const searchParams = useSearchParams();
 
-    const redirectTo =
-      searchParams.get("redirect") ||
-      (typeof window !== "undefined"
-        ? sessionStorage.getItem("redirectAfterLogin")
-        : null) ||
-      "/dashboard";
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
     };
+
+    const redirectTo = searchParams.get("redirect") || "/dashboard";
 
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -46,9 +42,9 @@ const LoginPage = () => {
             toast.success(`Login Successful Welcome back ${first_name}`);
             login({ first_name, middle_name, last_name, image });
             setFormData({ email: "", password: "" });
-            if (typeof window !== "undefined") {
-              sessionStorage.removeItem("redirectAfterLogin");
-            }
+            // Clear the stored redirect path after successful login
+            localStorage.setItem("user_email_checkout", formData?.email);
+
             router.push(redirectTo);
           } else {
             toast.error("Error login please try again or contact Admin");

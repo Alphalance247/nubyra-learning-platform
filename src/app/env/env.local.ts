@@ -6,8 +6,10 @@ export const environment = {
   loginUrl: "/login/",
   verifyEmail: "/verify-email/",
   resentOtp: "/resend-otp/",
-  forgotPassword: "/forgot-password/",
+  forgotPassword: "/reset-password/",
   setPassword: "accounts/auth/set-new-password",
   courses: "/courses/",
   resendVerificationLink: "/resend-confirmation-link/",
+  paymentVerification: "/subscription/paystack/verify/",
+  webinarVerication: "/course/payment/verify/",
 };

@@ -11,12 +11,13 @@ import TabNavigation from "../components/common/tab";
 import { FaGraduationCap } from "react-icons/fa6";
 import { MdOutlineAssignment } from "react-icons/md";
 import SectionHeader from "../components/dashboard/sectionHeader";
-import EmptyPlaceholder from "../components/dashboard/NoCoursesPlaceholder";
+import EmptyCourseState from "../components/dashboard/NoCoursesPlaceholder";
 import PrimaryButton from "../components/dashboard/dashButton";
 import ProtectedRoute from "../components/common/protectedRoute";
 import { environment } from "../env/env.local";
 import { BsArrowLeft } from "react-icons/bs";
 import axiosInstance from "@/app/utils/axios";
+import { getSubscriotionStatusStore } from "@/stores/courses/getSubscribeStatus";
 
 interface RegisteredCourse {
   id: number;
@@ -52,6 +53,12 @@ export default function Dashboard() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: subStatus, fetchSubscriptionStatus } =
+    getSubscriotionStatusStore();
+
+  useEffect(() => {
+    fetchSubscriptionStatus();
+  }, [fetchSubscriptionStatus]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -192,7 +199,7 @@ export default function Dashboard() {
                         </div>
                       ) : (
                         <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                          <EmptyPlaceholder
+                          <EmptyCourseState
                             title={`No ${selectedTab}s`}
                             description="Browse courses to get started"
                           />
@@ -214,28 +221,37 @@ export default function Dashboard() {
                       className="mb-12"
                     />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                      <EmptyPlaceholder
+                      <EmptyCourseState
                         // title="Get full access to Nubyira project reports and reference files"
                         title="Get Full Access to Nubyira Web Platform Download Simulation Models, Template Files, Premium Course Videos, Industrial Technical Standards and Guidelines, Detailed Projects Documentations etc."
                         description="Subscription Status"
-                        badgeText={userData?.project_subscription ? "Active" : "Inactive"}
+                        badgeText={
+                          subStatus?.sub_status ? "Active" : "Inactive"
+                        }
                       />
                       <PrimaryButton
-                        text={userData?.project_subscription ? "Contact Us Now" : "Subscribe Now"}
-                        href={userData?.project_subscription ? "/contact" : "/dashboard/subscription"}
+                        text={
+                          subStatus?.sub_status
+                            ? "Browse Courses"
+                            : "Subscribe Now"
+                        }
+                        href={
+                          subStatus?.sub_status
+                            ? "/learning"
+                            : "/learning/premium-subscription"
+                        }
                         variant="brown"
                       />
                     </div>
                   </>
                 )}
 
-
                 {activeTab === "saved" && (
                   <>
                     <SectionHeader title="Saved Blog Posts" className="mb-12" />
                     {savedBlogs.length === 0 ? (
                       <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                        <EmptyPlaceholder
+                        <EmptyCourseState
                           title="No Saved blog posts yet"
                           description="Click to see blogs"
                         />
@@ -275,7 +291,7 @@ export default function Dashboard() {
                       className="mb-12"
                     />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                      <EmptyPlaceholder
+                      <EmptyCourseState
                         title="Get full access to Nubyira project reports and reference files"
                         description="Subscription Status"
                         badgeText="Inactive"

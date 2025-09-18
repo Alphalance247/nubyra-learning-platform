@@ -1,10 +1,12 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import SuccessOverlay from "./SuccessOverlay";
 import Button from "../common/buttons";
+import { AxiosError } from "axios";
+import axiosInstance from "@/app/utils/axios";
+import toast from "react-hot-toast";
+import SuccessOverlay from "./SuccessOverlay";
 
 type PaymentMethod = "paystack" | "paypal";
 
@@ -13,24 +15,53 @@ const logos = {
   paypal: "assets/general/paypal.svg",
 };
 
-const courseData = {
-  title: "Apen Plus Basic Course Webinar",
-  price: 50,
-  duration: "5 Days",
-  venue: "Online Class",
-};
-
 const PaymentMethodSelector = () => {
   const [selected, setSelected] = useState<PaymentMethod>("paystack");
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const [userEmail, setUserEmail] = useState("");
+  const [courseId, setCourseId] = useState("");
+
+  // Extract token from URL parameters
+
   useEffect(() => {
-    document.body.style.overflow = showOverlay ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [showOverlay]);
+    // Check if we're in the browser
+    if (typeof window !== "undefined") {
+      // Get email from localStorage
+      const storedEmail = localStorage.getItem("user_email_checkout");
+      const storedId = localStorage.getItem("courseId");
+      if (storedEmail && storedId) {
+        setUserEmail(storedEmail);
+        setCourseId(storedId);
+      }
+    }
+  }, []);
+
+  const handlePayStackIntegration = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.post(`/course/payment/initiate/`, {
+        email: userEmail,
+        course_id: courseId,
+      });
+
+      if (res.status === 200) {
+        router.push(res?.data?.authorization_url);
+        toast.success("Payment Initiated successfully Redirecting....");
+      }
+      setLoading(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "An error occurred please try again or contact Admin";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.error || errorMessage;
+      }
+      setLoading(false);
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto p-6 border border-[#E4E7EC] rounded-[10px] bg-[#F3F0EC] flex flex-col gap-6">
@@ -39,14 +70,8 @@ const PaymentMethodSelector = () => {
         Choose Payment Method
       </h2>
 
-      {/* Subtitle */}
-      <p className="font-inter font-semibold text-sm sm:text-base text-[#413B35] capitalize">
-        Pay with
-      </p>
-
-      {/* Payment buttons */}
       <div className="flex flex-col sm:flex-row gap-3 w-full">
-        {(["paystack", "paypal"] as PaymentMethod[]).map((method) => (
+        {(["paystack"] as PaymentMethod[]).map((method) => (
           <button
             key={method}
             onClick={() => setSelected(method)}
@@ -82,27 +107,19 @@ const PaymentMethodSelector = () => {
         </p>
 
         <Button
-          onClick={() => setShowOverlay(true)}
+          onClick={
+            selected === "paystack" ? handlePayStackIntegration : () => {}
+          }
           variant="primary"
           className="w-full h-14 flex items-center justify-center gap-2 text-sm sm:text-base"
         >
-          Choose Payment
+          {loading
+            ? "Processing....."
+            : selected === "paystack"
+            ? `Pay with paystack`
+            : "Pay with paypal"}
         </Button>
       </div>
-
-      {/* Success overlay */}
-      {showOverlay && (
-        <SuccessOverlay
-          onClose={() => setShowOverlay(false)}
-          heading="Enrollment Successful!"
-          description="You are now enrolled in"
-          courseTitle={courseData.title}
-          primaryButtonText="Go To Dashboard"
-          secondaryButtonText="Go To Course"
-          onPrimaryClick={() => router.push("/dashboard")}
-          onSecondaryClick={() => router.push("/learning")}
-        />
-      )}
     </div>
   );
 };

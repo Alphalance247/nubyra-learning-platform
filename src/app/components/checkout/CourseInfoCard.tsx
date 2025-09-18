@@ -1,6 +1,6 @@
 type CourseDetails = {
   title: string;
-  price: number;
+  price: string;
   duration: string;
   venue: string;
 };

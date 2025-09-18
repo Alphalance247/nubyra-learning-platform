@@ -5,12 +5,17 @@ import Container from "@/app/components/common/container";
 import Layout from "@/app/components/common/layout";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
-import axiosInstance from "@/app/utils/axios";
+import axios, { AxiosError } from "axios";
 import Spinner from "../common/spinner/spinner";
 import Button from "../common/buttons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { environment } from "@/app/env/env.local";
+import { GoChevronRight } from "react-icons/go";
+import axiosInstance from "@/app/utils/axios";
+import toast from "react-hot-toast";
+import { useAuth } from "@/app/context/authContext";
+import { useRouter } from "next/navigation";
 
 interface blogDetailsProp {
   more_posts: {
@@ -59,6 +64,10 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
   const [error, setError] = useState("");
   const morePost = blogDetailsData?.more_posts;
   const response = blogDetailsData?.response;
+  const [loadingSaveBlog, setLoadingSavBlog] = useState(false);
+  const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
 
   const errrMesaage =
     "An error occurred while fetching the projects. Please try again later.";
@@ -67,7 +76,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
     const fetchBlogDetails = async () => {
       setLoading(true);
       try {
-        const res = await axiosInstance.post(`/blog-detail/`, {
+        const res = await axios.post(`${environment?.baseUrl}/blog-detail/`, {
           bid: blogTitle,
         });
         if (res.status === 200) {
@@ -114,7 +123,42 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
     baseUrl
   );
 
-  const pathname = usePathname();
+  const handleSaveBlog = async () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Redirect to login page with current page as redirect parameter
+      const redirectUrl = encodeURIComponent(pathname);
+      router.push(`/sign-in?redirect=${redirectUrl}`);
+      toast.error("Please log in to save this blog");
+      return;
+    }
+    try {
+      setLoadingSavBlog(true);
+      const res = await axiosInstance.post(
+        `${environment?.baseUrl}/dashboard/`,
+        {
+          bid: blogTitle,
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success(res.data?.success || "Blog saved successfully");
+      }
+
+      setLoadingSavBlog(false);
+    } catch (err) {
+      // Extract the error message from the response
+      let errorMessage = "";
+      if (err instanceof AxiosError) {
+        // Check if err is an instance of AxiosError
+        errorMessage = err.response?.data?.detail || errorMessage;
+      }
+
+      toast.error(errorMessage);
+      setLoadingSavBlog(false);
+    }
+  };
+
   const fullUrl = `https://www.nubyira.com${pathname}`;
   return (
     <Layout>
@@ -226,7 +270,28 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
                 className="my-20 text-amber-800 w-[60%] blog-content rounded-xl"
               />
 
+              <div className="my-10 text-center">
+                <Button
+                  className="w-[298px] flex gap-x-3 justify-center items-center mx-auto"
+                  variant="primary"
+                  onClick={handleSaveBlog}
+                >
+                  {loadingSaveBlog ? "saving...." : "Save Blog"}
+                </Button>
+              </div>
+
               {response && <AboutAuthor response={response} />}
+              <div className="my-10">
+                <Button
+                  className="w-[298px] flex gap-x-3 justify-center items-center mx-auto"
+                  variant="primary"
+                >
+                  Next Post
+                  <span>
+                    <GoChevronRight />
+                  </span>
+                </Button>
+              </div>
               {morePost && <RelatedBlog moreBlogs={morePost} />}
             </div>
           )}

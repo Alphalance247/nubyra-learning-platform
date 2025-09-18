@@ -16,54 +16,52 @@ const OurProjects = () => {
   }, [fetchProjectList]);
 
   return (
-    <section className="bg-[#FBFAF9]">
+    <section className="bg-[#FBFAF9] py-12 md:py-20">
       <Container>
         <HeadingSubhead
           heading="Explore Our Projects"
           subheading="See how we turn ideas into reality — from student innovations to real-world process solutions."
-          headingClassName="text-[#120A02]"
-          subheadingClassName="text-[#413B35]"
+          headingClassName="text-[#120A02] text-center"
+          subheadingClassName="text-[#413B35] text-center "
         />
 
         {loading ? (
-          <div className="mt-4">
+          <div className="mt-6 flex flex-col items-center">
             <Spinner />
             <p className="text-lg font-medium mt-4">Loading projects...</p>
           </div>
         ) : error ? (
-          <div className="mt-15 flex flex-col justify-center items-center">
-            <p className="text-red-500">Error fetching projects</p>
+          <div className="mt-12 flex flex-col justify-center items-center gap-4">
+            <p className="text-red-500 text-center">Error fetching projects</p>
             <Button
               variant="secondary"
-              className="w-[289px]"
+              className="w-full sm:w-72"
               onClick={() => fetchProjectList()}
             >
               Try Again
             </Button>
           </div>
         ) : (
-          <>
-            <div className="grid md:grid-cols-3 gap-8 mt-15">
-              {data?.response?.slice(0, 3).map((project, index) => (
-                <ProjectCard
-                  key={index}
-                  image={project?.images[0]?.image}
-                  title={project?.field?.label}
-                  type={project?.project_type}
-                  clientLocation={project?.country}
-                  projectScope={project?.project_scope}
-                  projectDuration={project?.project_duration}
-                  buttonText="View Full Details"
-                  url={`/project/${project?.prid}`}
-                />
-              ))}
-            </div>
-          </>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {data?.response?.slice(0, 6).map((project, index) => (
+              <ProjectCard
+                key={index}
+                image={project?.images[0]?.image}
+                title={project?.field?.label}
+                type={project?.project_type}
+                clientLocation={project?.country}
+                projectScope={project?.project_scope}
+                projectDuration={project?.project_duration}
+                buttonText="View Full Details"
+                url={`/project/${project?.prid}`}
+              />
+            ))}
+          </div>
         )}
 
-        <div className="mt-15 flex flex-col items-center justify-center">
+        <div className="mt-12 flex items-center justify-center">
           <Link href="/project">
-            <Button variant="primary" className="w-[289px]">
+            <Button variant="primary" className="w-full sm:w-72">
               Explore More Projects
             </Button>
           </Link>
