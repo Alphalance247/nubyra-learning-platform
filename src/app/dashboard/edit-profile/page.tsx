@@ -20,7 +20,7 @@ export default function DashboardPage() {
               <Breadcrumb previousStep="Dashboard" currentStep="Edit Profile" />
             </div>
 
-            <main className="p-6 bg-gray-50">
+            <main className="bg-gray-50">
               <EditProfileSection />
             </main>
           </Container>

@@ -11,7 +11,7 @@ import TabNavigation from "../components/common/tab";
 import { FaGraduationCap } from "react-icons/fa6";
 import { MdOutlineAssignment } from "react-icons/md";
 import SectionHeader from "../components/dashboard/sectionHeader";
-import EmptyPlaceholder from "../components/dashboard/NoCoursesPlaceholder";
+import EmptyCourseState from "../components/dashboard/NoCoursesPlaceholder";
 import PrimaryButton from "../components/dashboard/dashButton";
 import ProtectedRoute from "../components/common/protectedRoute";
 import { environment } from "../env/env.local";
@@ -142,7 +142,7 @@ export default function Dashboard() {
       <DashLayout>
         <div className="bg-[#FEFEFD] pb-6">
           <Container>
-            <div className="bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 px-4 py-6 space-y-6">
+            <div className="bg-[#FEFEFD] max-w-full md:max-w-[1200px] w-full mx-auto gap-8 py-6 space-y-6">
               <NavigateArrow
                 icon={<BsArrowLeft size={16} />}
                 label={<span className="text-sm font-medium">Back</span>}
@@ -151,7 +151,7 @@ export default function Dashboard() {
             </div>
 
             <div className="w-full flex flex-col gap-6">
-              <div className="p-4">
+              <div className="lg:p-4">
                 <ProfileBanner
                   fullName={userData?.primary_info?.full_name ?? "Unknown"}
                   email={userData?.primary_info?.email ?? "Unknown"}
@@ -175,7 +175,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="p-6 mb-4">
+              <div className="lg:p-6 mb-4">
                 {activeTab === "learning" && (
                   <>
                     <SectionHeader
@@ -190,7 +190,7 @@ export default function Dashboard() {
                         { label: "Completed Course", count: completedCount },
                       ]}
                     />
-                    <div className="w-full p-[24px] bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto">
+                    <div className="w-full  bg-[#FBFAF9] border border-[#F2EDE9] rounded-[12px] overflow-auto md:p-6">
                       {filteredCourses.length > 0 ? (
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-1 sm:gap-4 md:grid-cols-2 md:gap-6">
                           {filteredCourses.map((course, idx) => (
@@ -199,7 +199,7 @@ export default function Dashboard() {
                         </div>
                       ) : (
                         <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                          <EmptyPlaceholder
+                          <EmptyCourseState
                             title={`No ${selectedTab}s`}
                             description="Browse courses to get started"
                           />
@@ -221,9 +221,9 @@ export default function Dashboard() {
                       className="mb-12"
                     />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                      <EmptyPlaceholder
-                        title="Get Full Access to Nubyira Web Platform
-Download Simulation Models, Template Files, Premium Course Videos, Industrial Technical Standards and Guidelines, Detailed Projects Documentations etc."
+                      <EmptyCourseState
+                        // title="Get full access to Nubyira project reports and reference files"
+                        title="Get Full Access to Nubyira Web Platform Download Simulation Models, Template Files, Premium Course Videos, Industrial Technical Standards and Guidelines, Detailed Projects Documentations etc."
                         description="Subscription Status"
                         badgeText={
                           subStatus?.sub_status ? "Active" : "Inactive"
@@ -251,7 +251,7 @@ Download Simulation Models, Template Files, Premium Course Videos, Industrial Te
                     <SectionHeader title="Saved Blog Posts" className="mb-12" />
                     {savedBlogs.length === 0 ? (
                       <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                        <EmptyPlaceholder
+                        <EmptyCourseState
                           title="No Saved blog posts yet"
                           description="Click to see blogs"
                         />
@@ -291,7 +291,7 @@ Download Simulation Models, Template Files, Premium Course Videos, Industrial Te
                       className="mb-12"
                     />
                     <div className="bg-[#FBFAF9] flex flex-col py-[60px] px-[24px] items-center justify-center space-y-4">
-                      <EmptyPlaceholder
+                      <EmptyCourseState
                         title="Get full access to Nubyira project reports and reference files"
                         description="Subscription Status"
                         badgeText="Inactive"

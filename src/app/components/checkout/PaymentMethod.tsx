@@ -6,6 +6,7 @@ import Button from "../common/buttons";
 import { AxiosError } from "axios";
 import axiosInstance from "@/app/utils/axios";
 import toast from "react-hot-toast";
+// import SuccessOverlay from "./SuccessOverlay";
 
 type PaymentMethod = "paystack" | "paypal";
 
