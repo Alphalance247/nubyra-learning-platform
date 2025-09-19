@@ -9,6 +9,7 @@ import axios, { AxiosError } from "axios";
 import Spinner from "../common/spinner/spinner";
 import { getProjectListStore } from "@/stores/projects/getProjectList";
 import { environment } from "@/app/env/env.local";
+import Link from "next/link";
 
 interface projectDetailsProps {
   response: {
@@ -244,9 +245,11 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
             )}
 
             <div className="mt-8 flex flex-col items-center">
-              <Button variant="secondary" className="w-full sm:w-[300px]">
-                Explore More
-              </Button>
+              <Link href={"/projects"}>
+                <Button variant="secondary" className="w-full sm:w-[300px]">
+                  Explore More
+                </Button>
+              </Link>
             </div>
           </div>
         </Container>
