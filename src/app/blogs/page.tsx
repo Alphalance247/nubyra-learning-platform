@@ -16,6 +16,10 @@ import { getAllBlogs } from "@/stores/blogs/getAllBlogs";
 import Pagination from "../components/common/pagination";
 
 const Blogs = () => {
+  useEffect(() => {
+    // Set the page title dynamically
+    document.title = "Nubyira Blog - Nubyira Process Designer";
+  }, []);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [currentSort, setCurrentSort] = useState<string>("");
   const [appliedFilters, setAppliedFilters] = useState<
