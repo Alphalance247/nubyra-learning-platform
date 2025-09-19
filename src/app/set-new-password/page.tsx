@@ -1,5 +1,4 @@
 "use client";
-
 import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Overlay from "@/app/components/common/overlay";
@@ -45,7 +44,7 @@ export default function SetNewPasswordPage() {
       } else {
         // If no token, redirect to forgot password page
         toast.error("Invalid or missing reset token");
-        route.push("/forget-password");
+        // route.push("/forget-password");
       }
     }, [searchParams, route]);
 
