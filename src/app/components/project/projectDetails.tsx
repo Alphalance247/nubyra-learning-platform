@@ -103,7 +103,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                   width={584}
                   height={413}
                   src={
-                    `https://stage-backend.nubyira.com/${projectDetails?.images[0]?.image}` ||
+                    `${environment?.imageUrl}${projectDetails?.images[0]?.image}` ||
                     ""
                   }
                   alt="Project Image"
@@ -115,9 +115,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                       key={i}
                       width={280}
                       height={194}
-                      src={
-                        `https://stage-backend.nubyira.com/${img?.image}` || ""
-                      }
+                      src={`${environment?.imageUrl}${img?.image}` || ""}
                       alt={`Project Image ${i + 1}`}
                       className="w-full h-auto rounded-lg"
                     />

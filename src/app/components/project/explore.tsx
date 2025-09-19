@@ -107,7 +107,7 @@ const Explore = () => {
                   <ProjectCard
                     image={project?.images[0]?.image}
                     title={project.project_title}
-                    type={project.project_type}
+                    type={project.type_project}
                     clientLocation={project.country}
                     projectScope={project.project_scope}
                     projectDuration={project.project_duration}

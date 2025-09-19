@@ -1,3 +1,4 @@
+import { environment } from "@/app/env/env.local";
 import Button from "./buttons";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,10 +24,7 @@ const BlogCard = ({
 
       <div className="flex flex-col">
         <Image
-          src={
-            `https://stage-backend.nubyira.com/${image}` ||
-            "/assets/my-farms/2.png"
-          }
+          src={`${environment?.imageUrl}${image}` || "/assets/my-farms/2.png"}
           alt="blog-1"
           width={584}
           height={402}

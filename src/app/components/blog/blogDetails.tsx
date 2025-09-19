@@ -124,7 +124,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
       .replace(/(^-|-$)+/g, ""); // Remove leading/trailing hyphens
   }
 
-  const baseUrl = "https://stage-backend.nubyira.com/";
+  const baseUrl = environment?.imageUrl;
   function addBaseUrlToImages(html: string, baseUrl: string) {
     return html.replace(
       /<img\s+([^>]*?)src=["'](\/[^"']*)["']/gi,
@@ -285,7 +285,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
                 <div>
                   <Image
-                    src={`https://stage-backend.nubyira.com/${blogDetailsData?.response?.blog_images[0]?.image}`}
+                    src={`${environment?.imageUrl}${blogDetailsData?.response?.blog_images[0]?.image}`}
                     width={584}
                     height={565}
                     alt="imageHeading"

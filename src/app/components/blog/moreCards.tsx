@@ -1,3 +1,4 @@
+import { environment } from "@/app/env/env.local";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ const MoreBlogCards = ({
         <div className="flex-shrink-0 w-full sm:w-[156px] h-auto sm:h-[114px]">
           <Image
             src={
-              `https://stage-backend.nubyira.com/${image}` ||
+              `${environment?.imageUrl}${image}` ||
               "/assets/blogs/blog-card.png"
             }
             alt={alt}

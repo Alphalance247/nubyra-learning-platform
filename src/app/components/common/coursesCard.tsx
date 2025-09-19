@@ -27,7 +27,7 @@ const CourseCard = ({
       <div className="w-full h-[180px] sm:h-[200px] xl:h-[220px] relative">
         <Image
           fill
-          src={`${environment?.imageUrl}/media/${image}`}
+          src={`${environment?.imageUrl}${image}`}
           className="rounded-lg object-cover"
           alt="course"
         />
