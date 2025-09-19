@@ -1,10 +1,11 @@
 import { IoMdCloudDownload } from "react-icons/io";
 import Button from "./buttons";
+import { environment } from "@/app/env/env.local";
 
 interface DownloadableFile {
   id: string;
   fileName: string;
-  downloadUrl: string;
+  files: string;
 }
 
 interface ReferenceFilesSectionProps {
@@ -21,9 +22,9 @@ const ReferenceFilesSection: React.FC<ReferenceFilesSectionProps> = ({
   className = "",
 }) => {
   const handleDownload = (file: DownloadableFile) => {
-    const link = document.createElement('a');
-    link.href = file.downloadUrl;
-    link.download = file.fileName;
+    const link = document.createElement("a");
+    link.href = environment?.imageUrl + file.files;
+    link.download = environment?.imageUrl + file.fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -46,7 +47,7 @@ const ReferenceFilesSection: React.FC<ReferenceFilesSectionProps> = ({
           {files.map((file) => (
             <div key={file.id} className="">
               <p className="text-sm text-[#413B35] font-normal mb-3">
-                File Name
+                File Name: {file?.files?.split("/").pop()}
               </p>
               <Button
                 variant="secondary"

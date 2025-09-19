@@ -9,6 +9,7 @@ export const environment = {
   forgotPassword: "/reset-password/",
   setPassword: "accounts/auth/set-new-password",
   courses: "/courses/",
+  password__reset: "/password-reset-confirm/",
   resendVerificationLink: "/resend-confirmation-link/",
   paymentVerification: "/subscription/paystack/verify/",
   webinarVerication: "/course/payment/verify/",

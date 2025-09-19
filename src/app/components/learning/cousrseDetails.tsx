@@ -37,6 +37,11 @@ interface courseDetailsProps {
   rating_number: number;
   rating_star: number;
   timeline: string;
+  course_files: {
+    files: string;
+    id: string;
+    fileName: string;
+  }[];
   training_software: {
     name: string;
   }[];
@@ -311,6 +316,7 @@ const CourseDetails = ({ id }: { id: string }) => {
                 </div>
               </div>
             </div>
+
             {courseData?.course_tab !== "Webinar" && (
               <div className="mt-8">
                 {!isAuthenticated && (
@@ -335,34 +341,34 @@ const CourseDetails = ({ id }: { id: string }) => {
                 {isAuthenticated &&
                   data?.sub_status &&
                   (() => {
-                    const sampleFiles = [
-                      {
-                        id: "1",
-                        fileName: "Course Manual.pdf",
-                        downloadUrl: "/files/course-manual.pdf",
-                      },
-                      {
-                        id: "2",
-                        fileName: "Reference Guide.pdf",
-                        downloadUrl: "/files/reference-guide.pdf",
-                      },
-                      {
-                        id: "3",
-                        fileName: "Exercise Files.zip",
-                        downloadUrl: "/files/exercise-files.zip",
-                      },
-                      {
-                        id: "4",
-                        fileName: "Additional Resources.pdf",
-                        downloadUrl: "/files/additional-resources.pdf",
-                      },
-                    ];
+                    // const sampleFiles = [
+                    //   {
+                    //     id: "1",
+                    //     fileName: "Course Manual.pdf",
+                    //     downloadUrl: "/files/course-manual.pdf",
+                    //   },
+                    //   {
+                    //     id: "2",
+                    //     fileName: "Reference Guide.pdf",
+                    //     downloadUrl: "/files/reference-guide.pdf",
+                    //   },
+                    //   {
+                    //     id: "3",
+                    //     fileName: "Exercise Files.zip",
+                    //     downloadUrl: "/files/exercise-files.zip",
+                    //   },
+                    //   {
+                    //     id: "4",
+                    //     fileName: "Additional Resources.pdf",
+                    //     downloadUrl: "/files/additional-resources.pdf",
+                    //   },
+                    // ];
 
                     return (
                       <ReferenceFilesSection
                         title="Reference Files/Materials"
                         description="Download reference file to enjoy the course full package"
-                        files={sampleFiles}
+                        files={courseData?.course_files || []}
                       />
                     );
                   })()}
