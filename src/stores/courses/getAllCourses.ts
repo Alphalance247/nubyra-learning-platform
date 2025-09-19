@@ -7,6 +7,7 @@ export interface freeCourseData {
     course_tab: string;
     duration: string;
     title: string;
+    field: string;
     cid: string;
     image: string;
   }[];
@@ -20,6 +21,7 @@ export interface premiumCourseData {
     duration: string;
     cid: string;
     title: string;
+    field: string;
     image: string;
   }[];
   current_page: number;
@@ -30,6 +32,7 @@ export interface webinarCourseData {
   courses: {
     id: string;
     title: string;
+    field: string;
     number_of_days: number;
     image: string;
     price: string;
@@ -124,7 +127,7 @@ export const getAllCourses = create<allCourseStore>((set) => ({
 
       type TrainingSoftware = { name?: string };
       type GenericCourse = {
-        title?: string;
+        field?: string;
         category?: string;
         training_software?: TrainingSoftware[];
       };
@@ -142,7 +145,7 @@ export const getAllCourses = create<allCourseStore>((set) => ({
         if (!selectedTerms.length) return courses;
         return courses.filter(
           (c) =>
-            termMatches(c.title) ||
+            termMatches(c.field) ||
             termMatches(c.category) ||
             arrayMatches(c.training_software)
         );
