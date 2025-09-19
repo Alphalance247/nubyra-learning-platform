@@ -1,3 +1,4 @@
+import { environment } from "@/app/env/env.local";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,7 +26,7 @@ const ProjectCard = ({
         {/* Image */}
         <div className="relative w-full h-40 sm:h-48 md:h-52 lg:h-56 rounded-lg overflow-hidden">
           <Image
-            src={`https://stage-backend.nubyira.com/${image}`}
+            src={`${environment?.imageUrl}${image}`}
             alt={title}
             fill
             className="object-cover"

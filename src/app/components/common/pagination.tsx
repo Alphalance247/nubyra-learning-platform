@@ -53,7 +53,7 @@ export default function Pagination({
           ) : page === currentPage ? (
             <button
               key={idx}
-              className="px-4 py-2 rounded-2xl border border-[#7B4C1F] bg-[#F5F3F0] text-black font-semibold"
+              className="px-4 py-2 cursor-pointer rounded-2xl border border-[#7B4C1F] bg-[#F5F3F0] text-black font-semibold"
               disabled
             >
               {page}
@@ -62,7 +62,7 @@ export default function Pagination({
             <button
               key={idx}
               onClick={() => onPageChange(page as number)}
-              className="px-4 py-2 text-gray-500 hover:text-[#7B4C1F] transition-colors"
+              className="px-4 py-2 cursor-pointer text-gray-500 hover:text-[#7B4C1F] transition-colors"
             >
               {page}
             </button>

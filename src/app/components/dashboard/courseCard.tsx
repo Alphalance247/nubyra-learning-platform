@@ -30,8 +30,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       : "/assets/dashboard/icon.png"
   );
 
-  
-
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
@@ -74,7 +72,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   return (
     <div className="w-full rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-6 lg:p-8 flex flex-col justify-between">
       <div className="space-y-4">
-        <CourseTag imageUrl={`https://stage-backend.nubyira.com/${course.imageUrl}`} status={course.status} />
+        <CourseTag
+          imageUrl={`${environment.imageUrl}${course.imageUrl}`}
+          status={course.status}
+        />
         <div>
           <h3 className="mb-2 w-full font-montserrat text-lg font-semibold capitalize leading-snug text-gray-900 md:text-xl">
             {course.title}
@@ -100,7 +101,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       {!isCompleted && (
         <button
           onClick={() => router.push("/learning")}
-          className="mt-4 w-full rounded-2xl border border-gray-300 bg-gray-100 px-8 py-4 text-sm font-medium text-black transition hover:bg-gray-200 md:w-auto"
+          className="mt-4 w-full rounded-2xl border cursor-pointer border-gray-300 bg-gray-100 px-8 py-4 text-sm font-medium text-black transition hover:bg-gray-200 md:w-auto"
         >
           Continue Learning
         </button>

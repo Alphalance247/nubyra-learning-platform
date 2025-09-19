@@ -9,6 +9,7 @@ import axios, { AxiosError } from "axios";
 import Spinner from "../common/spinner/spinner";
 import { getProjectListStore } from "@/stores/projects/getProjectList";
 import { environment } from "@/app/env/env.local";
+import Link from "next/link";
 
 interface projectDetailsProps {
   response: {
@@ -21,7 +22,7 @@ interface projectDetailsProps {
     project_nature: string;
     project_scope: string;
     project_title: string;
-    project_type: string;
+    type_project: string;
     introduction: string;
     field: { label: string };
   };
@@ -103,7 +104,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                   width={584}
                   height={413}
                   src={
-                    `https://stage-backend.nubyira.com/${projectDetails?.images[0]?.image}` ||
+                    `${environment?.imageUrl}${projectDetails?.images[0]?.image}` ||
                     ""
                   }
                   alt="Project Image"
@@ -115,9 +116,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                       key={i}
                       width={280}
                       height={194}
-                      src={
-                        `https://stage-backend.nubyira.com/${img?.image}` || ""
-                      }
+                      src={`${environment?.imageUrl}${img?.image}` || ""}
                       alt={`Project Image ${i + 1}`}
                       className="w-full h-auto rounded-lg"
                     />
@@ -195,7 +194,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                   Project Type:
                 </h5>
                 <p className="text-base sm:text-lg text-[#413B35]">
-                  {projectDetails?.project_type}
+                  {projectDetails?.type_project}
                 </p>
               </div>
             </>
@@ -234,7 +233,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                     key={i}
                     image={project.images[0].image}
                     title={project.project_title}
-                    type={project.project_type}
+                    type={project?.type_project}
                     clientLocation={project.country}
                     projectScope={project.project_scope}
                     projectDuration={project.project_duration}
@@ -246,9 +245,11 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
             )}
 
             <div className="mt-8 flex flex-col items-center">
-              <Button variant="secondary" className="w-full sm:w-[300px]">
-                Explore More
-              </Button>
+              <Link href={"/projects"}>
+                <Button variant="secondary" className="w-full sm:w-[300px]">
+                  Explore More
+                </Button>
+              </Link>
             </div>
           </div>
         </Container>

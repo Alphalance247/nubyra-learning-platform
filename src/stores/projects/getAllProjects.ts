@@ -5,7 +5,7 @@ import { environment } from "@/app/env/env.local";
 export interface Project {
   images: { image: string }[];
   project_title: string;
-  project_type: string;
+  type_project: string;
   country: string;
   project_scope: string;
   project_duration: string;
@@ -42,16 +42,16 @@ export const getAllProjects = create<ProjectStore>((set) => ({
       const res = await axios.post(`${environment?.baseUrl}/project-list/`, {
         page,
       });
-      
+
       if (res.status === 200 && Array.isArray(res.data.projects)) {
-        set({ 
+        set({
           data: {
             projects: res.data.projects,
             current_page: res.data.current_page || page,
             total_pages: res.data.total_pages || 1,
-            total_items: res.data.total_items
-          }, 
-          loading: false 
+            total_items: res.data.total_items,
+          },
+          loading: false,
         });
       } else {
         set({ error: "Invalid response format", loading: false });
@@ -86,15 +86,17 @@ export const getAllProjects = create<ProjectStore>((set) => ({
       if (page) params.set("page", String(page));
 
       // build URL with query string
-      const url = `${environment?.baseUrl}/project-list/${params.toString() ? `?${params.toString()}` : ""}`;
+      const url = `${environment?.baseUrl}/project-list/${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
 
       // send request with filters, sort, and page in body
       const res = await axios.post(
         url,
-        { 
-          filter: Array.isArray(filters) ? filters : [filters].filter(Boolean), 
-          sort, 
-          page 
+        {
+          filter: Array.isArray(filters) ? filters : [filters].filter(Boolean),
+          sort,
+          page,
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -102,14 +104,14 @@ export const getAllProjects = create<ProjectStore>((set) => ({
       );
 
       if (res.status === 200 && Array.isArray(res.data.projects)) {
-        set({ 
+        set({
           data: {
             projects: res.data.projects,
             current_page: res.data.current_page || page,
             total_pages: res.data.total_pages || 1,
-            total_items: res.data.total_items
-          }, 
-          loading: false 
+            total_items: res.data.total_items,
+          },
+          loading: false,
         });
       } else {
         set({ error: "Invalid response format", loading: false });

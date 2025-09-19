@@ -11,7 +11,7 @@ interface projectListDataStore {
     field: {
       label: string;
     };
-    project_type: string;
+    type_project: string;
     project_title: string;
     project_scope: string;
     project_duration: string;

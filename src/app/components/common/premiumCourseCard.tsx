@@ -26,7 +26,7 @@ const PremiumCourseCard = ({
       <Image
         width={378}
         height={170}
-        src={`${environment?.imageUrl}/media/${image}`}
+        src={`${environment?.imageUrl}${image}`}
         className="rounded-lg w-full h-auto object-cover"
         alt="course"
       />
