@@ -21,7 +21,7 @@ interface projectDetailsProps {
     project_nature: string;
     project_scope: string;
     project_title: string;
-    project_type: string;
+    type_project: string;
     introduction: string;
     field: { label: string };
   };
@@ -193,7 +193,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                   Project Type:
                 </h5>
                 <p className="text-base sm:text-lg text-[#413B35]">
-                  {projectDetails?.project_type}
+                  {projectDetails?.type_project}
                 </p>
               </div>
             </>
@@ -232,7 +232,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                     key={i}
                     image={project.images[0].image}
                     title={project.project_title}
-                    type={project.project_type}
+                    type={project?.type_project}
                     clientLocation={project.country}
                     projectScope={project.project_scope}
                     projectDuration={project.project_duration}
