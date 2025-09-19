@@ -3,6 +3,9 @@ import Button from "@/app/components/common/buttons";
 import Container from "@/app/components/common/container";
 import Layout from "@/app/components/common/layout";
 import RelatedCourses from "@/app/components/learning/relatedCourses";
+import ReferenceFilesCard from "@/app/components/common/referenceFilesCard";
+import ReferenceFilesSection from "@/app/components/common/referenceFilesSection";
+import { useAuth } from "@/app/context/authContext";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { IoMdTime } from "react-icons/io";
@@ -34,6 +37,11 @@ interface courseDetailsProps {
   rating_number: number;
   rating_star: number;
   timeline: string;
+  course_files: {
+    files: string;
+    id: string;
+    fileName: string;
+  }[];
   training_software: {
     name: string;
   }[];
@@ -44,6 +52,7 @@ const CourseDetails = ({ id }: { id: string }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const errrMesaage =
     "An error occurred while fetching the projects. Please try again later.";
   const { data, fetchSubscriptionStatus } = getSubscriotionStatusStore();
@@ -308,6 +317,63 @@ const CourseDetails = ({ id }: { id: string }) => {
               </div>
             </div>
 
+            {courseData?.course_tab !== "Webinar" && (
+              <div className="mt-8">
+                {!isAuthenticated && (
+                  <ReferenceFilesCard
+                    title="Reference Files/Materials"
+                    description="Unlock premium access to download your course materials!"
+                    buttonText="Subscribe Now"
+                    onButtonClick={() => router.push("/sign-in")}
+                  />
+                )}
+
+                {isAuthenticated && !data?.sub_status && (
+                  <ReferenceFilesCard
+                    title="Reference Files/Materials"
+                    description="Unlock premium access to download your course materials!"
+                    buttonText="Subscribe Now"
+                    onButtonClick={() =>
+                      router.push("/learning/premium-subscription")
+                    }
+                  />
+                )}
+                {isAuthenticated &&
+                  data?.sub_status &&
+                  (() => {
+                    // const sampleFiles = [
+                    //   {
+                    //     id: "1",
+                    //     fileName: "Course Manual.pdf",
+                    //     downloadUrl: "/files/course-manual.pdf",
+                    //   },
+                    //   {
+                    //     id: "2",
+                    //     fileName: "Reference Guide.pdf",
+                    //     downloadUrl: "/files/reference-guide.pdf",
+                    //   },
+                    //   {
+                    //     id: "3",
+                    //     fileName: "Exercise Files.zip",
+                    //     downloadUrl: "/files/exercise-files.zip",
+                    //   },
+                    //   {
+                    //     id: "4",
+                    //     fileName: "Additional Resources.pdf",
+                    //     downloadUrl: "/files/additional-resources.pdf",
+                    //   },
+                    // ];
+
+                    return (
+                      <ReferenceFilesSection
+                        title="Reference Files/Materials"
+                        description="Download reference file to enjoy the course full package"
+                        files={courseData?.course_files || []}
+                      />
+                    );
+                  })()}
+              </div>
+            )}
             <div className="mt-14">
               <div className="">
                 {courseData?.course_tab === "Webinar" ? (

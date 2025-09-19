@@ -32,19 +32,16 @@ export default function SetNewPasswordPage() {
     const { newPassword, confirmPassword } = formData;
     const route = useRouter();
     const searchParams = useSearchParams();
-    const [token, setToken] = useState("");
-    const [userUid, setUserId] = useState("");
+    const [email, setEmail] = useState("");
 
     useEffect(() => {
-      const urlToken = searchParams.get("token");
-      const uidToken = searchParams?.get("uid");
-      if (urlToken && uidToken) {
-        setToken(urlToken);
-        setUserId(uidToken);
+      const urlEmail = searchParams.get("email");
+      if (urlEmail) {
+        setEmail(urlEmail);
       } else {
         // If no token, redirect to forgot password page
-        toast.error("Invalid or missing reset token");
-        // route.push("/forget-password");
+        toast.error("Invalid or missing email");
+        route.push("/forget-password");
       }
     }, [searchParams, route]);
 
@@ -114,18 +111,18 @@ export default function SetNewPasswordPage() {
       try {
         setLoading(true);
         const res = await axios.post(
-          `${environment?.baseUrl}${environment?.setPassword}`,
+          `${environment?.baseUrl}${environment?.password__reset}`,
           {
             new_password: newPassword,
-            token: token,
-            uid: userUid,
+            // token: token,
+            email: email,
             confirm_new_password: newPassword,
           }
         );
 
         if (res.status === 200) {
           toast.success("Password reset successfully");
-          route.push("/login");
+          route.push("/sign-in");
         }
 
         setLoading(false);
