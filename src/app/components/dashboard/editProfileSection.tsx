@@ -10,6 +10,7 @@ import { useAuthStore } from "@/stores/dashboard/profileData";
 import Button from "../common/buttons";
 import Alert from "../common/alert";
 import axiosInstance from "@/app/utils/axios";
+import { environment } from "@/app/env/env.local";
 
 
 interface UserData {
@@ -161,7 +162,12 @@ export default function EditProfileSection() {
                   imagePreview={imagePreview}
                   setImagePreview={setImagePreview}
                   setImageFile={setImageFile}
-                />
+                  defaultImage={
+                    userData?.primary_info?.image ? 
+                    `${environment.imageUrl}${userData.primary_info.image}`   
+                    : "/assets/dashboard/icon.png"
+                    }
+                  />
               </div>
               <div className="flex-1">
                 <ProfileForm

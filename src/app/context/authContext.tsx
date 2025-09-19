@@ -22,6 +22,7 @@ type AuthContextType = {
   isLoggingOut: boolean;
   login: (userData: User) => void;
   logout: () => Promise<void>;
+    updateUser: (updatedData: Partial<User>) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,6 +31,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const updateUser = (updatedData: Partial<User>) => {
+    setUser((prev) => (prev ? { ...prev, ...updatedData } : prev));
+  };
 
   useEffect(() => {
     const first_name = localStorage.getItem("first_name");
@@ -89,6 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoggingOut,
         login,
         logout,
+        updateUser,
       }}
     >
       {children}

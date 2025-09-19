@@ -5,6 +5,7 @@ import { Download } from "lucide-react";
 import axiosInstance from "@/app/utils/axios";
 import axios from "axios";
 import { environment } from "@/app/env/env.local";
+import { useRouter } from "next/navigation";
 
 export type Course = {
   id: number;
@@ -19,6 +20,7 @@ type CourseCardProps = {
 };
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const router = useRouter();
   const isCompleted = course.status === "Completed Course";
   console.log("Course image:", course.imageUrl);
   console.log(
@@ -96,7 +98,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       </div>
 
       {!isCompleted && (
-        <button className="mt-4 w-full rounded-2xl border border-gray-300 bg-gray-100 px-8 py-4 text-sm font-medium text-black transition hover:bg-gray-200 md:w-auto">
+        <button
+          onClick={() => router.push("/learning")}
+          className="mt-4 w-full rounded-2xl border border-gray-300 bg-gray-100 px-8 py-4 text-sm font-medium text-black transition hover:bg-gray-200 md:w-auto"
+        >
           Continue Learning
         </button>
       )}
