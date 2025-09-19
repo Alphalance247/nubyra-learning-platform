@@ -10,6 +10,11 @@ import Services from "./components/home/services";
 import StayInTouch from "./components/home/stayInTouch";
 import FAQ from "./components/home/faq";
 import Testimonial from "./components/home/testimonial";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nubyira Home - Nubyira Process Designer",
+};
 
 const Home = () => {
   return (
