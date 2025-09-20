@@ -24,7 +24,7 @@ interface projectDetailsProps {
     project_title: string;
     type_project: string;
     introduction: string;
-    field: { label: string };
+    field: string;
   };
 }
 
@@ -137,7 +137,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
                   },
                   {
                     name: "Project Field:",
-                    title: projectDetails?.field?.label || "N/A",
+                    title: projectDetails?.field || "N/A",
                   },
                   {
                     name: "Project Scope:",
