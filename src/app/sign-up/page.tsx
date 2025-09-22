@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import PhoneInput from "@/app/components/project/phoneNumber";
 import InputField from "@/app/components/project/InputField";
 import HeroImageSection from "@/app/components/auth/authImageSection";
@@ -263,17 +264,26 @@ const SignUpPage = () => {
 
         <p className="w-full max-w-[550px] text-center text-[#413B35] text-sm mt-4 px-4 sm:px-0">
           By clicking Submit, you agree to the Nubyira{" "}
-          <span className="underline text-[#7B4C1F] cursor-pointer">
+          <Link
+            href="/terms-of-service"
+            className="underline text-[#7B4C1F] cursor-pointer hover:text-[#95704C] transition-colors"
+          >
             Terms and Conditions
-          </span>
+          </Link>
           ,{" "}
-          <span className="underline text-[#7B4C1F] cursor-pointer">
+          <Link
+            href="/privacy-policy"
+            className="underline text-[#7B4C1F] cursor-pointer hover:text-[#95704C] transition-colors"
+          >
             Privacy Policy
-          </span>
+          </Link>
           , and{" "}
-          <span className="underline text-[#7B4C1F] cursor-pointer">
+          <Link
+            href="/cookie-policy"
+            className="underline text-[#7B4C1F] cursor-pointer hover:text-[#95704C] transition-colors"
+          >
             Cookie Policy
-          </span>
+          </Link>
           .
         </p>
       </div>

@@ -7,7 +7,9 @@ export default function TermsOfServicePage() {
         <h1 className="text-3xl sm:text-4xl font-extrabold mb-2">
           Nubyira Web Terms and Conditions
         </h1>
-
+        <p className="text-sm text-gray-600 mb-8">
+          Effective Date: 2025-09-18 • Company Name: Nubyira LTD
+        </p>
         <p className="mb-6">
           Welcome to Nubyira Process Designers! These Terms and Conditions
           (&quot;Terms&quot;) govern your access to and use of our platform,

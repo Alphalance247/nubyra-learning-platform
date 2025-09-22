@@ -1,9 +1,13 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Button from "./buttons";
 import Image from "next/image";
 
 const Footer = () => {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
   const quickLinks = [
     { link: "/", name: "Home" },
     { link: "/about-us", name: "About Us" },
@@ -52,18 +56,22 @@ const Footer = () => {
                 <li>
                   <a href="tel:+2349024514039">+234 9024514039</a>
                 </li>
-                <li
-                  onClick={() => handleNavClick("review")}
-                  className="cursor-pointer"
-                >
-                  Reviews
-                </li>
-                <li
-                  onClick={() => handleNavClick("faq")}
-                  className="cursor-pointer"
-                >
-                  Frequently Asked Questions
-                </li>
+                {isHomePage && (
+                  <>
+                    <li
+                      onClick={() => handleNavClick("review")}
+                      className="cursor-pointer"
+                    >
+                      Reviews
+                    </li>
+                    <li
+                      onClick={() => handleNavClick("faq")}
+                      className="cursor-pointer"
+                    >
+                      Frequently Asked Questions
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
 

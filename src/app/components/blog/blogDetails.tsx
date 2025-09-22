@@ -213,11 +213,13 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
           {loading ? (
             <div className="flex flex-col justify-center items-center">
               <Spinner />
-              <p className="text-lg font-medium mt-4">Loading courses...</p>
+              <p className="text-lg font-medium mt-4">
+                Loading blog details...
+              </p>
             </div>
           ) : error ? (
             <div className="flex flex-col justify-center items-center">
-              <p className="text-red-500">Error fetching courses</p>
+              <p className="text-red-500">Error fetching blog details</p>
               <Button
                 variant="secondary"
                 className="w-[289px]"

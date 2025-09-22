@@ -8,7 +8,7 @@ export default function CookiePolicyPage() {
           Nubyira Web Cookie Policy
         </h1>
         <p className="text-sm text-gray-600 mb-8">
-          Effective Date: [Insert Date] • Company Name: Nubyira LTD
+          Effective Date: 2025-09-18 • Company Name: Nubyira LTD
         </p>
 
         <p className="mb-6">
