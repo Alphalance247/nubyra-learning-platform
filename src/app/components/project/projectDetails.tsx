@@ -245,7 +245,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
             )}
 
             <div className="mt-8 flex flex-col items-center">
-              <Link href={"/projects"}>
+              <Link href={"/project"}>
                 <Button variant="secondary" className="w-full sm:w-[300px]">
                   Explore More
                 </Button>
