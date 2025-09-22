@@ -87,7 +87,7 @@ const SignUpPage = () => {
     const idToken = credentialResponse.credential;
     try {
       const res = await fetch(
-        "https://api.nubyira.com/api/v1/auth/social/google/",
+        `${environment.baseUrl}/auth/social/google/`,
         {
           method: "POST",
           headers: {
