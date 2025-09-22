@@ -388,7 +388,7 @@ const ContactForm: React.FC = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
                             Effective Date:{" "}
-                            <span className="font-normal">{fullDate}</span>
+                            <span className="font-normal">2025-09-18</span>
                           </h4>
                         </div>
 
