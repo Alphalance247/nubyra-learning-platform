@@ -56,22 +56,40 @@ const Footer = () => {
                 <li>
                   <a href="tel:+2349024514039">+234 9024514039</a>
                 </li>
-                {isHomePage && (
-                  <>
+
+                <>
+                  {isHomePage ? (
                     <li
                       onClick={() => handleNavClick("review")}
                       className="cursor-pointer"
                     >
                       Reviews
                     </li>
+                  ) : (
+                    <Link href={"/"}>
+                      <li
+                        onClick={() => handleNavClick("review")}
+                        className="cursor-pointer"
+                      >
+                        Reviews
+                      </li>
+                    </Link>
+                  )}
+                  {isHomePage ? (
                     <li
                       onClick={() => handleNavClick("faq")}
                       className="cursor-pointer"
                     >
                       Frequently Asked Questions
                     </li>
-                  </>
-                )}
+                  ) : (
+                    <Link href={"/"}>
+                      <li className="cursor-pointer">
+                        Frequently Asked Questions
+                      </li>
+                    </Link>
+                  )}
+                </>
               </ul>
             </div>
 
