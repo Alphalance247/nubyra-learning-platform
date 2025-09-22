@@ -13,6 +13,7 @@ export type Course = {
   progress: number;
   status: string;
   imageUrl: string;
+  attendance?: boolean; 
 };
 
 type CourseCardProps = {
@@ -22,15 +23,7 @@ type CourseCardProps = {
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   const router = useRouter();
   const isCompleted = course.status === "Completed Course";
-  console.log("Course image:", course.imageUrl);
-  console.log(
-    "Full URL:",
-    course?.imageUrl
-      ? `${environment.imageUrl}${course.imageUrl}`
-      : "/assets/dashboard/icon.png"
-  );
-
-  
+  const derivedProgress = isCompleted ? 100 : course.attendance ? 50 : 0;
 
   const handleDownload = async () => {
     try {
@@ -80,7 +73,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             {course.title}
           </h3>
 
-          {!isCompleted && <ProgressBar percent={course.progress} />}
+          {!isCompleted && <ProgressBar percent={derivedProgress} />}
 
           {isCompleted && (
             <>
