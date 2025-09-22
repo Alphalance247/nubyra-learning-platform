@@ -38,13 +38,6 @@ const EnrollmentForm: React.FC = () => {
   const [phone, setPhone] = useState("");
   const [courseId, setCourseId] = useState("");
   const router = useRouter();
-  const today = new Date();
-  const fullDate =
-    today.getUTCFullYear() +
-    "-" +
-    String(today.getUTCMonth() + 1).padStart(2, "0") +
-    "-" +
-    String(today.getUTCDate()).padStart(2, "0");
 
   const termsAndConditions = [
     {
@@ -332,7 +325,7 @@ const EnrollmentForm: React.FC = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
                           <h4 className="text-[#0F0918] px-3 pb-2 font-[Montserrat] font-semibold capitalize">
                             Effective Date:{" "}
-                            <span className="font-normal">{fullDate}</span>
+                            <span className="font-normal">2025-09-18</span>
                           </h4>
                         </div>
 
