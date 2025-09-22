@@ -22,7 +22,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Nubyira - Nubyira Process Designer",
+  title: "Nubyira - Nubyira Process Designers",
   description:
     "Nubyira Process Designers is an online consulting and training firm specializing in process and plant design. We offer services in process R&D, simulation, optimization, safety analysis, CAD modeling, plant rating, and technical training to support operational efficiency and profitability across process and allied industries.",
   keywords:
