@@ -25,6 +25,7 @@ interface RegisteredCourse {
   status: string;
   imageUrl: string;
   postponed: boolean;
+  attendance?: boolean;
 }
 
 interface Blog {
@@ -83,7 +84,8 @@ export default function Dashboard() {
         id: course.id,
         title: course.course_title,
         imageUrl: course.imageUrl,
-        progress: course.status === "Completed" ? 100 : 50,
+        attendance: course.attendance,
+        progress: course.status === "Completed Course" ? 100 : course.attendance ? 50 : 0,
         status:
           course.status === "Completed"
             ? "Completed Course"
