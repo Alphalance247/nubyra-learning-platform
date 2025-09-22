@@ -197,8 +197,11 @@ const CourseDetails = ({ id }: { id: string }) => {
     <Layout>
       <Container>
         {loading ? (
-          <div className="flex justify-center items-center py-20">
+          <div className="flex flex-col justify-center items-center py-20">
             <Spinner />
+            <p className="text-lg font-medium mt-4">
+              Loading course details...
+            </p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center py-20 gap-4">
