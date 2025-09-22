@@ -89,7 +89,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                 onClick={handleDownload}
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-gray-100 py-3 font-semibold text-gray-700 shadow-sm transition hover:bg-gray-200"
               >
-                <span>Download</span>
+                <span>Download Certificate</span>
                 <Download size={18} />
               </button>
             </>

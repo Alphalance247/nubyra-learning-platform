@@ -12,4 +12,6 @@ export const environment = {
   resendVerificationLink: "/resend-confirmation-link/",
   paymentVerification: "/subscription/paystack/verify/",
   webinarVerication: "/course/payment/verify/",
+  GOOGLE_CLIENT_ID:"572778428347-96cntvjsjm7be7dq0cuanf4ckpjubmvh.apps.googleusercontent.com"
+
 };

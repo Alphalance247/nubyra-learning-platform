@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import axios from "axios";
 import { useAuth } from "../context/authContext";
 import Link from "next/link";
+import { environment } from "../env/env.local";
 
 const LoginPage = () => {
   const LoginForm = () => {
@@ -68,7 +69,7 @@ const LoginPage = () => {
       const idToken = credentialResponse.credential;
       try {
         const res = await fetch(
-          "https://api.nubyira.com/api/v1/auth/social/google/",
+          `${environment.baseUrl}/auth/social/google/`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
