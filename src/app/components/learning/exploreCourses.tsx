@@ -59,6 +59,7 @@ const ExploreCourses = () => {
   const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
   const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
   const free: FreeCourse[] = fetchAllCoursedata?.Free?.courses ?? [];
+  const totalCoursesCount = webinars.length + premium.length + free.length;
 
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
@@ -73,8 +74,6 @@ const ExploreCourses = () => {
 
       <Container className="relative z-10">
         <HeadingSubhead withSubhead={false} heading="Explore Our Courses" />
-
-        {/* Tabs */}
         <div className="mt-6 w-full md:w-[750px] mx-auto">
           <div className="flex gap-2 px-3 py-2 border bg-[#FEFEFD] border-[#F2EDE9] rounded-2xl overflow-x-auto md:overflow-x-visible scrollbar-hide">
             {[
@@ -96,8 +95,6 @@ const ExploreCourses = () => {
             ))}
           </div>
         </div>
-
-        {/* Loading/Error */}
         {loading ? (
           <div className="flex flex-col justify-center items-center py-20">
             <Spinner />
@@ -116,18 +113,11 @@ const ExploreCourses = () => {
           </div>
         ) : (
           <>
-            {/* Header + Filters */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-14 gap-4 md:gap-0">
-              <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-                All Courses (
-                {activeBtn === "Webinars"
-                  ? webinars.length
-                  : activeBtn === "Premium Courses"
-                  ? premium.length
-                  : free.length}
-                )
+            <div className="flex flex-col md:flex-row mt-4 md:mt-10 justify-between md:items-center gap-4 md:gap-0">
+              <h4 className="text-xl md:text-2xl font-semibold text-[#120A02] text-left">
+                All Courses ({totalCoursesCount})
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 justify-center md:justify-end">
                 <SortDropdown
                   currentSort={currentSort}
                   onSortChange={(sort) => {
@@ -146,7 +136,7 @@ const ExploreCourses = () => {
                 />
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2"
+                  className="flex items-center w-full justify-center md:w-auto gap-2"
                   onClick={() => setShowFilterModal(true)}
                 >
                   <BsFilterLeft className="text-[#7B4C1F]" />
@@ -155,12 +145,10 @@ const ExploreCourses = () => {
                 </Button>
               </div>
             </div>
-
-            {/* Webinars */}
             {activeBtn === "Webinars" && fetchAllCoursedata?.Webinar && (
               <>
                 {webinars?.length === 0 ? (
-                  <p className="text-center">
+                  <p className="text-center mt-8">
                     No results
                     <br />
                     You may want to try adjusting your filters.
@@ -197,11 +185,10 @@ const ExploreCourses = () => {
               </>
             )}
 
-            {/* Premium */}
             {activeBtn === "Premium Courses" && fetchAllCoursedata?.Premium && (
               <>
                 {premium?.length === 0 ? (
-                  <p className="text-center">
+                  <p className="text-center mt-8">
                     No results
                     <br />
                     You may want to try adjusting your filters.
@@ -248,11 +235,10 @@ const ExploreCourses = () => {
               </>
             )}
 
-            {/* Free */}
             {activeBtn === "Free Courses" && fetchAllCoursedata?.Free && (
               <>
                 {free?.length === 0 ? (
-                  <p className="text-center">
+                  <p className="text-center mt-8">
                     No results
                     <br />
                     You may want to try adjusting your filters.
@@ -294,12 +280,10 @@ const ExploreCourses = () => {
         )}
       </Container>
 
-      {/* Filters Modal */}
       <FilterModal
         isOpen={showFilterModal}
         onClose={() => setShowFilterModal(false)}
         onChange={(filters) => {
-          // only refetch when filters actually change
           const prevFlat = Object.values(appliedFilters).flat().join(",");
           const nextFlat = Object.values(filters).flat().join(",");
           if (prevFlat === nextFlat) return;
