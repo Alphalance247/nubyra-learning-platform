@@ -98,7 +98,7 @@ const Blogs = () => {
                 />
                 <Button
                   variant="secondary"
-                  className="flex items-center gap-2"
+                  className="flex items-center  w-full justify-center md:w-auto gap-2"
                   onClick={() => setShowFilterModal(true)}
                 >
                   <BsFilterLeft className="text-[#7B4C1F]" />

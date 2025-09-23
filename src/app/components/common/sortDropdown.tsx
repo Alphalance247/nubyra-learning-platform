@@ -45,24 +45,24 @@ export default function SortDropdown({
   };
 
   return (
-    <div className="relative inline-block" ref={dropdownRef}>
+    <div className="relative inline-block w-full sm:w-auto" ref={dropdownRef}>
       <Button
         variant="secondary"
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-[#7B4C1F] font-medium">
+        <span className="text-[#7B4C1F] text-2xl md:text-base font-medium">
           {currentSort || "Sort"}
         </span>
         <FaChevronDown
-          className={`w-3 h-3 text-[#7B4C1F] transition-transform ${
+          className={`w-4 h-4 md:w-3 md:h-3 text-[#7B4C1F] transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50">
+        <div className="absolute top-full left-0 sm:left-1/2 sm:transform sm:-translate-x-1/2 mt-2 md:w-48 w-full bg-white border border-gray-200 rounded-xl shadow-xl z-50">
           {sortOptions.map((option) => (
             <button
               key={option.value}
