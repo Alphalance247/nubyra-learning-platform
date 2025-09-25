@@ -57,7 +57,7 @@ const StayInTouch = () => {
             required
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@gmail.com"
-            className="w-full sm:max-w-[533px] rounded-[20px] border border-[#D6C8BA] p-4 outline-amber-200"
+            className="w-full sm:max-w-[533px] rounded-[20px] border border-[#D6C8BA] p-4 outline-amber-200 text-[#95704C] dark:placeholder-[#95704C]"
           />
           <Button
             variant="primary"

@@ -98,7 +98,7 @@ const ExploreCourses = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center py-20">
             <Spinner />
-            <p className="text-lg font-medium mt-4">Loading courses...</p>
+            <p className="text-lg text-[#95704C] font-medium mt-4">Loading courses...</p>
           </div>
         ) : error ? (
           <div className="mt-8 text-center text-red-600 text-lg font-semibold flex flex-col items-center justify-center">

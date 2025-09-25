@@ -98,7 +98,7 @@ const Explore = () => {
           {loading ? (
             <div className="flex flex-col items-center mt-8">
               <Spinner />
-              <p className="text-lg text-gray-500 mt-4">Loading projects...</p>
+              <p className="text-lg text-gray-800 mt-4">Loading projects...</p>
             </div>
           ) : (
             <>
