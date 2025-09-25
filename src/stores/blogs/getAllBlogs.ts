@@ -15,6 +15,7 @@ export interface Blog {
 }
 
 export interface BlogData {
+  total: number;
   blogs: Blog[];
   current_page: number;
   total_pages: number;
@@ -48,6 +49,7 @@ export const getAllBlogs = create<BlogStore>((set) => ({
       if (res.status === 200 && Array.isArray(res.data.response?.blogs)) {
         set({ 
           data: {
+            total: res.data.total || 0,
             blogs: res.data.response.blogs,
             current_page: res.data.response.current_page || page,
             total_pages: res.data.response.total_pages || 1,
@@ -106,6 +108,7 @@ export const getAllBlogs = create<BlogStore>((set) => ({
       if (res.status === 200 && Array.isArray(res.data.response?.blogs)) {
         set({ 
           data: {
+            total: res.data.total || 0,
             blogs: res.data.response.blogs,
             current_page: res.data.response.current_page || page,
             total_pages: res.data.response.total_pages || 1,

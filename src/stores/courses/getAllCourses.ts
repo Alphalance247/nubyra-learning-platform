@@ -44,6 +44,7 @@ export interface webinarCourseData {
 }
 
 interface allCourseDataStore {
+  total: number;
   Free: freeCourseData | null;
   Webinar: webinarCourseData;
   Premium: premiumCourseData | null;

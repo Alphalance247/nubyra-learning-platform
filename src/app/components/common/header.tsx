@@ -147,7 +147,7 @@ const Header = () => {
         </div>
         <div className="block lg:hidden">
           <button
-            className="text-3xl p-1"
+            className="text-3xl p-1 mobile-menu-toggle"
             onClick={() => setShowMobileMenu((prev) => !prev)}
           >
             {showMobileMenu ? <IoClose /> : <FiMenu />}

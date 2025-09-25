@@ -80,7 +80,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
           {loading ? (
             <div className="flex flex-col justify-center items-center">
               <Spinner />
-              <p className="text-lg font-medium mt-4">
+              <p className="text-lg text-[#95704C] font-medium mt-4">
                 Loading project details...
               </p>
             </div>
@@ -222,7 +222,7 @@ const ProjectDetailsPage = ({ projectTitle }: { projectTitle: string }) => {
             {loadingProject ? (
               <div className="flex flex-col items-center mt-4">
                 <Spinner />
-                <p className="text-lg text-gray-500 mt-4">
+                <p className="text-lg text-gray-800 mt-4">
                   Loading projects...
                 </p>
               </div>

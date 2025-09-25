@@ -32,7 +32,9 @@ const PremiumCourseCard = ({
       />
 
       {/* Course Info */}
-      <p className="mt-4 font-montserrat text-lg font-semibold">{title}</p>
+      <p className="mt-4 font-montserrat text-lg font-semibold text-gray-800">
+        {title}
+      </p>
       <p className="mt-2 text-2xl font-semibold text-[#120A02]">{type}</p>
       {subcribeText && (
         <p className="mt-2 text-base text-[#413B35]">{subcribeText}</p>

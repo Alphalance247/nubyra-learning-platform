@@ -32,7 +32,9 @@ const CourseCard = ({
           alt="course"
         />
       </div>
-      <p className="mt-4 text-lg font-semibold line-clamp-2">{title}</p>
+      <p className="mt-4 text-lg font-semibold line-clamp-2 text-gray-800">
+        {title}
+      </p>
       <p className="mt-2 text-2xl font-semibold text-[#120A02]">${price}</p>
       <p className="mt-2 text-base text-[#413B35] flex items-center gap-2">
         <FaRegCalendar size={20} className="text-[#413B35]" />

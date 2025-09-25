@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
       </form>
 
       <div className="text-center mt-3">
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="text-center text-sm text-gray-700 mt-6">
           Back to{" "}
           <span
             onClick={() => router.push("sign-in")}

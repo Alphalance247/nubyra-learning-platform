@@ -28,7 +28,7 @@ const OurProjects = () => {
         {loading ? (
           <div className="mt-6 flex flex-col items-center">
             <Spinner />
-            <p className="text-lg font-medium mt-4">Loading projects...</p>
+            <p className="text-lg text-[#95704C] font-medium mt-4">Loading projects...</p>
           </div>
         ) : error ? (
           <div className="mt-12 flex flex-col justify-center items-center gap-4">

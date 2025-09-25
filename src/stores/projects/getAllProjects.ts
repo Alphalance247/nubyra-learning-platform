@@ -13,6 +13,7 @@ export interface Project {
 }
 
 export interface ProjectData {
+  total: number;
   projects: Project[];
   current_page: number;
   total_pages: number;
@@ -46,6 +47,7 @@ export const getAllProjects = create<ProjectStore>((set) => ({
       if (res.status === 200 && Array.isArray(res.data.projects)) {
         set({
           data: {
+            total: res.data.total || 0,
             projects: res.data.projects,
             current_page: res.data.current_page || page,
             total_pages: res.data.total_pages || 1,
@@ -106,6 +108,7 @@ export const getAllProjects = create<ProjectStore>((set) => ({
       if (res.status === 200 && Array.isArray(res.data.projects)) {
         set({
           data: {
+            total: res.data.total || 0,
             projects: res.data.projects,
             current_page: res.data.current_page || page,
             total_pages: res.data.total_pages || 1,

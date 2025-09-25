@@ -9,7 +9,7 @@ const Project = () => {
   return (
     <>
       <Head>
-        <title>Nubyira Blog - Nubyira Process Designer</title>
+        <title>Nubyira Project - Nubyira Process Designers</title>
       </Head>
       <Layout>
         <section className={`bg-cover bg-center bg-no-repeat`}>

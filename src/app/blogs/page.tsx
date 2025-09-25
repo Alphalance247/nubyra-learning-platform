@@ -77,7 +77,7 @@ const Blogs = () => {
             {/* Header + Filters */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-14 gap-4 md:gap-0">
               <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-                All Blogs ({blogData?.blogs?.length || 0})
+                All Blogs ({blogData?.total || 0})
               </h4>
               <div className="flex flex-wrap gap-2">
                 <SortDropdown
@@ -130,7 +130,7 @@ const Blogs = () => {
               ) : (
                 <>
                   {blogData?.blogs?.length === 0 ? (
-                    <p className="text-center">
+                    <p className="text-center text-gray-500">
                       No results
                       <br />
                       You may want to try adjusting your filters.

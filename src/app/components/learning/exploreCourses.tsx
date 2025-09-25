@@ -59,7 +59,7 @@ const ExploreCourses = () => {
   const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
   const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
   const free: FreeCourse[] = fetchAllCoursedata?.Free?.courses ?? [];
-  const totalCoursesCount = webinars.length + premium.length + free.length;
+  const totalCoursesCount = fetchAllCoursedata?.total ?? 0;
 
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
@@ -98,7 +98,7 @@ const ExploreCourses = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center py-20">
             <Spinner />
-            <p className="text-lg font-medium mt-4">Loading courses...</p>
+            <p className="text-lg text-[#95704C] font-medium mt-4">Loading courses...</p>
           </div>
         ) : error ? (
           <div className="mt-8 text-center text-red-600 text-lg font-semibold flex flex-col items-center justify-center">
@@ -148,7 +148,7 @@ const ExploreCourses = () => {
             {activeBtn === "Webinars" && fetchAllCoursedata?.Webinar && (
               <>
                 {webinars?.length === 0 ? (
-                  <p className="text-center mt-8">
+                  <p className="text-center mt-8 text-gray-500">
                     No results
                     <br />
                     You may want to try adjusting your filters.

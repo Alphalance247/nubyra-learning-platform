@@ -21,6 +21,11 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+  
+  /* Mobile menu toggle icon color in dark mode */
+  .mobile-menu-toggle {
+    color: #95704C !important;
+  }
 }
 
 body {

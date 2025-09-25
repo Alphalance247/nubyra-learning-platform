@@ -199,7 +199,7 @@ const CourseDetails = ({ id }: { id: string }) => {
         {loading ? (
           <div className="flex flex-col justify-center items-center py-20">
             <Spinner />
-            <p className="text-lg font-medium mt-4">
+            <p className="text-lg text-[#95704C] font-medium mt-4">
               Loading course details...
             </p>
           </div>
@@ -421,7 +421,7 @@ const CourseDetails = ({ id }: { id: string }) => {
               <>
                 {activeBtn === "Overview" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Overview
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
@@ -437,7 +437,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Training Software" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Training Software
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)] flex flex-col gap-2">
@@ -461,7 +461,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Objectives" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Objectives
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
@@ -477,7 +477,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Timeline" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Timeline
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
@@ -493,7 +493,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Deliverables" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Deliverables
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
@@ -509,7 +509,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Target Audience" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Target Audience
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">
@@ -525,7 +525,7 @@ const CourseDetails = ({ id }: { id: string }) => {
 
                 {activeBtn === "Prerequisite" && (
                   <div className="p-4 sm:p-6 my-8 sm:my-12 w-full sm:w-4/5 md:w-3/5 lg:w-3/5 mx-auto rounded-xl bg-white border border-[#D6C8BA]">
-                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat">
+                    <p className="mb-4 sm:mb-5 text-lg sm:text-xl font-semibold font-montserrat text-gray-800">
                       Prerequisite
                     </p>
                     <div className="p-4 sm:p-6 rounded-lg bg-[rgb(251,250,249)]">

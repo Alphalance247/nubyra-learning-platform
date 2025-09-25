@@ -213,7 +213,7 @@ const BlogsDetails = ({ blogTitle }: { blogTitle: string }) => {
           {loading ? (
             <div className="flex flex-col justify-center items-center">
               <Spinner />
-              <p className="text-lg font-medium mt-4">
+              <p className="text-lg text-[#95704C] font-medium mt-4">
                 Loading blog details...
               </p>
             </div>
