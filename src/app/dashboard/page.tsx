@@ -120,7 +120,7 @@ export default function Dashboard() {
       <ProtectedRoute>
         <DashLayout>
           <div className="w-full flex justify-center items-center min-h-screen">
-            <p className="text-lg font-semibold">Loading...</p>
+            <p className="text-lg text-[#95704C] font-semibold">Loading...</p>
           </div>
         </DashLayout>
       </ProtectedRoute>

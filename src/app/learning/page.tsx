@@ -11,7 +11,7 @@ const Learning = () => {
   return (
     <>
       <Head>
-        <title>Nubyira Learning - Nubyira Process Designer</title>
+        <title>Nubyira Learning - Nubyira Process Designers</title>
       </Head>
       <Layout>
         <HeroCommon

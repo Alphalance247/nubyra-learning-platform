@@ -21,7 +21,7 @@ const HeadingSubhead = ({
 
       {withSubhead && (
         <p
-          className={`text-sm text-start lg:text-center sm:text-base md:text-lg w-full lg:max-w-[50%] font-inter  mx-0 lg:mx-auto ${subheadingClassName}`}
+          className={`text-sm text-start lg:text-center sm:text-base md:text-lg w-full lg:max-w-[50%] font-inter text-black  mx-0 lg:mx-auto ${subheadingClassName}`}
         >
           {subheading}
         </p>

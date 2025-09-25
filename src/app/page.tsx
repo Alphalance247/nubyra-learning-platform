@@ -13,7 +13,7 @@ import Testimonial from "./components/home/testimonial";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nubyira Home - Nubyira Process Designer",
+  title: "Nubyira Home - Nubyira Process Designers",
 };
 
 const Home = () => {

@@ -10,7 +10,7 @@ const AboutUs = () => {
   return (
     <>
       <Head>
-        <title>Nubyira About Us - Nubyira Process Designer</title>
+        <title>Nubyira About Us - Nubyira Process Designers</title>
       </Head>
       <Layout>
         <HeroCommon

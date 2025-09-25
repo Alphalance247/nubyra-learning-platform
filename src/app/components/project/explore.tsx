@@ -51,7 +51,7 @@ const Explore = () => {
           {/* Header + Filters */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0">
             <h4 className="text-xl md:text-2xl font-semibold text-[#120A02]">
-              All Projects ({projectData?.projects?.length || 0})
+              All Projects ({projectData?.total || 0})
             </h4>
             <div className="flex flex-wrap gap-2">
               <SortDropdown
@@ -98,7 +98,7 @@ const Explore = () => {
           {loading ? (
             <div className="flex flex-col items-center mt-8">
               <Spinner />
-              <p className="text-lg text-gray-500 mt-4">Loading projects...</p>
+              <p className="text-lg text-gray-800 mt-4">Loading projects...</p>
             </div>
           ) : (
             <>

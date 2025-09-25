@@ -71,6 +71,12 @@ export default function FilterModal({
       const next = currentValues.includes(value)
         ? { ...prev, [category]: currentValues.filter((v) => v !== value) }
         : { ...prev, [category]: [...currentValues, value] };
+
+      // Close modal immediately after filter selection
+      setTimeout(() => {
+        onClose();
+      }, 100);
+
       return next;
     });
   };

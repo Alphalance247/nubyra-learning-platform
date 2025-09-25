@@ -61,7 +61,7 @@ const PaymentVerification = () => {
         <div>
           {loading && (
             <div className="w-full flex justify-center items-center min-h-screen">
-              <p className="text-lg font-semibold">Loading...</p>
+              <p className="text-lg text-gray-700 font-semibold">Loading...</p>
             </div>
           )}
           {connfirmPayment && (
