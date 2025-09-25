@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
           Effective Date: 2025-09-18 • Company Name: Nubyira LTD
         </p>
 
-        <p className="mb-6">
+        <p className="mb-6 text-gray-500">
           Your privacy is important to us. This Privacy Policy explains how
           Nubyira LTD (&quot;Nubyira Process Designers&quot;, &quot;we&quot;,
           &quot;us&quot;, or &quot;our&quot;) collects, uses, stores, and
@@ -20,19 +20,19 @@ export default function PrivacyPolicyPage() {
           services, you agree to the terms of this Privacy Policy.
         </p>
 
-        <section className="space-y-6">
+        <section className="space-y-6 text-black">
           <div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl text-black font-bold mb-2">
               1. Information We Collect
             </h2>
-            <p className="mb-3">
+            <p className="mb-3 text-gray-500">
               We collect various types of data to provide and improve our
               services. This includes:
             </p>
-            <h3 className="text-xl font-semibold mb-1">
+            <h3 className="text-xl text-black font-semibold mb-1">
               a. Personal Information You Provide Directly
             </h3>
-            <ul className="list-disc pl-6 space-y-1">
+            <ul className="list-disc text-gray-500 pl-6 space-y-1">
               <li>Full name</li>
               <li>Email address</li>
               <li>Phone number</li>
@@ -45,14 +45,14 @@ export default function PrivacyPolicyPage() {
               <li>Submitted project content, files, and communications</li>
               <li>Feedback and support requests</li>
             </ul>
-            <h3 className="text-xl font-semibold mt-4 mb-1">
+            <h3 className="text-xl text-black font-semibold mt-4 mb-1">
               b. Automatically Collected Information
             </h3>
-            <p className="mb-1">
+            <p className="mb-1 text-gray-500">
               Through cookies, log files, and third-party tools (e.g., Google
               Analytics), we may collect:
             </p>
-            <ul className="list-disc pl-6 space-y-1">
+            <ul className="list-disc text-gray-500 pl-6 space-y-1">
               <li>IP address</li>
               <li>Browser type and version</li>
               <li>Operating system</li>
@@ -64,13 +64,13 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl text-black font-bold mb-2">
               2. How We Use Your Information
             </h2>
-            <p className="mb-3">
+            <p className="mb-3 text-gray-500">
               We process your personal data for the following purposes:
             </p>
-            <ul className="list-disc pl-6 space-y-1">
+            <ul className="list-disc text-gray-500 pl-6 space-y-1">
               <li>To provide access to our platform and services</li>
               <li>
                 To communicate with you regarding projects, updates, or support
@@ -84,15 +84,15 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl text-black font-bold mb-2">
               3. Legal Basis for Processing (If under GDPR)
             </h2>
-            <p className="mb-3">
+            <p className="mb-3 text-gray-500">
               If you are located in the European Economic Area (EEA), we rely on
               one or more of the following legal bases to process your personal
               data:
             </p>
-            <ul className="list-disc pl-6 space-y-1">
+            <ul className="list-disc text-gray-500 pl-6 space-y-1">
               <li>Your consent</li>
               <li>Performance of a contract</li>
               <li>Compliance with legal obligations</li>
@@ -104,7 +104,7 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl text-black font-bold mb-2">
               4. Data Sharing and Disclosure
             </h2>
             <p className="mb-2">

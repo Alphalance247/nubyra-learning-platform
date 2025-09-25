@@ -59,7 +59,7 @@ const ExploreCourses = () => {
   const webinars: WebinarCourse[] = fetchAllCoursedata?.Webinar?.courses ?? [];
   const premium: PremiumCourse[] = fetchAllCoursedata?.Premium?.courses ?? [];
   const free: FreeCourse[] = fetchAllCoursedata?.Free?.courses ?? [];
-  const totalCoursesCount = webinars.length + premium.length + free.length;
+  const totalCoursesCount = fetchAllCoursedata?.total ?? 0;
 
   return (
     <section className="bg-[#FBFAF9] relative overflow-hidden">
@@ -148,7 +148,7 @@ const ExploreCourses = () => {
             {activeBtn === "Webinars" && fetchAllCoursedata?.Webinar && (
               <>
                 {webinars?.length === 0 ? (
-                  <p className="text-center mt-8">
+                  <p className="text-center mt-8 text-gray-500">
                     No results
                     <br />
                     You may want to try adjusting your filters.
