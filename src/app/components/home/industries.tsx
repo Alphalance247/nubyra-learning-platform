@@ -50,7 +50,7 @@ const Industries = () => {
             heading="Industries"
             subheading="We offer a wide range of services to meet your needs. From web design to web development, we have you covered."
             headingClassName="text-white"
-            subheadingClassName="text-[#E7E7E6]"
+            subheadingClassName="text-[white]"
           />
         </div>
         <div className="grid gap-y-10 xl:grid-cols-3 xl:gap-x-6 items-start">

@@ -141,7 +141,7 @@ const Footer = () => {
                   },
                   {
                     src: "/assets/footer/mail.svg",
-                    link: "mailto://nubyira@gmail.com",
+                    link: "mailto:admin@nubyira.com",
                     label: "Email",
                   },
                   {
