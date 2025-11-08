@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = document.cookie
+      const token = localStorage.getItem("token") || document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
         ?.split("=")[1];

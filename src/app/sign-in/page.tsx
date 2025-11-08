@@ -1,5 +1,6 @@
 "use client";
 import { Suspense, useState } from "react";
+import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
@@ -63,27 +64,42 @@ const LoginPage = () => {
         });
     };
 
-    const handleGoogleSuccess = async (
-      credentialResponse: CredentialResponse
-    ) => {
+   
+    const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
       const idToken = credentialResponse.credential;
+      setLoading(true);
+
       try {
-        const res = await fetch(
-          `${environment.baseUrl}/auth/social/google/`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ access_token: idToken }),
-          }
-        );
+        const res = await fetch(`${environment.baseUrl}/auth/social/google/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ access_token: idToken }),
+        });
+
         if (!res.ok) throw new Error(`Backend error: ${res.status}`);
         const data = await res.json();
-        localStorage.setItem("authToken", data.token);
+        const { token, user } = data;
+        const { first_name, last_name, email } = user;
 
-        // Instead of router.push(redirectTo)
-        window.location.href = redirectTo;
+  
+        const middle_name = "";
+        const image = user?.image || "";
+
+        // Save token and email
+        localStorage.setItem("token", token);
+        Cookies.set("token", token, {path: "/", seecure: true, sameSite: "lax"})
+        localStorage.setItem("user_email_checkout", email);                                                                              
+
+
+        toast.success(`Login Successful! Welcome back ${first_name}`);
+        login({ first_name, middle_name, last_name, image });
+
+        router.push(redirectTo);
       } catch (error) {
         console.error("Google login failed:", error);
+        toast.error("Google login failed. Please try again or contact Admin.");
+      } finally {
+        setLoading(false);
       }
     };
 

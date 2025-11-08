@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import PhoneInput from "@/app/components/project/phoneNumber";
 import InputField from "@/app/components/project/InputField";
@@ -8,6 +9,7 @@ import Button from "@/app/components/common/buttons";
 import { environment } from "../env/env.local";
 import { toast } from "react-hot-toast";
 import axios, { AxiosError } from "axios";
+import { useAuth } from "../context/authContext";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 const SignUpPage = () => {
@@ -22,6 +24,7 @@ const SignUpPage = () => {
   const [phone_number, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,43 +83,59 @@ const SignUpPage = () => {
     }
   };
 
-  const handleGoogleSuccess = async (
-    credentialResponse: CredentialResponse
-  ) => {
+ 
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
     const idToken = credentialResponse.credential;
-    try {
-      const res = await fetch(
-        `${environment.baseUrl}/auth/social/google/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            access_token: idToken,
-          }),
-        }
-      );
+    setLoading(true);
 
-      if (!res.ok) throw new Error(`Backend error: ${res.status}`);
+    try {
+      const res = await fetch(`${environment.baseUrl}/auth/social/google/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: idToken }),
+      });
+
+
       if (!res.ok) {
-        const errorText = await res.text(); // log actual body of the error
+        const errorText = await res.text();
         console.error("Non-OK response:", res.status, errorText);
         throw new Error(`Backend error: ${res.status}`);
       }
 
       const data = await res.json();
+      const { token, user, new_user } = data;
+      const { first_name, last_name, email } = user;
 
-      // Store your custom DRF token
-      localStorage.setItem("authToken", data.token);
+      // Store token
+      localStorage.setItem("token", token);
+      Cookies.set("token", token, {path: "/", seecure: true, sameSite: "lax"})
+      localStorage.setItem("user_email_checkout", email);
+
+      if (new_user) {
+        toast.success(
+          "Registration successful, kindly check your mailbox for confirmation"
+        );
+      } else {
+        toast.success(`Welcome back ${first_name}!`);
+      }
+
+      login({
+        first_name,
+        middle_name: "",
+        last_name,
+        image: user.image || "",
+      });
 
       // Redirect to dashboard
       router.push("/dashboard");
     } catch (error) {
       console.error("Google login failed:", error);
-      alert("Something went wrong logging in with Google.");
+      toast.error("Google login failed. Please try again or contact Admin.");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white">

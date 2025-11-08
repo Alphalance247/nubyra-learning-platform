@@ -1,6 +1,6 @@
 export const environment = {
   // baseUrl: "https://api.nubyira.com/api/v1",
-  baseUrl: "https://stage-backend.nubyira.com/api/v1",
+  baseUrl: "https://backed-staging.nubyira.com/api/v1",
   imageUrl: "https://stage-backend.nubyira.com",
   registerUrl: "/register/",
   loginUrl: "/login/",
