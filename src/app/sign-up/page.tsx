@@ -113,7 +113,7 @@ const SignUpPage = () => {
 
       if (new_user) {
         toast.success(
-          "Registration successful, kindly check your mailbox for confirmation"
+          "Registration successful, Welcome to Nubyira Learning Platform!"
         );
       } else {
         toast.success(`Welcome back ${first_name}!`);
